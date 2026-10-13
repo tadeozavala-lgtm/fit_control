@@ -16,6 +16,7 @@ import { sesionesDe } from "../logica/almacen.js";
 import { abrirTecnica } from "./modal.js";
 import { resolver, sustituir } from "../logica/sustituciones.js";
 import { abrirAlternativas } from "./sustituciones.js";
+import { pintarNotas } from "./notas.js";
 
 export function pintarDia(app, dia, contenedor) {
   const ses = app.sesionActiva(dia.id);
@@ -47,6 +48,7 @@ export function pintarDia(app, dia, contenedor) {
   pie.textContent =
     `Los pesos sugeridos son punto de partida. Si terminas la última serie con más de 2 repeticiones en reserva, súbele ${SALTO[u]} ${u} la próxima sesión. Si no llegas al mínimo de repeticiones dos sesiones seguidas, baja un 10%.`;
   contenedor.appendChild(pie);
+  pintarNotas(app, dia, contenedor);
 
   actualizarTape(app, dia);
 }

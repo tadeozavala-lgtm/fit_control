@@ -382,3 +382,52 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   margin-top:18px;line-height:1.6;
 }
 .hoja .fuente a{color:var(--humo)}
+
+/* ---------- notas de sesión ---------- */
+.notas{padding:18px 14px 22px;border-top:1px solid var(--linea-fuerte)}
+.notas h3{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:21px;margin:0 0 3px;letter-spacing:.02em;
+}
+.notas .intro{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--humo);margin:0 0 16px}
+.senal{margin-bottom:16px}
+.senal .preg{font-size:13.5px;color:#CFDDE4;margin-bottom:7px}
+.escala{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.escala button{
+  height:44px;border:1px solid var(--linea);border-radius:5px;background:var(--lona);
+  font-family:var(--display);font-weight:700;font-size:17px;color:var(--humo);
+}
+.escala button[aria-pressed="true"]{background:var(--tiza);color:var(--lona-3);border-color:var(--tiza)}
+.senal.inverso .escala button[aria-pressed="true"]{background:var(--esquina);color:#fff;border-color:var(--esquina)}
+.senal .leyenda{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--humo);
+  margin-top:6px;min-height:13px;text-transform:uppercase;
+}
+.notas textarea{
+  width:100%;background:var(--lona);border:1px solid var(--linea);border-radius:5px;
+  padding:11px;font-family:var(--texto);font-size:14px;color:var(--tiza);
+  resize:vertical;min-height:62px;
+}
+.notas textarea:focus{border-color:var(--linea-fuerte);background:var(--lona-2);outline:none}
+.notas textarea::placeholder{color:rgba(147,170,182,.55)}
+
+.alerta-fatiga{
+  border-left:2px solid var(--record);background:rgba(229,168,60,.10);
+  padding:12px 14px;margin:0 0 18px;font-size:13.5px;color:#F3DCB0;line-height:1.5;
+}
+.alerta-fatiga.alta{border-left-color:var(--esquina);background:rgba(217,58,43,.12);color:#F7C9C2}
+.alerta-fatiga b{
+  display:block;font-family:var(--display);font-weight:700;font-size:16px;
+  text-transform:uppercase;letter-spacing:.03em;margin-bottom:5px;
+}
+.alerta-fatiga ul{margin:0 0 7px;padding-left:17px}
+.alerta-fatiga li{margin-bottom:2px}
+
+.senales-prog{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--linea);
+  border:1px solid var(--linea);margin-top:14px}
+.senales-prog div{background:var(--lona-3);padding:10px}
+.senales-prog dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--humo);margin:0}
+.senales-prog dd{font-family:var(--display);font-weight:700;font-size:25px;line-height:1;margin:4px 0 0}
+.senales-prog dd small{font-family:var(--mono);font-size:10px;font-weight:400;color:var(--humo)}

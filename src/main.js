@@ -35,7 +35,13 @@ const app = {
     const n = delDia.length ? Math.max(...delDia.map((k) => k.n)) : 1;
     const clave = claveSesion(diaId, fecha, n);
     if (!app.datos.sesiones[clave]) {
-      app.datos.sesiones[clave] = { fecha, semana: app.datos.semana, ej: {}, sust: {} };
+      app.datos.sesiones[clave] = {
+        fecha,
+        semana: app.datos.semana,
+        ej: {},
+        sust: {},
+        notas: { sueno: null, energia: null, molestia: null, texto: "" }
+      };
     }
     if (!app.datos.sesiones[clave].sust) app.datos.sesiones[clave].sust = {};
     return app.datos.sesiones[clave];
@@ -52,7 +58,8 @@ const app = {
       fecha,
       semana: app.datos.semana,
       ej: {},
-      sust: {}
+      sust: {},
+      notas: { sueno: null, energia: null, molestia: null, texto: "" }
     };
     app.guardar();
     app.pintar();

@@ -45,7 +45,7 @@ describe("migraciones de esquema", () => {
       sesiones: { "push|2026-10-01|1": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
     };
     const v3 = migrar(v2);
-    expect(v3.esquema).toBe(3);
+    expect(v3.esquema).toBe(ESQUEMA_ACTUAL);
     expect(v3.sesiones["push|2026-10-01|1"].sust).toEqual({});
     expect(v3.sesiones["push|2026-10-01|1"].ej.pu1[0].p).toBe(60);
   });
@@ -64,7 +64,7 @@ describe("migraciones de esquema", () => {
     const v3 = migrar({
       sesiones: { "push|2026-10-01": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
     });
-    expect(v3.esquema).toBe(3);
+    expect(v3.esquema).toBe(ESQUEMA_ACTUAL);
     expect(v3.sesiones["push|2026-10-01|1"].sust).toEqual({});
   });
 

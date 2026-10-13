@@ -15,6 +15,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Guías de técnica por ejercicio, con tabla de equivalencias kg↔lb y referencia de discos.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
 - Volumen semanal por grupo muscular contra su rango de referencia.
+- Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -23,7 +24,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 85 tests
+npm test           # 146 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -86,11 +87,12 @@ src/
     reloj.js             temporizador por hora de término
     secuencia.js         construye los bloques de HIIT desde el JSON
     volumen.js           series efectivas por grupo y semana ISO
+    notas.js             señales de sesión y detección de fatiga
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   85 tests
+tests/                   146 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -109,6 +111,16 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Notas de sesión
+
+Al pie de cada día de fuerza hay tres escalas de 1 a 5 (sueño, energía, molestias)
+y un campo de texto. Con 4 días de fuerza, 5 de cardio y déficit calórico, el
+estancamiento se anuncia antes en esas señales que en los pesos.
+
+Dos sesiones seguidas con sueño o energía en 2 o menos, o molestias repetidas en
+3 o más, disparan una alerta con qué hacer. Una sola sesión mala no dice nada:
+todos tenemos días.
 
 ## Sustituciones
 

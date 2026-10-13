@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 3;
+export const ESQUEMA_ACTUAL = 4;
 
 export function vacio() {
   return { esquema: ESQUEMA_ACTUAL, sesiones: {}, semana: 1, unidad: "kg" };
@@ -48,7 +48,24 @@ function v2_a_v3(datos) {
   return { ...datos, esquema: 3, sesiones };
 }
 
-const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3 };
+/**
+ * v3 -> v4
+ *  - cada sesión gana `notas`: sueño, energía, molestias y texto libre.
+ *    Las sesiones viejas quedan con las tres señales en null, que es distinto
+ *    de "contestó 0": nunca se preguntó.
+ */
+function v3_a_v4(datos) {
+  const sesiones = {};
+  Object.entries(datos.sesiones || {}).forEach(([clave, sesion]) => {
+    sesiones[clave] = {
+      ...sesion,
+      notas: sesion.notas || { sueno: null, energia: null, molestia: null, texto: "" }
+    };
+  });
+  return { ...datos, esquema: 4, sesiones };
+}
+
+const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {
