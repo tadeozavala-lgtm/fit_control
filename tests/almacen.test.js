@@ -176,3 +176,55 @@ describe("CSV", () => {
     expect(lineas[1]).toBe("2026-10-01,push,Press banca,1,60,132.5,8,si");
   });
 });
+
+describe("migración v4 a v5: carreras y ajustes", () => {
+  it("agrega el registro de carreras vacío y los ajustes por defecto", () => {
+    const v5 = migrar({ esquema: 4, sesiones: {} });
+    expect(v5.esquema).toBe(ESQUEMA_ACTUAL);
+    expect(v5.carreras).toEqual([]);
+    expect(v5.ajustes.edad).toBe(44);
+    expect(v5.ajustes.fcReposo).toBe(65);
+  });
+
+  it("respeta unos ajustes ya guardados y completa los que falten", () => {
+    const v5 = migrar({ esquema: 4, sesiones: {}, ajustes: { fcReposo: 58 } });
+    expect(v5.ajustes.fcReposo).toBe(58);
+    expect(v5.ajustes.edad).toBe(44);
+  });
+
+  it("una base v1 llega hasta v5 de un golpe sin perder las series", () => {
+    const v5 = migrar({
+      sesiones: { "push|2026-10-01": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
+    });
+    expect(v5.esquema).toBe(ESQUEMA_ACTUAL);
+    expect(v5.sesiones["push|2026-10-01|1"].ej.pu1[0].p).toBe(60);
+    expect(v5.sesiones["push|2026-10-01|1"].sust).toEqual({});
+    expect(v5.sesiones["push|2026-10-01|1"].notas.sueno).toBeNull();
+    expect(v5.carreras).toEqual([]);
+  });
+
+  it("el respaldo se lleva las carreras y las fusiona por id sin duplicar", () => {
+    const base = migrar({
+      esquema: 5,
+      sesiones: {},
+      carreras: [{ id: "c1", fecha: "2026-10-10", km: 6, segundos: 2400 }]
+    });
+    const otro = migrar({
+      esquema: 5,
+      sesiones: {},
+      carreras: [
+        { id: "c1", fecha: "2026-10-10", km: 6, segundos: 2400 },
+        { id: "c2", fecha: "2026-10-12", km: 8, segundos: 3200 }
+      ]
+    });
+    const { datos, agregadas } = importarJSON(exportarJSON(otro), base);
+    expect(datos.carreras).toHaveLength(2);
+    expect(agregadas).toBe(1);
+  });
+
+  it("el respaldo trae los ajustes del corredor", () => {
+    const otro = migrar({ esquema: 5, sesiones: {}, ajustes: { fcReposo: 55, edad: 45 } });
+    const { datos } = importarJSON(exportarJSON(otro), migrar({ esquema: 5, sesiones: {} }));
+    expect(datos.ajustes.fcReposo).toBe(55);
+  });
+});

@@ -5,7 +5,8 @@ import { crearAlmacen, claveSesion, partirClave } from "./logica/almacen.js";
 import { crearReloj } from "./logica/reloj.js";
 import { avisar, decir } from "./logica/avisos.js";
 import { pintarDia } from "./ui/fuerza.js";
-import { pintarCardio, pintarIntervalo, marcarPaso } from "./ui/cardio.js";
+import { pintarIntervalo, marcarPaso } from "./ui/cardio.js";
+import { pintarCarrera } from "./ui/carrera.js";
 import { pintarProgreso } from "./ui/progreso.js";
 import { conectarModal } from "./ui/modal.js";
 import { registerSW } from "virtual:pwa-register";
@@ -177,7 +178,7 @@ function pintar() {
   if (app.diaActivo === "prog") return pintarProgreso(app, v);
   const dia = rutina.dias.find((d) => d.id === app.diaActivo);
   if (!dia) return;
-  if (dia.tipo === "cardio") return pintarCardio(app, dia, v);
+  if (dia.tipo === "cardio") return pintarCarrera(app, dia, v);
   if (dia.tipo === "intervalo") return pintarIntervalo(app, dia, v);
   pintarDia(app, dia, v);
 }

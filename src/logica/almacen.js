@@ -8,10 +8,18 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 4;
+export const ESQUEMA_ACTUAL = 5;
+
+/**
+ * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
+ * habría que mostrar un rango genérico de libro, que es lo que esto reemplaza.
+ */
+export function AJUSTES_POR_DEFECTO() {
+  return { edad: 44, fcReposo: 65, fcMax: null, marca: null };
+}
 
 export function vacio() {
-  return { esquema: ESQUEMA_ACTUAL, sesiones: {}, semana: 1, unidad: "kg" };
+  return { esquema: ESQUEMA_ACTUAL, sesiones: {}, carreras: [], ajustes: AJUSTES_POR_DEFECTO(), semana: 1, unidad: "kg" };
 }
 
 /**
@@ -65,7 +73,22 @@ function v3_a_v4(datos) {
   return { ...datos, esquema: 4, sesiones };
 }
 
-const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4 };
+/**
+ * v4 -> v5
+ *  - `carreras`: registro de rodajes, aparte de las sesiones de fuerza porque
+ *    no tienen series ni ejercicios, solo distancia y tiempo.
+ *  - `ajustes`: edad y FC en reposo, de donde salen las zonas de Karvonen.
+ */
+function v4_a_v5(datos) {
+  return {
+    ...datos,
+    esquema: 5,
+    carreras: datos.carreras || [],
+    ajustes: { ...AJUSTES_POR_DEFECTO(), ...(datos.ajustes || {}) }
+  };
+}
+
+const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {
@@ -73,6 +96,8 @@ export function migrar(crudo) {
   if (!datos.sesiones) datos.sesiones = {};
   if (!datos.semana) datos.semana = 1;
   if (!datos.unidad) datos.unidad = "kg";
+  if (!Array.isArray(datos.carreras)) datos.carreras = [];
+  datos.ajustes = { ...AJUSTES_POR_DEFECTO(), ...(datos.ajustes || {}) };
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {
     datos = MIGRACIONES[v](datos);
@@ -201,6 +226,19 @@ export function importarJSON(texto, actuales) {
 
   if (entrante.unidad) datos.unidad = entrante.unidad;
   if (entrante.semana > datos.semana) datos.semana = entrante.semana;
+  if (entrante.ajustes) datos.ajustes = { ...datos.ajustes, ...entrante.ajustes };
+
+  // Las carreras se fusionan por id, igual que las sesiones por clave.
+  const vistas = new Set((datos.carreras || []).map((c) => c.id));
+  (entrante.carreras || []).forEach((c) => {
+    if (!vistas.has(c.id)) {
+      datos.carreras.push(c);
+      vistas.add(c.id);
+      agregadas++;
+    }
+  });
+  datos.carreras.sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
+
   return { datos, agregadas, actualizadas };
 }
 

@@ -16,6 +16,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
 - Volumen semanal por grupo muscular contra su rango de referencia.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
+- Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -24,7 +25,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 146 tests
+npm test           # 190 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -88,11 +89,12 @@ src/
     secuencia.js         construye los bloques de HIIT desde el JSON
     volumen.js           series efectivas por grupo y semana ISO
     notas.js             señales de sesión y detección de fatiga
+    carrera.js           zonas Karvonen, ritmos, Riegel y VDOT
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   146 tests
+tests/                   190 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -111,6 +113,25 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Running
+
+La pestaña Z2 calcula tus zonas con **Karvonen** sobre la frecuencia cardiaca de
+reserva (máxima menos reposo), no sobre la máxima pelada: con el mismo máximo,
+dos personas con distinto reposo entrenan a pulsaciones distintas. La máxima se
+estima con Tanaka (208 − 0.7 × edad), y se puede sustituir por una medida real.
+
+Ahí mismo se registran los rodajes (distancia, tiempo, tipo, pulso y esfuerzo),
+con kilómetros y ritmo medio de la semana, y un aviso si subes más de 10% de
+volumen respecto a la semana anterior.
+
+El predictor usa **Riegel** (T₂ = T₁ × (D₂/D₁)^1.06) para estimar tiempos en
+otras distancias, y marca las que quedan a más de cuatro veces tu distancia de
+referencia, donde la fórmula se vuelve optimista. Los ritmos de entrenamiento
+salen del ritmo de umbral, despejado de Riegel como el que sostendrías una hora.
+
+Todas las fórmulas están implementadas desde cero; no se reproducen tablas
+publicadas de ningún libro.
 
 ## Notas de sesión
 

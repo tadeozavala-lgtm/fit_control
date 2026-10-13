@@ -18,6 +18,11 @@ Ese contexto manda sobre cualquier otra consideración.
 5. **La lógica va en `src/logica/`, pura y testeada.** `src/ui/` solo pinta.
 6. **Nada de re-render total al marcar una serie.** Actualizar solo la tarjeta
    afectada y los contadores; si no, se pierde el foco del input.
+7. **Las zonas de pulso se calculan, nunca se escriben a mano.** Un rango fijo
+   en `rutina.json` contradice el cálculo en cuanto cambie la FC en reposo. Hay
+   un test que lo impide.
+8. **Distancia en km, tiempo en segundos, ritmo en segundos por km.** Misma
+   regla que el peso: una sola unidad guardada, la vista convierte.
 
 ## Al cambiar la rutina
 

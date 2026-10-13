@@ -1,36 +1,10 @@
+/**
+ * Días de intervalos (HIIT). La Zona 2 vive en ui/carrera.js, que además
+ * calcula zonas de pulso y lleva el registro de rodajes.
+ */
+
 import { construirSecuencia, duracion, minutosTrabajo } from "../logica/secuencia.js";
 import { decir } from "../logica/avisos.js";
-
-/* ---------- Zona 2 ---------- */
-
-export function pintarCardio(app, dia, contenedor) {
-  const cartel = document.createElement("section");
-  cartel.className = "cartel";
-  cartel.innerHTML = `
-    <div class="rotulo">${dia.dia} · Semana ${app.datos.semana}</div>
-    <h1>Zona 2</h1><div class="sub">${dia.sub}</div>`;
-  contenedor.appendChild(cartel);
-
-  (dia.bloques || []).forEach((b) => {
-    const s = document.createElement("section");
-    s.className = "bloque";
-    s.innerHTML = `<h3>${b.titulo}</h3><p>${b.texto}</p>
-      <ul class="pasos">${b.lista.map((x) => `<li>${x}</li>`).join("")}</ul>`;
-    contenedor.appendChild(s);
-  });
-
-  const s = document.createElement("section");
-  s.className = "bloque";
-  s.innerHTML = `<h3>Cronómetro</h3><p>Arranca el bloque y deja el teléfono en el bolsillo.</p>`;
-  (dia.cronos || []).forEach((c) => {
-    const b = document.createElement("button");
-    b.className = "arranque gris";
-    b.textContent = c.nombre;
-    b.onclick = () => app.reloj.arrancar(c.seg, "Zona 2");
-    s.appendChild(b);
-  });
-  contenedor.appendChild(s);
-}
 
 /* ---------- HIIT por intervalos ---------- */
 
