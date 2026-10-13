@@ -15,6 +15,11 @@ import { dirname, join } from "node:path";
 const raiz = join(dirname(fileURLToPath(import.meta.url)), "..");
 const ruta = join(raiz, "src/datos/rutina.json");
 
+const GRUPOS = [
+  "pecho", "espalda", "hombro", "biceps", "triceps",
+  "cuadriceps", "isquios", "gluteo", "gemelo", "core"
+];
+
 const fallas = [];
 const avisos = [];
 
@@ -63,6 +68,16 @@ for (const d of rutina.dias || []) {
     if (!tieneKg && !corporal) {
       fallas.push(`${ref}: "sugerido" debe venir en kg o decir "peso corporal" (tiene "${e.sugerido}")`);
     }
+    if (!e.grupo) {
+      fallas.push(`${ref}: falta "grupo" (sin él no cuenta para el volumen semanal)`);
+    } else if (!GRUPOS.includes(e.grupo)) {
+      fallas.push(`${ref}: grupo "${e.grupo}" no existe. Válidos: ${GRUPOS.join(", ")}`);
+    }
+    for (const g of e.secundarios || []) {
+      if (!GRUPOS.includes(g)) fallas.push(`${ref}: secundario "${g}" no existe`);
+      if (g === e.grupo) fallas.push(`${ref}: "${g}" está como primario y secundario`);
+    }
+
     if (e.rir == null) avisos.push(`${ref}: sin RIR`);
     if (!e.tecnica) avisos.push(`${ref}: sin guía de técnica`);
   }

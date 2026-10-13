@@ -24,6 +24,9 @@ Ese contexto manda sobre cualquier otra consideración.
 `src/datos/rutina.json` es dato, no código. Correr `npm run validar` después de
 tocarlo. `sugerido` siempre en kg o la cadena "peso corporal".
 
+Todo ejercicio nuevo necesita `grupo` (y `secundarios` si aplica), o no cuenta
+para el volumen semanal. Los grupos válidos están en `src/logica/volumen.js`.
+
 ## Idioma
 
 Código, comentarios, commits, UI y tests en español. Los nombres de variables
