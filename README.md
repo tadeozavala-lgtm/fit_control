@@ -14,6 +14,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Pista de progresión: cuándo subir carga y cuándo bajarla.
 - Guías de técnica por ejercicio, con tabla de equivalencias kg↔lb y referencia de discos.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
+- Volumen semanal por grupo muscular contra su rango de referencia.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
 ## Correr el proyecto
@@ -21,7 +22,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 65 tests
+npm test           # 85 tests
 npm run validar    # valida rutina.json
 npm run build      # genera dist/
 ```
@@ -51,12 +52,17 @@ código para cambiar un ejercicio:
   "tempo": "3-1-1-0",
   "rir": 2,
   "sugerido": "55–60 kg",
+  "grupo": "pecho",
+  "secundarios": ["triceps", "hombro"],
   "descanso": 120
 }
 ```
 
 - `repMax` es el tope del rango: al alcanzarlo en todas las series, la app sugiere subir peso.
 - `sugerido` **siempre en kg**; la conversión a libras es automática.
+- `grupo` y `secundarios` alimentan el volumen semanal. Sin `grupo`, el ejercicio
+  no cuenta; el validador lo marca como error. Los grupos válidos están en
+  `src/logica/volumen.js`.
 - `descanso` en segundos.
 
 Desde el iPhone: [Working Copy](https://workingcopy.app) para editar y hacer
@@ -74,10 +80,11 @@ src/
     almacen.js           persistencia, versión de esquema, migraciones, respaldo
     reloj.js             temporizador por hora de término
     secuencia.js         construye los bloques de HIIT desde el JSON
+    volumen.js           series efectivas por grupo y semana ISO
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   65 tests
+tests/                   85 tests
 ```
 
 ## Decisiones que vale la pena conocer

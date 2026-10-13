@@ -1,6 +1,7 @@
 import { conUnidad, mostrar, kgALb } from "../logica/unidades.js";
 import { mejorSerie, tonelaje } from "../logica/fuerza.js";
 import { sesionesDe, exportarCSV, exportarJSON, importarJSON } from "../logica/almacen.js";
+import { resumen, semanaISO, lunesDe, semanasConDatos } from "../logica/volumen.js";
 
 export function pintarProgreso(app, contenedor) {
   const u = app.unidad();
@@ -20,6 +21,8 @@ export function pintarProgreso(app, contenedor) {
       <div><dt>Semana</dt><dd>${app.datos.semana}</dd></div>
     </dl>`;
   contenedor.appendChild(cartel);
+
+  contenedor.appendChild(bloqueVolumen(app));
 
   let hubo = false;
   app.rutina.dias
@@ -57,6 +60,96 @@ export function pintarProgreso(app, contenedor) {
   }
 
   contenedor.appendChild(herramientas(app));
+}
+
+/* ---------- volumen semanal por grupo muscular ---------- */
+
+function bloqueVolumen(app) {
+  const seccion = document.createElement("section");
+  seccion.className = "vol";
+
+  const conDatos = semanasConDatos(app.datos);
+  const actual = semanaISO(app.hoy());
+  // La semana en curso siempre se puede ver, aunque todavía no tenga series.
+  const semanas = conDatos.includes(actual) ? conDatos : [...conDatos, actual];
+  let i = semanas.length - 1;
+
+  function pintar() {
+    const clave = semanas[i];
+    const filas = resumen(app.datos, app.rutina, clave);
+    const bajos = filas.filter((f) => f.estado === "bajo" && f.series > 0).length;
+    const enCero = filas.filter((f) => f.series === 0).length;
+
+    seccion.innerHTML = `
+      <div class="vol-tope">
+        <h3>Volumen semanal</h3>
+        <div class="vol-nav">
+          <button data-ir="-1" aria-label="Semana anterior" ${i === 0 ? "disabled" : ""}>←</button>
+          <button data-ir="1" aria-label="Semana siguiente" ${i === semanas.length - 1 ? "disabled" : ""}>→</button>
+        </div>
+      </div>
+      <div class="vol-fecha">${etiquetaSemana(clave, actual)} · series efectivas</div>
+      ${filas.map(fila).join("")}
+      <p class="vol-nota">${nota(filas, bajos, enCero)}</p>`;
+
+    seccion.querySelectorAll("[data-ir]").forEach((b) => {
+      b.onclick = () => {
+        i = Math.min(semanas.length - 1, Math.max(0, i + Number(b.dataset.ir)));
+        pintar();
+      };
+    });
+  }
+
+  pintar();
+  return seccion;
+}
+
+function fila(f) {
+  // La escala llega un poco más allá del tope para que "pasarse" se vea.
+  const escala = f.rango.max * 1.35;
+  const pct = (v) => Math.min(100, (v / escala) * 100);
+  return `
+    <div class="vol-fila ${f.estado}">
+      <div class="vol-cab">
+        <b>${f.nombre}</b>
+        <span><em>${f.series}</em> / ${f.rango.min}–${f.rango.max}</span>
+      </div>
+      <div class="vol-pista">
+        <div class="vol-banda" style="left:${pct(f.rango.min)}%;width:${pct(f.rango.max) - pct(f.rango.min)}%"></div>
+        <div class="vol-barra" style="width:${pct(f.series)}%"></div>
+      </div>
+    </div>`;
+}
+
+function etiquetaSemana(clave, actual) {
+  if (clave === actual) return "Esta semana";
+  const lunes = new Date(lunesDe(clave) + "T12:00:00Z");
+  return "Semana del " + lunes.toLocaleDateString("es-MX", {
+    day: "numeric", month: "short", timeZone: "UTC"
+  });
+}
+
+function nota(filas, bajos, enCero) {
+  if (enCero === filas.length) {
+    return "Marca tus series y aquí verás cuánto volumen directo recibe cada grupo. Una serie cuenta 1 para el músculo principal del ejercicio y 0.5 para los que ayudan.";
+  }
+  const altos = filas.filter((f) => f.estado === "alto");
+  const partes = [];
+  if (bajos || enCero) {
+    const nombres = filas
+      .filter((f) => f.estado === "bajo")
+      .slice(0, 3)
+      .map((f) => f.nombre.toLowerCase());
+    partes.push(`Van cortos: ${nombres.join(", ")}.`);
+  }
+  if (altos.length) {
+    partes.push(`Pasados de volumen: ${altos.map((f) => f.nombre.toLowerCase()).join(", ")}.`);
+  }
+  if (!partes.length) partes.push("Todos los grupos dentro de rango.");
+  partes.push(
+    "El rango es referencia, no regla: en déficit la mitad baja es terreno razonable, y lo que de verdad importa es que ningún grupo se quede en cero varias semanas seguidas."
+  );
+  return partes.join(" ");
 }
 
 function herramientas(app) {
