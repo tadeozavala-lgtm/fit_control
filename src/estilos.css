@@ -1,0 +1,297 @@
+:root{
+  --lona:#16323F;
+  --lona-2:#1E4152;
+  --lona-3:#0F2531;
+  --tiza:#EFEAE0;
+  --humo:#93AAB6;
+  --esquina:#D93A2B;
+  --record:#E5A83C;
+  --linea:rgba(239,234,224,.13);
+  --linea-fuerte:rgba(239,234,224,.28);
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --texto:"Archivo",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --barra:76px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--lona-3);
+  background-image:
+    repeating-linear-gradient(90deg,rgba(239,234,224,.022) 0 1px,transparent 1px 4px),
+    radial-gradient(120% 70% at 50% -10%,#1E4152 0%,#0F2531 62%);
+  color:var(--tiza);
+  font-family:var(--texto);
+  font-size:15px;line-height:1.5;
+  padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom,0px) + 12px);
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select{font-family:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+:focus-visible{outline:2px solid var(--record);outline-offset:2px;border-radius:3px}
+
+/* ---------- encabezado ---------- */
+.tope{
+  position:sticky;top:0;z-index:40;
+  background:rgba(15,37,49,.93);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--linea);
+  padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 0;
+}
+.tope-fila{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.marca{
+  font-family:var(--display);font-weight:800;letter-spacing:.055em;
+  font-size:19px;text-transform:uppercase;line-height:1;
+}
+.marca em{font-style:normal;color:var(--esquina)}
+.semana{
+  font-family:var(--mono);font-size:11px;color:var(--humo);
+  letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.semana button{
+  font-family:var(--mono);font-size:13px;color:var(--tiza);
+  width:22px;height:22px;border:1px solid var(--linea-fuerte);border-radius:4px;line-height:1;
+}
+.semana button:active{background:var(--lona-2)}
+.pestanas{display:flex;gap:2px;overflow-x:auto;margin:10px -14px 0;padding:0 14px;scrollbar-width:none}
+.pestanas::-webkit-scrollbar{display:none}
+.pestana{
+  font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--humo);
+  padding:7px 11px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+.pestana[aria-selected="true"]{color:var(--tiza);border-bottom-color:var(--esquina)}
+
+/* ---------- cartel del día ---------- */
+.cartel{padding:20px 14px 14px;border-bottom:1px solid var(--linea)}
+.cartel .rotulo{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--esquina);margin-bottom:4px;
+}
+.cartel h1{
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(38px,13vw,58px);line-height:.86;letter-spacing:.005em;margin:0;
+}
+.cartel .sub{color:var(--humo);font-size:13px;margin-top:6px}
+.tape{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--linea);border:1px solid var(--linea);
+  margin-top:16px;
+}
+.tape div{background:var(--lona-3);padding:9px 10px}
+.tape dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--humo);margin:0}
+.tape dd{font-family:var(--display);font-weight:700;font-size:26px;line-height:1;margin:4px 0 0}
+.tape dd small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--humo);letter-spacing:.04em}
+
+/* ---------- ejercicios ---------- */
+.lista{padding:6px 0 24px}
+.ejercicio{border-bottom:1px solid var(--linea);padding:16px 14px 14px}
+.ejercicio.completo{background:linear-gradient(90deg,rgba(217,58,43,.09),transparent 60%)}
+.ej-tope{display:flex;gap:10px;align-items:flex-start}
+.num{
+  font-family:var(--mono);font-size:11px;color:var(--humo);
+  padding-top:5px;min-width:22px;letter-spacing:.05em;
+}
+.ej-nombre{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:23px;line-height:1;letter-spacing:.02em;margin:0;flex:1;
+}
+.receta{
+  font-family:var(--mono);font-size:11px;color:var(--humo);
+  margin:7px 0 0 32px;letter-spacing:.03em;display:flex;flex-wrap:wrap;gap:4px 10px;
+}
+.receta b{color:var(--tiza);font-weight:500}
+.btn-tecnica{
+  border:1px solid var(--linea-fuerte);border-radius:50%;
+  width:28px;height:28px;font-family:var(--display);font-weight:700;font-size:16px;
+  color:var(--humo);line-height:26px;flex-shrink:0;
+}
+.btn-tecnica:active{background:var(--lona-2);color:var(--tiza)}
+
+.series{margin:12px 0 0 32px;display:flex;flex-direction:column;gap:6px}
+.serie{display:grid;grid-template-columns:26px 1fr 1fr 40px;gap:6px;align-items:center}
+.serie-n{font-family:var(--mono);font-size:11px;color:var(--humo)}
+.campo{position:relative}
+.campo input{
+  width:100%;background:var(--lona);border:1px solid var(--linea);
+  border-radius:5px;padding:11px 56px 11px 10px;
+  font-family:var(--mono);font-size:16px;font-weight:500;
+  text-align:left;
+}
+.campo input::placeholder{color:rgba(147,170,182,.55);font-weight:400}
+.campo input:focus{border-color:var(--linea-fuerte);background:var(--lona-2);outline:none}
+.campo .uni{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:9.5px;color:var(--humo);pointer-events:none;letter-spacing:.02em;
+  max-width:50px;text-align:right;line-height:1.1;
+}
+.unidad{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--tiza);
+  border:1px solid var(--linea-fuerte);border-radius:4px;padding:4px 8px;line-height:1;
+}
+.unidad.lb{background:var(--esquina);border-color:var(--esquina)}
+.tabla-eq{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-top:4px}
+.tabla-eq td{border-bottom:1px solid var(--linea);padding:6px 0}
+.tabla-eq td:last-child{text-align:right;color:var(--humo)}
+.serie input[type=checkbox]{display:none}
+.marca-ok{
+  display:block;height:42px;border:1px solid var(--linea);border-radius:5px;
+  background:var(--lona);position:relative;
+}
+.marca-ok::after{
+  content:"";position:absolute;left:50%;top:47%;
+  width:11px;height:6px;border-left:2px solid var(--humo);border-bottom:2px solid var(--humo);
+  transform:translate(-50%,-50%) rotate(-45deg);opacity:.35;
+}
+input:checked + .marca-ok{background:var(--esquina);border-color:var(--esquina)}
+input:checked + .marca-ok::after{border-color:#fff;opacity:1}
+.serie.record .marca-ok{background:var(--record);border-color:var(--record)}
+.serie.record .marca-ok::after{border-color:var(--lona-3)}
+.serie.record .campo input{color:var(--record)}
+
+.pie-ej{
+  margin:10px 0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--humo);
+}
+.anterior b{color:var(--tiza);font-weight:500}
+.pista{color:var(--record)}
+.pista.baja{color:var(--humo)}
+
+/* ---------- barra de descanso ---------- */
+.reloj{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  height:calc(var(--barra) + env(safe-area-inset-bottom,0px));
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--lona-3);border-top:1px solid var(--linea-fuerte);
+  display:flex;align-items:center;gap:12px;padding-left:14px;padding-right:14px;
+  transition:background .25s;
+}
+.reloj.activo{background:var(--lona)}
+.reloj.aviso{background:#3A1512;border-top-color:var(--esquina)}
+.reloj .relleno{
+  position:absolute;left:0;top:0;bottom:0;width:0%;
+  background:rgba(217,58,43,.24);transition:width .95s linear;pointer-events:none;
+}
+.reloj .cuenta{
+  font-family:var(--display);font-weight:800;font-size:40px;line-height:.85;
+  letter-spacing:.01em;min-width:106px;position:relative;font-variant-numeric:tabular-nums;
+}
+.reloj .cuenta small{display:block;font-family:var(--mono);font-size:9.5px;font-weight:400;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--humo);margin-bottom:3px}
+.reloj .acciones{margin-left:auto;display:flex;gap:6px;position:relative}
+.reloj .acciones button{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--linea-fuerte);border-radius:5px;padding:9px 11px;color:var(--tiza);
+}
+.reloj .acciones button:active{background:var(--lona-2)}
+.reloj .acciones .fuerte{background:var(--esquina);border-color:var(--esquina)}
+
+/* ---------- modal ---------- */
+.velo{
+  position:fixed;inset:0;z-index:80;background:rgba(8,20,27,.72);
+  backdrop-filter:blur(3px);display:none;align-items:flex-end;
+}
+.velo.abierto{display:flex}
+.hoja{
+  background:var(--lona-3);border-top:3px solid var(--esquina);
+  width:100%;max-height:88vh;overflow-y:auto;
+  padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));
+  animation:sube .22s ease-out;
+}
+@keyframes sube{from{transform:translateY(18px);opacity:.4}to{transform:none;opacity:1}}
+.hoja h2{font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:30px;line-height:.92;margin:0 0 2px}
+.hoja .receta{margin-left:0}
+.hoja h3{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--esquina);margin:20px 0 8px;
+}
+.hoja ul{margin:0;padding-left:18px}
+.hoja li{margin-bottom:7px;font-size:14.5px}
+.hoja .aviso{
+  border-left:2px solid var(--record);padding:9px 0 9px 12px;margin-top:18px;
+  font-size:13.5px;color:#F3DCB0;
+}
+.cerrar{
+  width:100%;margin-top:22px;padding:14px;border:1px solid var(--linea-fuerte);border-radius:6px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tiza);
+}
+
+/* ---------- cardio / intervalos ---------- */
+.bloque{padding:18px 14px;border-bottom:1px solid var(--linea)}
+.bloque h3{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:21px;margin:0 0 8px;letter-spacing:.02em}
+.bloque p{margin:0 0 8px;font-size:14px;color:#CFDDE4}
+.pasos{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:1px;background:var(--linea);border:1px solid var(--linea)}
+.pasos li{background:var(--lona-3);padding:10px 12px;display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.pasos li.ahora{background:var(--esquina);color:#fff;font-weight:600}
+.pasos li span{font-family:var(--mono);font-size:12px;color:var(--humo)}
+.pasos li.ahora span{color:rgba(255,255,255,.85)}
+.arranque{
+  width:100%;margin-top:14px;padding:16px;border-radius:6px;background:var(--esquina);
+  font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+}
+.arranque.gris{background:transparent;border:1px solid var(--linea-fuerte);color:var(--tiza)}
+
+/* ---------- progreso ---------- */
+.tarjeta-prog{padding:14px;border-bottom:1px solid var(--linea)}
+.tarjeta-prog .fila{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tarjeta-prog h4{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:19px;margin:0;letter-spacing:.02em}
+.tarjeta-prog .cifra{font-family:var(--mono);font-size:13px;color:var(--record)}
+.tarjeta-prog .detalle{font-family:var(--mono);font-size:11px;color:var(--humo);margin-top:4px}
+.chispa{display:block;width:100%;height:34px;margin-top:8px}
+.vacio{padding:40px 18px;text-align:center;color:var(--humo);font-size:14px}
+.herramientas{padding:18px 14px 40px;display:flex;flex-direction:column;gap:8px}
+.herramientas button{
+  padding:13px;border:1px solid var(--linea-fuerte);border-radius:6px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tiza);
+}
+.herramientas .peligro{border-color:rgba(217,58,43,.6);color:#F0A79E}
+.nota-pie{font-size:12px;color:var(--humo);line-height:1.55;padding:0 14px 30px}
+.aviso-guardado{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--barra) + 18px);
+  background:var(--tiza);color:var(--lona-3);padding:8px 14px;border-radius:20px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;z-index:70;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.aviso-guardado.ver{opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(min-width:700px){
+  body{max-width:720px;margin:0 auto;border-left:1px solid var(--linea);border-right:1px solid var(--linea)}
+  .reloj{max-width:720px;left:50%;transform:translateX(-50%)}
+}
+
+/* ---------- destello: el aviso que sí funciona con el teléfono en silencio ---------- */
+.destello{
+  position:fixed;inset:0;z-index:95;pointer-events:none;
+  opacity:0;transition:opacity .12s ease-out;
+}
+.destello.ver{opacity:.55}
+
+/* ---------- aviso de versión nueva ---------- */
+.actualizar{
+  position:fixed;left:14px;right:14px;bottom:calc(var(--barra) + 16px);z-index:75;
+  background:var(--tiza);color:var(--lona-3);border-radius:8px;padding:12px 14px;
+  display:none;align-items:center;gap:12px;font-size:13.5px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.actualizar.ver{display:flex}
+.actualizar button{
+  margin-left:auto;background:var(--esquina);color:#fff;border-radius:5px;
+  padding:8px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;white-space:nowrap;
+}
+
+/* ---------- descarga ---------- */
+.cinta-descarga{
+  background:rgba(229,168,60,.14);border-left:2px solid var(--record);
+  padding:9px 12px;margin:14px 0 0;font-size:13px;color:#F3DCB0;
+}
+
+/* ---------- voz en HIIT ---------- */
+.interruptor{
+  display:flex;align-items:center;gap:9px;margin-top:14px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--humo);
+}
+.interruptor input{width:16px;height:16px;accent-color:var(--esquina)}
