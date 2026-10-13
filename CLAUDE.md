@@ -18,8 +18,18 @@ Ese contexto manda sobre cualquier otra consideración.
 5. **La lógica va en `src/logica/`, pura y testeada.** `src/ui/` solo pinta.
 6. **Nada de re-render total al marcar una serie.** Actualizar solo la tarjeta
    afectada y los contadores; si no, se pierde el foco del input.
+7. **Las zonas de pulso se calculan, nunca se escriben a mano.** Un rango fijo
+   en `rutina.json` contradice el cálculo en cuanto cambie la FC en reposo. Hay
+   un test que lo impide.
+8. **Distancia en km, tiempo en segundos, ritmo en segundos por km.** Misma
+   regla que el peso: una sola unidad guardada, la vista convierte.
 
 ## Al cambiar la rutina
+
+Los ajustes que Tadeo hace desde la app viven en `datos.ajustesRutina` como una
+CAPA, nunca como copia de la rutina: así hereda los despliegues nuevos. Lo que
+alimenta otros cálculos (`grupo`, `equipo`, `patron`) no se edita desde la app.
+
 
 `src/datos/rutina.json` es dato, no código. Correr `npm run validar` después de
 tocarlo. `sugerido` siempre en kg o la cadena "peso corporal".

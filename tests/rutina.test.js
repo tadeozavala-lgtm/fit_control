@@ -94,3 +94,18 @@ describe("secuencias de HIIT", () => {
     expect(duracion([])).toBe(0);
   });
 });
+
+describe("la Zona 2 no trae pulsaciones escritas a mano", () => {
+  const z2 = rutina.dias.find((d) => d.id === "z2");
+
+  it("ningún texto fija un rango de ppm", () => {
+    // Las zonas se calculan con Karvonen desde la FC en reposo de Tadeo. Un
+    // rango escrito en el JSON contradice al cálculo en cuanto cambie su reposo.
+    const todo = JSON.stringify(z2);
+    expect(todo).not.toMatch(/\d{2,3}\s*[–-]\s*\d{2,3}\s*ppm/);
+  });
+
+  it("sigue trayendo la progresión de duración, que sí es del plan", () => {
+    expect(JSON.stringify(z2)).toMatch(/30 min|35 min|40 min/);
+  });
+});

@@ -15,6 +15,9 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Guías de técnica por ejercicio, con tabla de equivalencias kg↔lb y referencia de discos.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
 - Volumen semanal por grupo muscular contra su rango de referencia.
+- Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
+- Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
+- Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -23,7 +26,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 85 tests
+npm test           # 224 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -86,11 +89,14 @@ src/
     reloj.js             temporizador por hora de término
     secuencia.js         construye los bloques de HIIT desde el JSON
     volumen.js           series efectivas por grupo y semana ISO
+    notas.js             señales de sesión y detección de fatiga
+    carrera.js           zonas Karvonen, ritmos, Riegel y VDOT
+    ajustes-rutina.js    capa de edición encima de rutina.json
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   85 tests
+tests/                   224 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -109,6 +115,49 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Editar desde el gimnasio
+
+El lápiz de cada ejercicio abre un editor de series, reps, tempo, RIR, descanso
+y peso sugerido. Los cambios se guardan como una **capa encima** de
+`rutina.json`, no como una copia: si se despliega una versión nueva de la rutina,
+conservas tus ajustes y heredas todo lo demás.
+
+El músculo, el equipo y el patrón de movimiento no se editan ahí porque
+alimentan el volumen semanal y el orden de las sustituciones; para eso se edita
+`rutina.json` y se commitea.
+
+Subir las series añade filas; bajarlas solo quita las que están vacías. Una
+serie ya registrada no se borra nunca por cambiar un número.
+
+## Running
+
+La pestaña Z2 calcula tus zonas con **Karvonen** sobre la frecuencia cardiaca de
+reserva (máxima menos reposo), no sobre la máxima pelada: con el mismo máximo,
+dos personas con distinto reposo entrenan a pulsaciones distintas. La máxima se
+estima con Tanaka (208 − 0.7 × edad), y se puede sustituir por una medida real.
+
+Ahí mismo se registran los rodajes (distancia, tiempo, tipo, pulso y esfuerzo),
+con kilómetros y ritmo medio de la semana, y un aviso si subes más de 10% de
+volumen respecto a la semana anterior.
+
+El predictor usa **Riegel** (T₂ = T₁ × (D₂/D₁)^1.06) para estimar tiempos en
+otras distancias, y marca las que quedan a más de cuatro veces tu distancia de
+referencia, donde la fórmula se vuelve optimista. Los ritmos de entrenamiento
+salen del ritmo de umbral, despejado de Riegel como el que sostendrías una hora.
+
+Todas las fórmulas están implementadas desde cero; no se reproducen tablas
+publicadas de ningún libro.
+
+## Notas de sesión
+
+Al pie de cada día de fuerza hay tres escalas de 1 a 5 (sueño, energía, molestias)
+y un campo de texto. Con 4 días de fuerza, 5 de cardio y déficit calórico, el
+estancamiento se anuncia antes en esas señales que en los pesos.
+
+Dos sesiones seguidas con sueño o energía en 2 o menos, o molestias repetidas en
+3 o más, disparan una alerta con qué hacer. Una sola sesión mala no dice nada:
+todos tenemos días.
 
 ## Sustituciones
 

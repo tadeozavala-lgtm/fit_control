@@ -855,12 +855,12 @@
       "id": "z2",
       "nombre": "Z2",
       "dia": "Lun · Mié · Jue",
-      "sub": "Carrera Zona 2 · 130–145 ppm",
+      "sub": "Carrera continua · 3 días por semana",
       "tipo": "cardio",
       "bloques": [
         {
           "titulo": "Cómo corre la Zona 2",
-          "texto": "Ritmo conversacional: debes poder hablar frases completas. Si jadeas, bajaste de zona. 130–145 ppm es tu ventana.",
+          "texto": "Ritmo conversacional: debes poder hablar frases completas. Si jadeas, bajaste de zona. Tu ventana exacta está arriba, calculada con tu FC en reposo.",
           "lista": [
             "Semana 1–2 · 30 min continuos",
             "Semana 3–4 · 35 min continuos",

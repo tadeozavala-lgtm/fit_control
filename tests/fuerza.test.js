@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   e1rm, confiable, mejorSerie, tonelaje, seriesHechas,
-  sugerencia, factorSemana, esDescarga, recordPrevio, esRecord
+  sugerencia, factorSemana, esDescarga, recordPrevio, esRecord, ajustarFilas
 } from "../src/logica/fuerza.js";
 
 const S = (p, r, ok = true) => ({ p, r, ok });
@@ -114,5 +114,41 @@ describe("récords", () => {
 
   it("no marca récord sin historial previo", () => {
     expect(esRecord(S(100, 10), 0)).toBe(false);
+  });
+});
+
+describe("ajustar las filas de series cuando cambia la prescripción", () => {
+  it("crea el arreglo desde cero", () => {
+    expect(ajustarFilas(undefined, 3)).toHaveLength(3);
+    expect(ajustarFilas([], 4)[0]).toEqual({ p: "", r: "", ok: false });
+  });
+
+  it("agrega filas vacías al subir las series", () => {
+    const r = ajustarFilas([S(60, 8), S(60, 8)], 4);
+    expect(r).toHaveLength(4);
+    expect(r[0].p).toBe(60);
+    expect(r[3]).toEqual({ p: "", r: "", ok: false });
+  });
+
+  it("quita las filas finales vacías al bajar las series", () => {
+    const r = ajustarFilas([S(60, 8), { p: "", r: "", ok: false }, { p: "", r: "", ok: false }], 1);
+    expect(r).toHaveLength(1);
+  });
+
+  it("NUNCA borra una serie con datos, aunque la prescripción baje", () => {
+    // Perder trabajo registrado por tocar un número sería el peor bug de la app.
+    const r = ajustarFilas([S(60, 8), S(60, 8), S(60, 7)], 1);
+    expect(r).toHaveLength(3);
+    expect(r[2].r).toBe(7);
+  });
+
+  it("tampoco borra una fila a medio llenar", () => {
+    const r = ajustarFilas([S(60, 8), { p: 60, r: "", ok: false }], 1);
+    expect(r).toHaveLength(2);
+  });
+
+  it("si ya coincide devuelve el mismo arreglo, sin copiar", () => {
+    const a = [S(60, 8)];
+    expect(ajustarFilas(a, 1)).toBe(a);
   });
 });

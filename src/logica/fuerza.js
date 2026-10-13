@@ -90,6 +90,36 @@ export function esDescarga(semana, cadaCuantas = 4) {
 }
 
 /**
+ * Ajusta el número de filas de series a lo que pide la prescripción.
+ *
+ * Hace falta porque las series se pueden editar desde la app a mitad de la
+ * sesión: subir de 4 a 5 debe añadir una fila vacía, y bajar debe quitar filas,
+ * pero NUNCA una que ya tenga datos. Perder una serie registrada por tocar un
+ * número sería el peor bug posible en esta app.
+ *
+ * @returns {Array} el mismo arreglo si no hubo que tocarlo
+ */
+export function ajustarFilas(series, cuantas) {
+  const actual = series || [];
+  if (actual.length === cuantas) return actual;
+
+  if (actual.length < cuantas) {
+    const nuevas = [...actual];
+    while (nuevas.length < cuantas) nuevas.push({ p: "", r: "", ok: false });
+    return nuevas;
+  }
+
+  // Al recortar, solo se van las filas finales que estén vacías.
+  const recortado = [...actual];
+  while (recortado.length > cuantas) {
+    const ultima = recortado[recortado.length - 1];
+    if (ultima && (ultima.ok || ultima.p || ultima.r)) break;
+    recortado.pop();
+  }
+  return recortado;
+}
+
+/**
  * Récord previo de un ejercicio, excluyendo una fecha (normalmente hoy).
  * @param {Array} sesiones ordenadas o no
  */

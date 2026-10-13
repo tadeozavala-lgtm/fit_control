@@ -2,6 +2,9 @@ import { conUnidad, mostrar, kgALb } from "../logica/unidades.js";
 import { mejorSerie, tonelaje } from "../logica/fuerza.js";
 import { sesionesDe, exportarCSV, exportarJSON, importarJSON } from "../logica/almacen.js";
 import { resumen, semanaISO, lunesDe, semanasConDatos } from "../logica/volumen.js";
+import {
+  ESCALAS, CLAVES, MAYOR_ES_MEJOR, promedio, alerta, consejo, serie, sesionesConNotas
+} from "../logica/notas.js";
 
 export function pintarProgreso(app, contenedor) {
   const u = app.unidad();
@@ -23,6 +26,8 @@ export function pintarProgreso(app, contenedor) {
   contenedor.appendChild(cartel);
 
   contenedor.appendChild(bloqueVolumen(app));
+  const senales = bloqueSenales(app);
+  if (senales) contenedor.appendChild(senales);
 
   let hubo = false;
   app.rutina.dias
@@ -72,6 +77,65 @@ export function pintarProgreso(app, contenedor) {
   }
 
   contenedor.appendChild(herramientas(app));
+}
+
+/* ---------- señales: sueño, energía y molestias ---------- */
+
+function bloqueSenales(app) {
+  const conNotas = sesionesConNotas(app.datos);
+  if (!conNotas.length) return null;
+
+  const { nivel, motivos } = alerta(conNotas);
+  const ultimas = conNotas.slice(-8);
+
+  const s = document.createElement("section");
+  s.className = "vol";
+  s.innerHTML = `
+    <div class="vol-tope"><h3>Cómo vienes llegando</h3></div>
+    <div class="vol-fecha">últimas ${ultimas.length} sesiones · escala 1 a 5</div>
+    ${nivel !== "ninguna"
+      ? `<div class="alerta-fatiga ${nivel}">
+           <b>${nivel === "alta" ? "Fatiga acumulada" : "Ojo con la fatiga"}</b>
+           <ul>${motivos.map((m) => `<li>${m}</li>`).join("")}</ul>
+           ${consejo(nivel)}
+         </div>`
+      : ""}
+    <dl class="senales-prog">
+      ${CLAVES.map((k) => {
+        const p = promedio(ultimas, k);
+        return `<div><dt>${ESCALAS[k].etiqueta}</dt>
+          <dd>${p ?? "—"}<small>${p ? (MAYOR_ES_MEJOR[k] ? " de 5" : " molestia") : ""}</small></dd></div>`;
+      }).join("")}
+    </dl>
+    ${CLAVES.map((k) => chispaSenal(k, serie(ultimas, k))).join("")}
+    ${notasRecientes(conNotas)}`;
+  return s;
+}
+
+function chispaSenal(clave, datos) {
+  if (datos.length < 2) return "";
+  const color = MAYOR_ES_MEJOR[clave] ? "#EFEAE0" : "#D93A2B";
+  const w = 100;
+  const h = 26;
+  const pts = datos
+    .map((d, i) => `${(i / (datos.length - 1)) * w},${h - 3 - ((d.valor - 1) / 4) * (h - 6)}`)
+    .join(" ");
+  return `
+    <div class="vol-fila">
+      <div class="vol-cab"><b>${ESCALAS[clave].etiqueta}</b>
+        <span><em>${datos[datos.length - 1].valor}</em> última</span></div>
+      <svg class="chispa" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true" style="height:${h}px">
+        <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </div>`;
+}
+
+function notasRecientes(sesiones) {
+  const conTexto = sesiones.filter((s) => s.notas.texto?.trim()).slice(-3).reverse();
+  if (!conTexto.length) return "";
+  return `<p class="vol-nota">${conTexto
+    .map((s) => `<b style="color:var(--tiza)">${s.fecha}</b> ${s.notas.texto}`)
+    .join("<br>")}</p>`;
 }
 
 /* ---------- volumen semanal por grupo muscular ---------- */
