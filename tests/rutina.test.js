@@ -72,11 +72,21 @@ describe("secuencias de HIIT", () => {
     expect(duracion(pasos)).toBe(300 + 8 * 120 + 300);
   });
 
-  it("la rutina B arma 7 vueltas de EMOM con descanso entre vueltas", () => {
+  it("la rutina B arma 5 vueltas de EMOM con descanso entre vueltas", () => {
     const pasos = construirSecuencia(B.secuencia);
-    expect(pasos.filter((p) => p.tipo === "descanso")).toHaveLength(6);
-    expect(minutosTrabajo(pasos)).toBe(35);
-    expect(duracion(pasos)).toBe(7 * 5 * 60 + 6 * 90);
+    expect(pasos.filter((p) => p.tipo === "descanso")).toHaveLength(4);
+    expect(minutosTrabajo(pasos)).toBe(25);
+    expect(duracion(pasos)).toBe(5 * 5 * 60 + 4 * 90);
+  });
+
+  it("la sesión completa cabe en media hora, que era el punto de recortarla", () => {
+    expect(duracion(construirSecuencia(B.secuencia)) / 60).toBeLessThanOrEqual(32);
+  });
+
+  it("la descripción no promete más minutos de los que la secuencia tiene", () => {
+    const declarados = Number(B.sub.match(/(\d+)\s*min/)[1]);
+    expect(minutosTrabajo(construirSecuencia(B.secuencia))).toBe(declarados);
+    expect(B.intro).toMatch(/5 vueltas/);
   });
 
   it("una especificación vacía no truena", () => {

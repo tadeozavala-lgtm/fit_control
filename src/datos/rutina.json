@@ -932,12 +932,12 @@
       "id": "hiitB",
       "nombre": "HIIT B",
       "dia": "Viernes",
-      "sub": "EMOM Box · 35 min de trabajo + descansos",
+      "sub": "EMOM Box · 25 min de trabajo + descansos",
       "tipo": "intervalo",
-      "intro": "7 vueltas de 5 minutos. Cada minuto cambia la tarea. 90 s de descanso entre vueltas.",
+      "intro": "5 vueltas de 5 minutos. Cada minuto cambia la tarea. 90 s de descanso entre vueltas.",
       "secuencia": {
         "rondas": {
-          "veces": 7,
+          "veces": 5,
           "etiqueta": "V",
           "descansoEntre": 90,
           "pasos": [
