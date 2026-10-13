@@ -26,6 +26,12 @@ tocarlo. `sugerido` siempre en kg o la cadena "peso corporal".
 
 Todo ejercicio nuevo necesita `grupo` (y `secundarios` si aplica), o no cuenta
 para el volumen semanal. Los grupos válidos están en `src/logica/volumen.js`.
+También necesita `equipo`, `mecanica` y, si es compuesto, `patron`: de ahí sale
+el orden de las sustituciones.
+
+`src/datos/catalogo.json` NO se edita a mano: lo genera `npm run catalogo` desde
+free-exercise-db. Para agregar una alternativa, edita la selección curada en
+`scripts/importar-catalogo.js` y vuelve a correrlo.
 
 ## Idioma
 

@@ -15,6 +15,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Guías de técnica por ejercicio, con tabla de equivalencias kg↔lb y referencia de discos.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
 - Volumen semanal por grupo muscular contra su rango de referencia.
+- Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
 ## Correr el proyecto
@@ -24,6 +25,7 @@ npm install
 npm run dev        # servidor local
 npm test           # 85 tests
 npm run validar    # valida rutina.json
+npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
 ```
 
@@ -63,6 +65,8 @@ código para cambiar un ejercicio:
 - `grupo` y `secundarios` alimentan el volumen semanal. Sin `grupo`, el ejercicio
   no cuenta; el validador lo marca como error. Los grupos válidos están en
   `src/logica/volumen.js`.
+- `equipo`, `mecanica` y `patron` ordenan las sustituciones. Un remo propone
+  otros remos, no dominadas.
 - `descanso` en segundos.
 
 Desde el iPhone: [Working Copy](https://workingcopy.app) para editar y hacer
@@ -74,6 +78,7 @@ desplegar, así que un JSON roto nunca llega al teléfono.
 ```
 src/
   datos/rutina.json      la rutina completa (editable sin tocar código)
+  datos/catalogo.json    92 alternativas, generado con npm run catalogo
   logica/                funciones puras, 100% cubiertas por tests
     unidades.js          conversión kg ↔ lb
     fuerza.js            1RM estimado, progresión, récords, descarga
@@ -81,6 +86,7 @@ src/
     reloj.js             temporizador por hora de término
     secuencia.js         construye los bloques de HIIT desde el JSON
     volumen.js           series efectivas por grupo y semana ISO
+    sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
@@ -103,6 +109,19 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Sustituciones
+
+Si la máquina está ocupada, el botón ⇄ de cada ejercicio ofrece alternativas del
+mismo grupo muscular, priorizando **otro equipo** y **el mismo patrón de
+movimiento**. La prescripción no cambia (mismas series, reps, tempo y descanso),
+las series cuentan igual para el volumen semanal, y el historial del sustituto
+se guarda aparte para no contaminar los récords del original.
+
+El catálogo son 92 ejercicios seleccionados y traducidos de
+[free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
+dominio público), generados con `npm run catalogo` y commiteados: la app no
+depende de la red en tiempo de ejecución.
 
 ## Respaldo
 

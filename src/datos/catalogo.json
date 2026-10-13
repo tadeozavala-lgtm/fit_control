@@ -1,0 +1,1191 @@
+{
+  "esquema": 1,
+  "generado": "2026-10-13",
+  "fuente": {
+    "nombre": "free-exercise-db",
+    "url": "https://github.com/yuhonas/free-exercise-db",
+    "licencia": "The Unlicense (dominio público)"
+  },
+  "ejercicios": [
+    {
+      "id": "Barbell_Curl",
+      "nombre": "Curl con barra",
+      "nombreOrigen": "Barbell Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Close-Grip_EZ_Bar_Curl",
+      "nombre": "Curl con barra Z",
+      "nombreOrigen": "Close-Grip EZ Bar Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Concentration_Curls",
+      "nombre": "Curl concentrado",
+      "nombreOrigen": "Concentration Curls",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Standing_Biceps_Cable_Curl",
+      "nombre": "Curl en polea de pie",
+      "nombreOrigen": "Standing Biceps Cable Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Incline_Dumbbell_Curl",
+      "nombre": "Curl inclinado con mancuernas",
+      "nombreOrigen": "Incline Dumbbell Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Hammer_Curls",
+      "nombre": "Curl martillo",
+      "nombreOrigen": "Hammer Curls",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Cable_Hammer_Curls_-_Rope_Attachment",
+      "nombre": "Curl martillo en polea con cuerda",
+      "nombreOrigen": "Cable Hammer Curls - Rope Attachment",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Preacher_Curl",
+      "nombre": "Curl predicador",
+      "nombreOrigen": "Preacher Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Seated_Dumbbell_Curl",
+      "nombre": "Curl sentado con mancuernas",
+      "nombreOrigen": "Seated Dumbbell Curl",
+      "grupo": "biceps",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Ab_Crunch_Machine",
+      "nombre": "Crunch en máquina",
+      "nombreOrigen": "Ab Crunch Machine",
+      "grupo": "core",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Cable_Crunch",
+      "nombre": "Crunch en polea",
+      "nombreOrigen": "Cable Crunch",
+      "grupo": "core",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Cable_Reverse_Crunch",
+      "nombre": "Crunch invertido en polea",
+      "nombreOrigen": "Cable Reverse Crunch",
+      "grupo": "core",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Hanging_Leg_Raise",
+      "nombre": "Elevación de piernas colgado",
+      "nombreOrigen": "Hanging Leg Raise",
+      "grupo": "core",
+      "secundarios": [],
+      "equipo": "peso corporal",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Plank",
+      "nombre": "Plancha",
+      "nombreOrigen": "Plank",
+      "grupo": "core",
+      "secundarios": [],
+      "equipo": "peso corporal",
+      "mecanica": "isolation",
+      "fuerza": "static",
+      "patron": null
+    },
+    {
+      "id": "Leg_Extensions",
+      "nombre": "Extensión de cuádriceps",
+      "nombreOrigen": "Leg Extensions",
+      "grupo": "cuadriceps",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Leg_Press",
+      "nombre": "Prensa de pierna",
+      "nombreOrigen": "Leg Press",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Barbell_Squat",
+      "nombre": "Sentadilla con barra",
+      "nombreOrigen": "Barbell Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios",
+        "espalda"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Dumbbell_Squat",
+      "nombre": "Sentadilla con mancuernas",
+      "nombreOrigen": "Dumbbell Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios",
+        "espalda"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Smith_Machine_Squat",
+      "nombre": "Sentadilla en máquina Smith",
+      "nombreOrigen": "Smith Machine Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios",
+        "espalda"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Front_Barbell_Squat",
+      "nombre": "Sentadilla frontal",
+      "nombreOrigen": "Front Barbell Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Goblet_Squat",
+      "nombre": "Sentadilla goblet",
+      "nombreOrigen": "Goblet Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios",
+        "hombro"
+      ],
+      "equipo": "kettlebell",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Hack_Squat",
+      "nombre": "Sentadilla hack",
+      "nombreOrigen": "Hack Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Barbell_Walking_Lunge",
+      "nombre": "Zancadas caminando",
+      "nombreOrigen": "Barbell Walking Lunge",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Barbell_Lunge",
+      "nombre": "Zancadas con barra",
+      "nombreOrigen": "Barbell Lunge",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Dumbbell_Lunges",
+      "nombre": "Zancadas con mancuernas",
+      "nombreOrigen": "Dumbbell Lunges",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Pullups",
+      "nombre": "Dominadas",
+      "nombreOrigen": "Pullups",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Chin-Up",
+      "nombre": "Dominadas agarre supino",
+      "nombreOrigen": "Chin-Up",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Underhand_Cable_Pulldowns",
+      "nombre": "Jalón agarre supino",
+      "nombreOrigen": "Underhand Cable Pulldowns",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Wide-Grip_Lat_Pulldown",
+      "nombre": "Jalón al pecho agarre ancho",
+      "nombreOrigen": "Wide-Grip Lat Pulldown",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Close-Grip_Front_Lat_Pulldown",
+      "nombre": "Jalón al pecho agarre cerrado",
+      "nombreOrigen": "Close-Grip Front Lat Pulldown",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "V-Bar_Pulldown",
+      "nombre": "Jalón con barra V",
+      "nombreOrigen": "V-Bar Pulldown",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Barbell_Deadlift",
+      "nombre": "Peso muerto convencional",
+      "nombreOrigen": "Barbell Deadlift",
+      "grupo": "espalda",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "isquios",
+        "cuadriceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Straight-Arm_Pulldown",
+      "nombre": "Pullover en polea",
+      "nombreOrigen": "Straight-Arm Pulldown",
+      "grupo": "espalda",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Rope_Straight-Arm_Pulldown",
+      "nombre": "Pullover en polea con cuerda",
+      "nombreOrigen": "Rope Straight-Arm Pulldown",
+      "grupo": "espalda",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": "traccion-vertical"
+    },
+    {
+      "id": "Leverage_High_Row",
+      "nombre": "Remo alto en máquina",
+      "nombreOrigen": "Leverage High Row",
+      "grupo": "espalda",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Bent_Over_Barbell_Row",
+      "nombre": "Remo con barra",
+      "nombreOrigen": "Bent Over Barbell Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Reverse_Grip_Bent-Over_Rows",
+      "nombre": "Remo con barra agarre supino",
+      "nombreOrigen": "Reverse Grip Bent-Over Rows",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Bent_Over_Two-Dumbbell_Row",
+      "nombre": "Remo con dos mancuernas",
+      "nombreOrigen": "Bent Over Two-Dumbbell Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "One-Arm_Dumbbell_Row",
+      "nombre": "Remo con mancuerna a una mano",
+      "nombreOrigen": "One-Arm Dumbbell Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Leverage_Iso_Row",
+      "nombre": "Remo en máquina",
+      "nombreOrigen": "Leverage Iso Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Smith_Machine_Bent_Over_Row",
+      "nombre": "Remo en máquina Smith",
+      "nombreOrigen": "Smith Machine Bent Over Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "T-Bar_Row_with_Handle",
+      "nombre": "Remo en T",
+      "nombreOrigen": "T-Bar Row with Handle",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Lying_T-Bar_Row",
+      "nombre": "Remo en T con pecho apoyado",
+      "nombreOrigen": "Lying T-Bar Row",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Seated_Cable_Rows",
+      "nombre": "Remo sentado en polea",
+      "nombreOrigen": "Seated Cable Rows",
+      "grupo": "espalda",
+      "secundarios": [
+        "biceps",
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Standing_Calf_Raises",
+      "nombre": "Elevación de talones de pie",
+      "nombreOrigen": "Standing Calf Raises",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Calf_Press",
+      "nombre": "Elevación de talones en máquina",
+      "nombreOrigen": "Calf Press",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Calf_Press_On_The_Leg_Press_Machine",
+      "nombre": "Elevación de talones en prensa",
+      "nombreOrigen": "Calf Press On The Leg Press Machine",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Seated_Calf_Raise",
+      "nombre": "Elevación de talones sentado",
+      "nombreOrigen": "Seated Calf Raise",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Barbell_Hip_Thrust",
+      "nombre": "Empuje de cadera con barra",
+      "nombreOrigen": "Barbell Hip Thrust",
+      "grupo": "gluteo",
+      "secundarios": [
+        "gemelo",
+        "isquios"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Cable_Rear_Delt_Fly",
+      "nombre": "Aperturas posteriores en polea",
+      "nombreOrigen": "Cable Rear Delt Fly",
+      "grupo": "hombro",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Cable_Seated_Lateral_Raise",
+      "nombre": "Elevación lateral en polea",
+      "nombreOrigen": "Cable Seated Lateral Raise",
+      "grupo": "hombro",
+      "secundarios": [
+        "espalda"
+      ],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Standing_Low-Pulley_Deltoid_Raise",
+      "nombre": "Elevación lateral en polea baja",
+      "nombreOrigen": "Standing Low-Pulley Deltoid Raise",
+      "grupo": "hombro",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Dumbbell_Lying_Rear_Lateral_Raise",
+      "nombre": "Elevación posterior con mancuernas",
+      "nombreOrigen": "Dumbbell Lying Rear Lateral Raise",
+      "grupo": "hombro",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Side_Lateral_Raise",
+      "nombre": "Elevaciones laterales",
+      "nombreOrigen": "Side Lateral Raise",
+      "grupo": "hombro",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Seated_Side_Lateral_Raise",
+      "nombre": "Elevaciones laterales sentado",
+      "nombreOrigen": "Seated Side Lateral Raise",
+      "grupo": "hombro",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Face_Pull",
+      "nombre": "Face pull",
+      "nombreOrigen": "Face Pull",
+      "grupo": "hombro",
+      "secundarios": [
+        "espalda"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Arnold_Dumbbell_Press",
+      "nombre": "Press Arnold",
+      "nombreOrigen": "Arnold Dumbbell Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Dumbbell_One-Arm_Shoulder_Press",
+      "nombre": "Press de hombro a una mano",
+      "nombreOrigen": "Dumbbell One-Arm Shoulder Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Seated_Cable_Shoulder_Press",
+      "nombre": "Press de hombro en polea",
+      "nombreOrigen": "Seated Cable Shoulder Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Seated_Dumbbell_Press",
+      "nombre": "Press de hombro sentado con mancuernas",
+      "nombreOrigen": "Seated Dumbbell Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Standing_Military_Press",
+      "nombre": "Press militar de pie",
+      "nombreOrigen": "Standing Military Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Seated_Barbell_Military_Press",
+      "nombre": "Press militar sentado con barra",
+      "nombreOrigen": "Seated Barbell Military Press",
+      "grupo": "hombro",
+      "secundarios": [
+        "triceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-vertical"
+    },
+    {
+      "id": "Upright_Barbell_Row",
+      "nombre": "Remo al mentón con barra",
+      "nombreOrigen": "Upright Barbell Row",
+      "grupo": "hombro",
+      "secundarios": [
+        "espalda"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "traccion-horizontal"
+    },
+    {
+      "id": "Good_Morning",
+      "nombre": "Buenos días",
+      "nombreOrigen": "Good Morning",
+      "grupo": "isquios",
+      "secundarios": [
+        "core",
+        "gluteo",
+        "espalda"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Lying_Leg_Curls",
+      "nombre": "Curl femoral acostado",
+      "nombreOrigen": "Lying Leg Curls",
+      "grupo": "isquios",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Seated_Leg_Curl",
+      "nombre": "Curl femoral sentado",
+      "nombreOrigen": "Seated Leg Curl",
+      "grupo": "isquios",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": null
+    },
+    {
+      "id": "Stiff-Legged_Barbell_Deadlift",
+      "nombre": "Peso muerto piernas rígidas",
+      "nombreOrigen": "Stiff-Legged Barbell Deadlift",
+      "grupo": "isquios",
+      "secundarios": [
+        "gluteo",
+        "espalda"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Romanian_Deadlift",
+      "nombre": "Peso muerto rumano",
+      "nombreOrigen": "Romanian Deadlift",
+      "grupo": "isquios",
+      "secundarios": [
+        "gemelo",
+        "gluteo",
+        "espalda"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Stiff-Legged_Dumbbell_Deadlift",
+      "nombre": "Peso muerto rumano con mancuernas",
+      "nombreOrigen": "Stiff-Legged Dumbbell Deadlift",
+      "grupo": "isquios",
+      "secundarios": [
+        "gluteo",
+        "espalda"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Dumbbell_Flyes",
+      "nombre": "Aperturas con mancuernas",
+      "nombreOrigen": "Dumbbell Flyes",
+      "grupo": "pecho",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Incline_Dumbbell_Flyes",
+      "nombre": "Aperturas inclinadas con mancuernas",
+      "nombreOrigen": "Incline Dumbbell Flyes",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Cable_Crossover",
+      "nombre": "Cruce de poleas",
+      "nombreOrigen": "Cable Crossover",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Low_Cable_Crossover",
+      "nombre": "Cruce de poleas desde abajo",
+      "nombreOrigen": "Low Cable Crossover",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro"
+      ],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Pushups",
+      "nombre": "Lagartijas",
+      "nombreOrigen": "Pushups",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Push-Ups_With_Feet_Elevated",
+      "nombre": "Lagartijas con pies elevados",
+      "nombreOrigen": "Push-Ups With Feet Elevated",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Butterfly",
+      "nombre": "Pec deck",
+      "nombreOrigen": "Butterfly",
+      "grupo": "pecho",
+      "secundarios": [],
+      "equipo": "máquina",
+      "mecanica": "isolation",
+      "fuerza": "pull",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Barbell_Bench_Press_-_Medium_Grip",
+      "nombre": "Press banca con barra",
+      "nombreOrigen": "Barbell Bench Press - Medium Grip",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Dumbbell_Bench_Press",
+      "nombre": "Press banca con mancuernas",
+      "nombreOrigen": "Dumbbell Bench Press",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Machine_Bench_Press",
+      "nombre": "Press de pecho en máquina",
+      "nombreOrigen": "Machine Bench Press",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Decline_Dumbbell_Bench_Press",
+      "nombre": "Press declinado con mancuernas",
+      "nombreOrigen": "Decline Dumbbell Bench Press",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Incline_Dumbbell_Bench_With_Palms_Facing_In",
+      "nombre": "Press inclinado agarre neutro",
+      "nombreOrigen": "Incline Dumbbell Bench With Palms Facing In",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Barbell_Incline_Bench_Press_-_Medium_Grip",
+      "nombre": "Press inclinado con barra",
+      "nombreOrigen": "Barbell Incline Bench Press - Medium Grip",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Leverage_Incline_Chest_Press",
+      "nombre": "Press inclinado en máquina",
+      "nombreOrigen": "Leverage Incline Chest Press",
+      "grupo": "pecho",
+      "secundarios": [
+        "hombro",
+        "triceps"
+      ],
+      "equipo": "máquina",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Dumbbell_One-Arm_Triceps_Extension",
+      "nombre": "Extensión de tríceps a una mano",
+      "nombreOrigen": "Dumbbell One-Arm Triceps Extension",
+      "grupo": "triceps",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Standing_Overhead_Barbell_Triceps_Extension",
+      "nombre": "Extensión de tríceps de pie",
+      "nombreOrigen": "Standing Overhead Barbell Triceps Extension",
+      "grupo": "triceps",
+      "secundarios": [
+        "hombro"
+      ],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Triceps_Pushdown_-_V-Bar_Attachment",
+      "nombre": "Extensión en polea con barra V",
+      "nombreOrigen": "Triceps Pushdown - V-Bar Attachment",
+      "grupo": "triceps",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Triceps_Pushdown_-_Rope_Attachment",
+      "nombre": "Extensión en polea con cuerda",
+      "nombreOrigen": "Triceps Pushdown - Rope Attachment",
+      "grupo": "triceps",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Cable_Rope_Overhead_Triceps_Extension",
+      "nombre": "Extensión sobre la cabeza con cuerda",
+      "nombreOrigen": "Cable Rope Overhead Triceps Extension",
+      "grupo": "triceps",
+      "secundarios": [],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Bench_Dips",
+      "nombre": "Fondos en banco",
+      "nombreOrigen": "Bench Dips",
+      "grupo": "triceps",
+      "secundarios": [
+        "pecho",
+        "hombro"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Dips_-_Triceps_Version",
+      "nombre": "Fondos en paralelas",
+      "nombreOrigen": "Dips - Triceps Version",
+      "grupo": "triceps",
+      "secundarios": [
+        "pecho",
+        "hombro"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Close-Grip_Barbell_Bench_Press",
+      "nombre": "Press banca agarre cerrado",
+      "nombreOrigen": "Close-Grip Barbell Bench Press",
+      "grupo": "triceps",
+      "secundarios": [
+        "pecho",
+        "hombro"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "empuje-horizontal"
+    },
+    {
+      "id": "Decline_EZ_Bar_Triceps_Extension",
+      "nombre": "Press francés con barra Z",
+      "nombreOrigen": "Decline EZ Bar Triceps Extension",
+      "grupo": "triceps",
+      "secundarios": [],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    }
+  ]
+}

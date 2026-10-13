@@ -28,14 +28,26 @@ export function pintarProgreso(app, contenedor) {
   app.rutina.dias
     .filter((d) => d.ejercicios)
     .forEach((dia) => {
-      dia.ejercicios.forEach((e) => {
-        const h = sesionesDe(app.datos, dia.id).filter(
-          (s) => s.ej[e.id] && mejorSerie(s.ej[e.id])
-        );
+      const sesiones = sesionesDe(app.datos, dia.id);
+
+      // Los sustitutos que se hayan usado en este día llevan su propio
+      // historial y merecen su propia tarjeta, igual que los de la rutina.
+      const claves = [];
+      dia.ejercicios.forEach((e) => claves.push({ clave: e.id, nombre: e.nombre }));
+      sesiones.forEach((s) => {
+        Object.values(s.sust || {}).forEach((id) => {
+          if (claves.some((c) => c.clave === id)) return;
+          const sust = (app.catalogo.ejercicios || []).find((x) => x.id === id);
+          if (sust) claves.push({ clave: id, nombre: sust.nombre, sustituto: true });
+        });
+      });
+
+      claves.forEach(({ clave, nombre, sustituto }) => {
+        const h = sesiones.filter((s) => s.ej[clave] && mejorSerie(s.ej[clave]));
         if (!h.length) return;
         hubo = true;
-        const serie = h.map((s) => mejorSerie(s.ej[e.id]).e1rm);
-        const ult = mejorSerie(h[h.length - 1].ej[e.id]);
+        const serie = h.map((s) => mejorSerie(s.ej[clave]).e1rm);
+        const ult = mejorSerie(h[h.length - 1].ej[clave]);
         const max = Math.max(...serie);
         const min = Math.min(...serie);
         const delta = serie.length > 1 ? ((serie[serie.length - 1] - serie[0]) / serie[0]) * 100 : 0;
@@ -43,9 +55,9 @@ export function pintarProgreso(app, contenedor) {
         const c = document.createElement("div");
         c.className = "tarjeta-prog";
         c.innerHTML = `
-          <div class="fila"><h4>${e.nombre}</h4>
+          <div class="fila"><h4>${nombre}</h4>
             <span class="cifra">${delta > 0 ? "+" : ""}${delta.toFixed(0)}%</span></div>
-          <div class="detalle">${h.length} sesiones · mejor serie ${ult ? conUnidad(ult.peso, u) + " × " + ult.reps : "—"} · e1RM ${conUnidad(max, u, 0)}</div>
+          <div class="detalle">${sustituto ? "sustituto · " : ""}${h.length} sesiones · mejor serie ${ult ? conUnidad(ult.peso, u) + " × " + ult.reps : "—"} · e1RM ${conUnidad(max, u, 0)}</div>
           ${chispa(serie, min, max)}`;
         contenedor.appendChild(c);
       });
@@ -76,7 +88,7 @@ function bloqueVolumen(app) {
 
   function pintar() {
     const clave = semanas[i];
-    const filas = resumen(app.datos, app.rutina, clave);
+    const filas = resumen(app.datos, app.rutina, clave, app.catalogo);
     const bajos = filas.filter((f) => f.estado === "bajo" && f.series > 0).length;
     const enCero = filas.filter((f) => f.series === 0).length;
 

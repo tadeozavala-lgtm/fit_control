@@ -69,9 +69,18 @@ export function lunesDe(claveSemana) {
   return lunes.toISOString().slice(0, 10);
 }
 
-/** Índice id de ejercicio -> {grupo, secundarios} a partir de rutina.json. */
-export function indiceGrupos(rutina) {
+/**
+ * Índice id de ejercicio -> {grupo, secundarios}.
+ *
+ * Incluye el catálogo de sustituciones cuando se le pasa: si Tadeo cambió el
+ * remo con barra por uno en polea, esas series tienen que seguir contando para
+ * espalda, y se guardaron bajo el id del sustituto.
+ */
+export function indiceGrupos(rutina, catalogo) {
   const indice = {};
+  (catalogo?.ejercicios || []).forEach((e) => {
+    if (e.grupo) indice[e.id] = { grupo: e.grupo, secundarios: e.secundarios || [] };
+  });
   (rutina.dias || []).forEach((d) => {
     (d.ejercicios || []).forEach((e) => {
       if (e.grupo) indice[e.id] = { grupo: e.grupo, secundarios: e.secundarios || [] };
@@ -84,8 +93,8 @@ export function indiceGrupos(rutina) {
  * Series efectivas por grupo en una semana ISO.
  * @returns {Object<string, number>} solo los grupos con volumen mayor a 0
  */
-export function volumenDeSemana(datos, rutina, claveSemana) {
-  const indice = indiceGrupos(rutina);
+export function volumenDeSemana(datos, rutina, claveSemana, catalogo) {
+  const indice = indiceGrupos(rutina, catalogo);
   const total = {};
 
   Object.values(datos.sesiones || {}).forEach((sesion) => {
@@ -127,7 +136,7 @@ export function estado(grupo, series) {
  * Resumen ordenado para pintar: todos los grupos de la rutina, con su volumen,
  * rango y estado. Los que van bajos salen primero porque son los accionables.
  */
-export function resumen(datos, rutina, claveSemana) {
+export function resumen(datos, rutina, claveSemana, catalogo) {
   const indice = indiceGrupos(rutina);
   const presentes = new Set();
   Object.values(indice).forEach((d) => {
@@ -135,7 +144,7 @@ export function resumen(datos, rutina, claveSemana) {
     d.secundarios.forEach((g) => presentes.add(g));
   });
 
-  const vol = volumenDeSemana(datos, rutina, claveSemana);
+  const vol = volumenDeSemana(datos, rutina, claveSemana, catalogo);
   const orden = { bajo: 0, alto: 1, dentro: 2 };
 
   return [...presentes]

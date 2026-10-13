@@ -1,5 +1,6 @@
 import "./estilos.css";
 import rutina from "./datos/rutina.json";
+import catalogo from "./datos/catalogo.json";
 import { crearAlmacen, claveSesion, partirClave } from "./logica/almacen.js";
 import { crearReloj } from "./logica/reloj.js";
 import { avisar, decir } from "./logica/avisos.js";
@@ -14,6 +15,7 @@ const almacen = crearAlmacen(window);
 /** El contexto que reciben todas las vistas. */
 const app = {
   rutina,
+  catalogo,
   datos: null,
   diaActivo: "push",
   reloj: null,
@@ -33,8 +35,9 @@ const app = {
     const n = delDia.length ? Math.max(...delDia.map((k) => k.n)) : 1;
     const clave = claveSesion(diaId, fecha, n);
     if (!app.datos.sesiones[clave]) {
-      app.datos.sesiones[clave] = { fecha, semana: app.datos.semana, ej: {} };
+      app.datos.sesiones[clave] = { fecha, semana: app.datos.semana, ej: {}, sust: {} };
     }
+    if (!app.datos.sesiones[clave].sust) app.datos.sesiones[clave].sust = {};
     return app.datos.sesiones[clave];
   },
 
@@ -48,7 +51,8 @@ const app = {
     app.datos.sesiones[claveSesion(diaId, fecha, n)] = {
       fecha,
       semana: app.datos.semana,
-      ej: {}
+      ej: {},
+      sust: {}
     };
     app.guardar();
     app.pintar();
