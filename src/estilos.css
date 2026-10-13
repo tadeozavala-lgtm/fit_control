@@ -342,3 +342,43 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   font-size:12.5px;color:var(--humo);line-height:1.55;margin:16px 0 0;
   padding-top:12px;border-top:1px solid var(--linea);
 }
+
+/* ---------- sustituciones ---------- */
+.btn-cambio{
+  border:1px solid var(--linea-fuerte);border-radius:50%;
+  width:28px;height:28px;font-size:13px;color:var(--humo);
+  line-height:26px;flex-shrink:0;
+}
+.btn-cambio:active{background:var(--lona-2);color:var(--tiza)}
+.ejercicio.sustituido{background:linear-gradient(90deg,rgba(229,168,60,.08),transparent 60%)}
+.ejercicio.sustituido .btn-cambio{border-color:var(--record);color:var(--record)}
+.sello-sust{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--record);margin:5px 0 0 32px;
+}
+.alt{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:13px 0;border-bottom:1px solid var(--linea);
+}
+.alt:last-of-type{border-bottom:none}
+.alt-txt{flex:1;min-width:0}
+.alt-txt b{
+  display:block;font-family:var(--display);font-weight:700;font-size:19px;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--tiza);line-height:1.05;
+}
+.alt-txt span{
+  font-family:var(--mono);font-size:10.5px;color:var(--humo);
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.alt-ir{
+  font-family:var(--mono);font-size:10px;color:var(--humo);
+  border:1px solid var(--linea-fuerte);border-radius:4px;padding:7px 10px;
+  letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;
+}
+.alt.activa .alt-txt b{color:var(--record)}
+.alt.activa .alt-ir{border-color:var(--record);color:var(--record)}
+.hoja .fuente{
+  font-family:var(--mono);font-size:10px;color:var(--humo);
+  margin-top:18px;line-height:1.6;
+}
+.hoja .fuente a{color:var(--humo)}

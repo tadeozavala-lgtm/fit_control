@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 2;
+export const ESQUEMA_ACTUAL = 3;
 
 export function vacio() {
   return { esquema: ESQUEMA_ACTUAL, sesiones: {}, semana: 1, unidad: "kg" };
@@ -34,7 +34,21 @@ function v1_a_v2(datos) {
   return { ...datos, esquema: 2, sesiones };
 }
 
-const MIGRACIONES = { 1: v1_a_v2 };
+/**
+ * v2 -> v3
+ *  - cada sesión gana `sust`: qué ejercicio del catálogo ocupó el hueco de la
+ *    rutina ese día. Las sesiones viejas no tienen sustituciones, así que
+ *    simplemente arrancan con el mapa vacío.
+ */
+function v2_a_v3(datos) {
+  const sesiones = {};
+  Object.entries(datos.sesiones || {}).forEach(([clave, sesion]) => {
+    sesiones[clave] = { ...sesion, sust: sesion.sust || {} };
+  });
+  return { ...datos, esquema: 3, sesiones };
+}
+
+const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {

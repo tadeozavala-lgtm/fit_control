@@ -14,6 +14,8 @@ import {
 } from "../logica/fuerza.js";
 import { sesionesDe } from "../logica/almacen.js";
 import { abrirTecnica } from "./modal.js";
+import { resolver, sustituir } from "../logica/sustituciones.js";
+import { abrirAlternativas } from "./sustituciones.js";
 
 export function pintarDia(app, dia, contenedor) {
   const ses = app.sesionActiva(dia.id);
@@ -57,7 +59,8 @@ export function actualizarTape(app, dia) {
   let ton = 0;
   dia.ejercicios.forEach((e) => {
     totales += e.series;
-    const arr = ses.ej[e.id] || [];
+    const { clave } = resolver(e, ses, app.catalogo);
+    const arr = ses.ej[clave] || [];
     hechas += seriesHechas(arr);
     if (!e.tiempo) ton += tonelaje(arr);
   });
@@ -68,17 +71,23 @@ export function actualizarTape(app, dia) {
   n("tapeTon").textContent = Math.round(Number(mostrar(ton, app.unidad())) || 0).toLocaleString("es-MX");
 }
 
-function tarjeta(app, dia, e, idx, ses) {
+function tarjeta(app, dia, original, idx, ses) {
   const u = app.unidad();
-  if (!ses.ej[e.id]) {
-    ses.ej[e.id] = Array.from({ length: e.series }, () => ({ p: "", r: "", ok: false }));
-  }
-  const series = ses.ej[e.id];
+  const estado = resolver(original, ses, app.catalogo);
+  const e = estado.ej;
+  const clave = estado.clave;
 
+  if (!ses.ej[clave]) {
+    ses.ej[clave] = Array.from({ length: e.series }, () => ({ p: "", r: "", ok: false }));
+  }
+  const series = ses.ej[clave];
+
+  // El historial se busca por la clave activa: el sustituto no hereda ni
+  // contamina los récords del ejercicio original.
   const previas = sesionesDe(app.datos, dia.id).filter((s) => s.fecha !== app.hoy());
-  const anterior = previas[previas.length - 1];
-  const mejorPrev = anterior ? mejorSerie(anterior.ej[e.id]) : null;
-  const rec = recordPrevio(previas, e.id, app.hoy());
+  const anterior = [...previas].reverse().find((s) => mejorSerie(s.ej[clave]));
+  const mejorPrev = anterior ? mejorSerie(anterior.ej[clave]) : null;
+  const rec = recordPrevio(previas, clave, app.hoy());
 
   // Autollenado: arranca con el peso de la sesión anterior ya puesto.
   if (mejorPrev) {
@@ -89,15 +98,20 @@ function tarjeta(app, dia, e, idx, ses) {
   }
 
   const el = document.createElement("article");
-  el.className = "ejercicio" + (series.every((s) => s.ok) ? " completo" : "");
-  el.dataset.ejercicio = e.id;
+  el.className =
+    "ejercicio" +
+    (series.every((s) => s.ok) ? " completo" : "") +
+    (estado.sustituido ? " sustituido" : "");
+  el.dataset.ejercicio = clave;
 
   el.innerHTML = `
     <div class="ej-tope">
       <span class="num">${String(idx + 1).padStart(2, "0")}</span>
       <h2 class="ej-nombre">${e.nombre}</h2>
+      <button class="btn-cambio" aria-label="Cambiar ${e.nombre} por otro ejercicio">⇄</button>
       <button class="btn-tecnica" aria-label="Ver técnica de ${e.nombre}">i</button>
     </div>
+    ${estado.sustituido ? `<div class="sello-sust">sustituye a ${original.nombre}</div>` : ""}
     <div class="receta">
       <span><b>${e.series}×${e.reps}</b></span>
       <span>tempo <b>${e.tempo}</b></span>
@@ -114,6 +128,13 @@ function tarjeta(app, dia, e, idx, ses) {
     </div>`;
 
   el.querySelector(".btn-tecnica").onclick = () => abrirTecnica(e, u);
+
+  el.querySelector(".btn-cambio").onclick = () =>
+    abrirAlternativas(app, original, (sustId) => {
+      sustituir(ses, original.id, sustId);
+      app.guardar();
+      app.pintar();
+    });
 
   el.querySelectorAll("input").forEach((inp) => {
     const i = Number(inp.dataset.i);

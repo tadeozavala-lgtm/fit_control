@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "validar": "node scripts/validar-rutina.js"
+    "validar": "node scripts/validar-rutina.js",
+    "catalogo": "node scripts/importar-catalogo.js"
   },
   "devDependencies": {
     "vite": "^5.4.10",

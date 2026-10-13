@@ -24,6 +24,11 @@
             "triceps",
             "hombro"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
+          "catalogoId": "Barbell_Bench_Press_-_Medium_Grip",
           "descanso": 120,
           "tecnica": {
             "ejecucion": [
@@ -52,6 +57,10 @@
             "hombro",
             "triceps"
           ],
+          "equipo": "mancuerna",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -79,6 +88,10 @@
           "secundarios": [
             "triceps"
           ],
+          "equipo": "mancuerna",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "empuje-vertical",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -103,6 +116,10 @@
           "rir": 2,
           "sugerido": "15–20 kg",
           "grupo": "pecho",
+          "equipo": "polea",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -127,6 +144,11 @@
           "rir": 1,
           "sugerido": "8–10 kg",
           "grupo": "hombro",
+          "equipo": "mancuerna",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
+          "catalogoId": "Side_Lateral_Raise",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -151,6 +173,10 @@
           "rir": 2,
           "sugerido": "30–35 kg",
           "grupo": "triceps",
+          "equipo": "barra",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -175,6 +201,10 @@
           "rir": 1,
           "sugerido": "25–30 kg",
           "grupo": "triceps",
+          "equipo": "polea",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -212,6 +242,10 @@
           "secundarios": [
             "biceps"
           ],
+          "equipo": "polea",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-vertical",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -239,6 +273,11 @@
           "secundarios": [
             "biceps"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
+          "catalogoId": "Bent_Over_Barbell_Row",
           "descanso": 120,
           "tecnica": {
             "ejecucion": [
@@ -266,6 +305,10 @@
           "secundarios": [
             "biceps"
           ],
+          "equipo": "mancuerna",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
           "descanso": 75,
           "tecnica": {
             "ejecucion": [
@@ -290,6 +333,10 @@
           "rir": 2,
           "sugerido": "25–30 kg",
           "grupo": "espalda",
+          "equipo": "polea",
+          "mecanica": "isolation",
+          "fuerza": "pull",
+          "patron": "traccion-vertical",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -316,6 +363,11 @@
           "secundarios": [
             "espalda"
           ],
+          "equipo": "polea",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
+          "catalogoId": "Face_Pull",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -339,6 +391,11 @@
           "rir": 2,
           "sugerido": "20–25 kg",
           "grupo": "biceps",
+          "equipo": "barra",
+          "mecanica": "isolation",
+          "fuerza": "pull",
+          "patron": null,
+          "catalogoId": "Close-Grip_EZ_Bar_Curl",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -363,6 +420,11 @@
           "rir": 1,
           "sugerido": "12–14 kg",
           "grupo": "biceps",
+          "equipo": "mancuerna",
+          "mecanica": "isolation",
+          "fuerza": "pull",
+          "patron": null,
+          "catalogoId": "Hammer_Curls",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -399,6 +461,11 @@
           "secundarios": [
             "gluteo"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Barbell_Squat",
           "descanso": 150,
           "tecnica": {
             "ejecucion": [
@@ -426,6 +493,11 @@
           "secundarios": [
             "gluteo"
           ],
+          "equipo": "máquina",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Leg_Press",
           "descanso": 120,
           "tecnica": {
             "ejecucion": [
@@ -453,6 +525,11 @@
           "secundarios": [
             "gluteo"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "bisagra",
+          "catalogoId": "Romanian_Deadlift",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -480,6 +557,11 @@
           "secundarios": [
             "gluteo"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Barbell_Walking_Lunge",
           "descanso": 75,
           "tecnica": {
             "ejecucion": [
@@ -504,6 +586,10 @@
           "rir": 2,
           "sugerido": "35–40 kg",
           "grupo": "isquios",
+          "equipo": "máquina",
+          "mecanica": "isolation",
+          "fuerza": "pull",
+          "patron": null,
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -527,6 +613,11 @@
           "rir": 1,
           "sugerido": "35–45 kg",
           "grupo": "cuadriceps",
+          "equipo": "máquina",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
+          "catalogoId": "Leg_Extensions",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -550,6 +641,10 @@
           "rir": 1,
           "sugerido": "60–80 kg",
           "grupo": "gemelo",
+          "equipo": "máquina",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -573,6 +668,11 @@
           "rir": 1,
           "sugerido": "peso corporal",
           "grupo": "core",
+          "equipo": "peso corporal",
+          "mecanica": "isolation",
+          "fuerza": "static",
+          "patron": null,
+          "catalogoId": "Plank",
           "descanso": 45,
           "tiempo": true,
           "tecnica": {
@@ -610,6 +710,11 @@
           "secundarios": [
             "gluteo"
           ],
+          "equipo": "kettlebell",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Goblet_Squat",
           "descanso": 50,
           "tecnica": {
             "ejecucion": [
@@ -636,6 +741,10 @@
           "secundarios": [
             "triceps"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
           "descanso": 50,
           "tecnica": {
             "ejecucion": [
@@ -663,6 +772,11 @@
             "espalda",
             "gluteo"
           ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "bisagra",
+          "catalogoId": "Barbell_Deadlift",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -690,6 +804,10 @@
           "secundarios": [
             "biceps"
           ],
+          "equipo": "polea",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
           "descanso": 50,
           "tecnica": {
             "ejecucion": [
@@ -713,6 +831,10 @@
           "rir": 1,
           "sugerido": "disco 5–10 kg",
           "grupo": "core",
+          "equipo": "peso corporal",
+          "mecanica": "isolation",
+          "fuerza": "static",
+          "patron": null,
           "descanso": 50,
           "tiempo": true,
           "tecnica": {

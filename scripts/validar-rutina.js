@@ -20,6 +20,12 @@ const GRUPOS = [
   "cuadriceps", "isquios", "gluteo", "gemelo", "core"
 ];
 
+const PATRONES = [
+  "empuje-horizontal", "empuje-vertical",
+  "traccion-horizontal", "traccion-vertical",
+  "rodilla", "bisagra"
+];
+
 const fallas = [];
 const avisos = [];
 
@@ -76,6 +82,14 @@ for (const d of rutina.dias || []) {
     for (const g of e.secundarios || []) {
       if (!GRUPOS.includes(g)) fallas.push(`${ref}: secundario "${g}" no existe`);
       if (g === e.grupo) fallas.push(`${ref}: "${g}" está como primario y secundario`);
+    }
+
+    if (!e.equipo) fallas.push(`${ref}: falta "equipo"`);
+    if (e.patron && !PATRONES.includes(e.patron)) {
+      fallas.push(`${ref}: patrón "${e.patron}" no existe. Válidos: ${PATRONES.join(", ")}`);
+    }
+    if (!e.patron && e.mecanica === "compound") {
+      avisos.push(`${ref}: compuesto sin patrón, las sustituciones saldrán peor ordenadas`);
     }
 
     if (e.rir == null) avisos.push(`${ref}: sin RIR`);

@@ -39,6 +39,35 @@ describe("migraciones de esquema", () => {
     expect(Object.keys(migrar(v1).sesiones)).toEqual(["push|2026-10-04|1"]);
   });
 
+  it("migra v2 a v3 dándole a cada sesión su mapa de sustituciones", () => {
+    const v2 = {
+      esquema: 2,
+      sesiones: { "push|2026-10-01|1": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
+    };
+    const v3 = migrar(v2);
+    expect(v3.esquema).toBe(3);
+    expect(v3.sesiones["push|2026-10-01|1"].sust).toEqual({});
+    expect(v3.sesiones["push|2026-10-01|1"].ej.pu1[0].p).toBe(60);
+  });
+
+  it("una sustitución ya guardada sobrevive la migración", () => {
+    const v3 = migrar({
+      esquema: 2,
+      sesiones: {
+        "pull|2026-10-02|1": { fecha: "2026-10-02", sust: { pl2: "abc" }, ej: { abc: [S(50, 10)] } }
+      }
+    });
+    expect(v3.sesiones["pull|2026-10-02|1"].sust).toEqual({ pl2: "abc" });
+  });
+
+  it("una base v1 llega hasta v3 en un solo paso", () => {
+    const v3 = migrar({
+      sesiones: { "push|2026-10-01": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
+    });
+    expect(v3.esquema).toBe(3);
+    expect(v3.sesiones["push|2026-10-01|1"].sust).toEqual({});
+  });
+
   it("migrar dos veces no cambia nada", () => {
     const una = migrar({ sesiones: { "push|2026-10-01": { fecha: "2026-10-01", ej: { a: [S(1, 1)] } } } });
     expect(migrar(una)).toEqual(una);
