@@ -155,4 +155,20 @@ describe("la rutina real de Tadeo", () => {
       expect(plan[g], `${g} sin volumen planeado`).toBeGreaterThan(0);
     });
   });
+
+  it("el plan queda dentro de rango en todos los grupos salvo el gemelo", () => {
+    // El gemelo lleva 4 series directas a propósito: con 3 días de carrera a la
+    // semana ya recibe estímulo de sobra. Es la única excepción aceptada.
+    const plan = volumenPlaneado(rutinaReal);
+    Object.entries(plan).forEach(([grupo, series]) => {
+      if (grupo === "gemelo") return;
+      expect(estado(grupo, series), `${grupo} con ${series} series`).toBe("dentro");
+    });
+  });
+
+  it("isquios no se queda atrás del cuádriceps: desbalance = rodilla en riesgo al correr", () => {
+    const plan = volumenPlaneado(rutinaReal);
+    expect(plan.isquios).toBeGreaterThanOrEqual(10);
+    expect(plan.cuadriceps / plan.isquios).toBeLessThan(2);
+  });
 });

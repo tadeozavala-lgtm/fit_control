@@ -443,7 +443,7 @@
         {
           "id": "lg3",
           "nombre": "Peso muerto rumano",
-          "series": 3,
+          "series": 4,
           "reps": "10",
           "repMax": 10,
           "tempo": "3-1-1-0",
@@ -497,7 +497,7 @@
         {
           "id": "lg5",
           "nombre": "Curl femoral",
-          "series": 3,
+          "series": 4,
           "reps": "12",
           "repMax": 12,
           "tempo": "3-0-1-1",
@@ -520,7 +520,7 @@
         {
           "id": "lg6",
           "nombre": "Extensión de cuádriceps",
-          "series": 3,
+          "series": 2,
           "reps": "15",
           "repMax": 15,
           "tempo": "2-1-1-0",
@@ -658,9 +658,9 @@
           "tempo": "2-1-1-0",
           "rir": 3,
           "sugerido": "70–80 kg",
-          "grupo": "espalda",
+          "grupo": "isquios",
           "secundarios": [
-            "isquios",
+            "espalda",
             "gluteo"
           ],
           "descanso": 60,

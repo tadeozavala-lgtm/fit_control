@@ -22,7 +22,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 83 tests
+npm test           # 85 tests
 npm run validar    # valida rutina.json
 npm run build      # genera dist/
 ```
@@ -84,7 +84,7 @@ src/
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   83 tests
+tests/                   85 tests
 ```
 
 ## Decisiones que vale la pena conocer
