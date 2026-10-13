@@ -484,3 +484,42 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
 .pred td{padding:9px 0;border-bottom:1px solid var(--linea)}
 .pred tr.dudosa td{color:var(--humo)}
 .pred tr.dudosa td:first-child::after{content:" ·";color:var(--record)}
+
+/* ---------- editor de rutina ---------- */
+.btn-editar{
+  border:1px solid var(--linea-fuerte);border-radius:50%;
+  width:28px;height:28px;font-size:12px;color:var(--humo);line-height:26px;flex-shrink:0;
+}
+.btn-editar:active{background:var(--lona-2);color:var(--tiza)}
+.ejercicio.ajustado .btn-editar{border-color:var(--record);color:var(--record)}
+.sello-ajuste{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+  color:var(--record);margin:5px 0 0 32px;
+}
+.edit-campo{
+  display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--linea);
+}
+.edit-campo label{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--humo);width:96px;flex-shrink:0;
+}
+.edit-campo input{
+  flex:1;min-width:0;background:var(--lona);border:1px solid var(--linea);border-radius:5px;
+  padding:10px;font-family:var(--mono);font-size:16px;color:var(--tiza);
+}
+.edit-campo input:focus{border-color:var(--linea-fuerte);background:var(--lona-2);outline:none}
+.edit-campo input.malo{border-color:var(--esquina)}
+.edit-campo .orig{
+  font-family:var(--mono);font-size:10px;color:var(--humo);width:62px;flex-shrink:0;text-align:right;
+}
+.edit-campo .orig.cambiado{color:var(--record)}
+.edit-error{
+  font-family:var(--mono);font-size:10.5px;color:var(--esquina);
+  margin:-6px 0 8px 107px;min-height:13px;
+}
+.hoja .acciones-edit{display:flex;gap:8px;margin-top:18px}
+.hoja .acciones-edit button{
+  flex:1;padding:13px;border:1px solid var(--linea-fuerte);border-radius:6px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tiza);
+}
+.hoja .acciones-edit .deshacer{border-color:rgba(229,168,60,.55);color:var(--record)}

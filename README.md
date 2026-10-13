@@ -17,6 +17,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Volumen semanal por grupo muscular contra su rango de referencia.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
+- Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -25,7 +26,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 190 tests
+npm test           # 224 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -90,11 +91,12 @@ src/
     volumen.js           series efectivas por grupo y semana ISO
     notas.js             señales de sesión y detección de fatiga
     carrera.js           zonas Karvonen, ritmos, Riegel y VDOT
+    ajustes-rutina.js    capa de edición encima de rutina.json
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   190 tests
+tests/                   224 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -113,6 +115,20 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Editar desde el gimnasio
+
+El lápiz de cada ejercicio abre un editor de series, reps, tempo, RIR, descanso
+y peso sugerido. Los cambios se guardan como una **capa encima** de
+`rutina.json`, no como una copia: si se despliega una versión nueva de la rutina,
+conservas tus ajustes y heredas todo lo demás.
+
+El músculo, el equipo y el patrón de movimiento no se editan ahí porque
+alimentan el volumen semanal y el orden de las sustituciones; para eso se edita
+`rutina.json` y se commitea.
+
+Subir las series añade filas; bajarlas solo quita las que están vacías. Una
+serie ya registrada no se borra nunca por cambiar un número.
 
 ## Running
 

@@ -26,6 +26,11 @@ Ese contexto manda sobre cualquier otra consideración.
 
 ## Al cambiar la rutina
 
+Los ajustes que Tadeo hace desde la app viven en `datos.ajustesRutina` como una
+CAPA, nunca como copia de la rutina: así hereda los despliegues nuevos. Lo que
+alimenta otros cálculos (`grupo`, `equipo`, `patron`) no se edita desde la app.
+
+
 `src/datos/rutina.json` es dato, no código. Correr `npm run validar` después de
 tocarlo. `sugerido` siempre en kg o la cadena "peso corporal".
 

@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 5;
+export const ESQUEMA_ACTUAL = 6;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
@@ -19,7 +19,15 @@ export function AJUSTES_POR_DEFECTO() {
 }
 
 export function vacio() {
-  return { esquema: ESQUEMA_ACTUAL, sesiones: {}, carreras: [], ajustes: AJUSTES_POR_DEFECTO(), semana: 1, unidad: "kg" };
+  return {
+    esquema: ESQUEMA_ACTUAL,
+    sesiones: {},
+    carreras: [],
+    ajustes: AJUSTES_POR_DEFECTO(),
+    ajustesRutina: {},
+    semana: 1,
+    unidad: "kg"
+  };
 }
 
 /**
@@ -88,7 +96,17 @@ function v4_a_v5(datos) {
   };
 }
 
-const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5 };
+/**
+ * v5 -> v6
+ *  - `ajustesRutina`: capa de cambios encima de rutina.json, hecha desde el
+ *    teléfono. Es una capa y no una copia a propósito: así un despliegue nuevo
+ *    de la rutina se hereda, conservando solo lo que Tadeo cambió.
+ */
+function v5_a_v6(datos) {
+  return { ...datos, esquema: 6, ajustesRutina: datos.ajustesRutina || {} };
+}
+
+const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5, 5: v5_a_v6 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {
@@ -98,6 +116,7 @@ export function migrar(crudo) {
   if (!datos.unidad) datos.unidad = "kg";
   if (!Array.isArray(datos.carreras)) datos.carreras = [];
   datos.ajustes = { ...AJUSTES_POR_DEFECTO(), ...(datos.ajustes || {}) };
+  if (!datos.ajustesRutina) datos.ajustesRutina = {};
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {
     datos = MIGRACIONES[v](datos);
@@ -227,6 +246,9 @@ export function importarJSON(texto, actuales) {
   if (entrante.unidad) datos.unidad = entrante.unidad;
   if (entrante.semana > datos.semana) datos.semana = entrante.semana;
   if (entrante.ajustes) datos.ajustes = { ...datos.ajustes, ...entrante.ajustes };
+  if (entrante.ajustesRutina) {
+    datos.ajustesRutina = { ...datos.ajustesRutina, ...entrante.ajustesRutina };
+  }
 
   // Las carreras se fusionan por id, igual que las sesiones por clave.
   const vistas = new Set((datos.carreras || []).map((c) => c.id));

@@ -2,6 +2,7 @@ import "./estilos.css";
 import rutina from "./datos/rutina.json";
 import catalogo from "./datos/catalogo.json";
 import { crearAlmacen, claveSesion, partirClave } from "./logica/almacen.js";
+import { rutinaAjustada } from "./logica/ajustes-rutina.js";
 import { crearReloj } from "./logica/reloj.js";
 import { avisar, decir } from "./logica/avisos.js";
 import { pintarDia } from "./ui/fuerza.js";
@@ -15,7 +16,21 @@ const almacen = crearAlmacen(window);
 
 /** El contexto que reciben todas las vistas. */
 const app = {
-  rutina,
+  // `rutina` es rutina.json con la capa de ajustes de Tadeo encima. Se recalcula
+  // al pintar, no se guarda: así un despliegue nuevo del repo se hereda solo.
+  get rutina() {
+    return rutinaAjustada(rutina, app.datos?.ajustesRutina);
+  },
+  rutinaBase: rutina,
+
+  /** El ejercicio tal como viene del repo, sin la capa encima. */
+  ejercicioBase(id) {
+    return rutina.dias
+      .filter((d) => d.ejercicios)
+      .flatMap((d) => d.ejercicios)
+      .find((e) => e.id === id);
+  },
+
   catalogo,
   datos: null,
   diaActivo: "push",
@@ -155,7 +170,7 @@ function detenerSecuencia() {
 function pintarPestanas() {
   const nav = document.getElementById("pestanas");
   nav.innerHTML = "";
-  [...rutina.dias, { id: "prog", nombre: "Progreso", tipo: "progreso" }].forEach((d) => {
+  [...app.rutina.dias, { id: "prog", nombre: "Progreso", tipo: "progreso" }].forEach((d) => {
     const b = document.createElement("button");
     b.className = "pestana";
     b.textContent = d.nombre;
@@ -176,7 +191,7 @@ function pintar() {
   const v = document.getElementById("vista");
   v.innerHTML = "";
   if (app.diaActivo === "prog") return pintarProgreso(app, v);
-  const dia = rutina.dias.find((d) => d.id === app.diaActivo);
+  const dia = app.rutina.dias.find((d) => d.id === app.diaActivo);
   if (!dia) return;
   if (dia.tipo === "cardio") return pintarCarrera(app, dia, v);
   if (dia.tipo === "intervalo") return pintarIntervalo(app, dia, v);

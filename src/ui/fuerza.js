@@ -10,13 +10,15 @@
 import { mostrar, aKg, conUnidad, etiquetaEquiv, textoSugerido, SALTO } from "../logica/unidades.js";
 import {
   mejorSerie, tonelaje, seriesHechas, sugerencia,
-  recordPrevio, esRecord, esDescarga, factorSemana
+  recordPrevio, esRecord, esDescarga, factorSemana, ajustarFilas
 } from "../logica/fuerza.js";
 import { sesionesDe } from "../logica/almacen.js";
 import { abrirTecnica } from "./modal.js";
 import { resolver, sustituir } from "../logica/sustituciones.js";
 import { abrirAlternativas } from "./sustituciones.js";
 import { pintarNotas } from "./notas.js";
+import { abrirEditor } from "./editor.js";
+import { estaAjustado, resumenCambios } from "../logica/ajustes-rutina.js";
 
 export function pintarDia(app, dia, contenedor) {
   const ses = app.sesionActiva(dia.id);
@@ -79,9 +81,9 @@ function tarjeta(app, dia, original, idx, ses) {
   const e = estado.ej;
   const clave = estado.clave;
 
-  if (!ses.ej[clave]) {
-    ses.ej[clave] = Array.from({ length: e.series }, () => ({ p: "", r: "", ok: false }));
-  }
+  // Las series se pueden editar a mitad de la sesión, así que las filas se
+  // reconcilian con la prescripción en cada pintado.
+  ses.ej[clave] = ajustarFilas(ses.ej[clave], e.series);
   const series = ses.ej[clave];
 
   // El historial se busca por la clave activa: el sustituto no hereda ni
@@ -99,21 +101,28 @@ function tarjeta(app, dia, original, idx, ses) {
     });
   }
 
+  const ajustado = estaAjustado(app.datos.ajustesRutina, original.id);
+
   const el = document.createElement("article");
   el.className =
     "ejercicio" +
     (series.every((s) => s.ok) ? " completo" : "") +
-    (estado.sustituido ? " sustituido" : "");
+    (estado.sustituido ? " sustituido" : "") +
+    (ajustado ? " ajustado" : "");
   el.dataset.ejercicio = clave;
 
   el.innerHTML = `
     <div class="ej-tope">
       <span class="num">${String(idx + 1).padStart(2, "0")}</span>
       <h2 class="ej-nombre">${e.nombre}</h2>
+      <button class="btn-editar" aria-label="Editar la prescripción de ${e.nombre}">✎</button>
       <button class="btn-cambio" aria-label="Cambiar ${e.nombre} por otro ejercicio">⇄</button>
       <button class="btn-tecnica" aria-label="Ver técnica de ${e.nombre}">i</button>
     </div>
     ${estado.sustituido ? `<div class="sello-sust">sustituye a ${original.nombre}</div>` : ""}
+    ${ajustado && !estado.sustituido
+      ? `<div class="sello-ajuste">${resumenCambios(app.datos.ajustesRutina, original.id, app.ejercicioBase(original.id))}</div>`
+      : ""}
     <div class="receta">
       <span><b>${e.series}×${e.reps}</b></span>
       <span>tempo <b>${e.tempo}</b></span>
@@ -130,6 +139,9 @@ function tarjeta(app, dia, original, idx, ses) {
     </div>`;
 
   el.querySelector(".btn-tecnica").onclick = () => abrirTecnica(e, u);
+
+  el.querySelector(".btn-editar").onclick = () =>
+    abrirEditor(app, app.ejercicioBase(original.id) || original);
 
   el.querySelector(".btn-cambio").onclick = () =>
     abrirAlternativas(app, original, (sustId) => {
