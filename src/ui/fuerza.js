@@ -37,6 +37,9 @@ export function pintarDia(app, dia, contenedor) {
     </dl>
     ${esDescarga(app.datos.semana)
       ? `<p class="cinta-descarga">Semana de descarga: baja la carga un 10% y quédate en RIR 3. Es lo que te permite seguir subiendo el mes que entra.</p>`
+      : ""}
+    ${(app.datos.ajustes.diasLiberados || []).includes(dia.id)
+      ? `<p class="cinta-liberado">Liberaste este día para correr. Sigue aquí y puedes entrenarlo cuando quieras: si lo haces, sus series cuentan igual para el volumen semanal.</p>`
       : ""}`;
   contenedor.appendChild(cartel);
 

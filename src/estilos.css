@@ -523,3 +523,103 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tiza);
 }
 .hoja .acciones-edit .deshacer{border-color:rgba(229,168,60,.55);color:var(--record)}
+
+/* ---------- plan de carrera ---------- */
+.dias-sel{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.dias-sel button{
+  height:46px;border:1px solid var(--linea);border-radius:5px;background:var(--lona);
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--humo);
+}
+.dias-sel button[aria-pressed="true"]{background:var(--tiza);color:var(--lona-3);border-color:var(--tiza)}
+.dias-sel button.fuerza{border-color:rgba(217,58,43,.45)}
+.dias-sel button.fuerza::after{content:"•";display:block;color:var(--esquina);font-size:13px;line-height:.6}
+.leyenda-dias{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--humo);margin-top:7px;
+}
+.objetivos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.objetivos button{
+  padding:13px 6px;border:1px solid var(--linea);border-radius:5px;background:var(--lona);
+  font-family:var(--display);font-weight:700;font-size:17px;text-transform:uppercase;
+  letter-spacing:.03em;color:var(--humo);line-height:1.1;
+}
+.objetivos button[aria-pressed="true"]{background:var(--esquina);color:#fff;border-color:var(--esquina)}
+.objetivos button small{
+  display:block;font-family:var(--mono);font-size:9px;font-weight:400;
+  letter-spacing:.08em;margin-top:3px;opacity:.75;
+}
+
+.semanas{display:flex;flex-direction:column;gap:1px;background:var(--linea);
+  border:1px solid var(--linea);margin-top:14px}
+.sem-fila{background:var(--lona-3);padding:11px 12px}
+.sem-fila.ahora{background:rgba(217,58,43,.12)}
+.sem-cab{display:flex;align-items:baseline;gap:9px}
+.sem-cab b{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.03em;width:38px}
+.sem-cab .fase{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--humo);flex:1;
+}
+.sem-fila.ahora .sem-cab .fase{color:var(--esquina)}
+.sem-cab .km{font-family:var(--mono);font-size:13px;color:var(--tiza)}
+.sem-ses{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:6px}
+.sem-ses span{font-family:var(--mono);font-size:10.5px;color:var(--humo)}
+.sem-ses b{color:var(--tiza);font-weight:500}
+.sem-ses .q{color:var(--record)}
+.sem-ses .lg{color:var(--tiza)}
+
+.hoy-toca{
+  border:1px solid var(--esquina);border-left-width:3px;border-radius:5px;
+  padding:13px 14px;margin-top:14px;background:rgba(217,58,43,.09);
+}
+.hoy-toca .eti{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--esquina);
+}
+.hoy-toca b{
+  display:block;font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:27px;line-height:1;margin:5px 0 4px;letter-spacing:.02em;
+}
+.hoy-toca span{font-family:var(--mono);font-size:12.5px;color:#CFDDE4}
+.hoy-descanso{border-color:var(--linea-fuerte);background:transparent}
+.hoy-descanso .eti,.hoy-descanso b{color:var(--humo)}
+
+.barra-cumpl{
+  height:7px;background:var(--lona);border:1px solid var(--linea);border-radius:2px;
+  overflow:hidden;margin-top:8px;position:relative;
+}
+.barra-cumpl div{position:absolute;left:0;top:0;bottom:0;background:var(--tiza)}
+.barra-cumpl div.corto{background:var(--record)}
+.arranque.peligro-btn{border-color:rgba(217,58,43,.55);color:#F0A79E}
+
+/* ---------- liberar día de fuerza ---------- */
+.liberar{border-top:1px solid var(--linea);margin-top:20px;padding-top:16px}
+.liberar h4{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:17px;margin:0 0 5px;letter-spacing:.03em;
+}
+.candidato{
+  width:100%;text-align:left;border:1px solid var(--linea);border-radius:5px;
+  padding:12px;margin-top:8px;background:var(--lona);
+}
+.candidato.mejor{border-color:var(--record)}
+.candidato .fila1{display:flex;align-items:baseline;gap:9px}
+.candidato .fila1 b{
+  font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.03em;color:var(--tiza);
+}
+.candidato .fila1 .dia{font-family:var(--mono);font-size:10px;color:var(--humo);
+  letter-spacing:.07em;text-transform:uppercase;flex:1}
+.candidato .fila1 .costo{font-family:var(--mono);font-size:11px;color:var(--humo)}
+.candidato.mejor .fila1 .costo{color:var(--record)}
+.candidato .detalle{
+  font-family:var(--mono);font-size:10.5px;color:var(--humo);margin-top:6px;line-height:1.5;
+}
+.candidato .detalle em{font-style:normal;color:var(--esquina)}
+.compensar{
+  border-left:2px solid var(--record);background:rgba(229,168,60,.09);
+  padding:10px 12px;margin-top:10px;font-size:13px;color:#F3DCB0;line-height:1.5;
+}
+.compensar b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:5px}
+.compensar ul{margin:0;padding-left:16px}
+.cinta-liberado{
+  background:rgba(229,168,60,.12);border-left:2px solid var(--record);
+  padding:10px 12px;margin:14px 0 0;font-size:13px;color:#F3DCB0;line-height:1.5;
+}
