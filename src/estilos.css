@@ -588,3 +588,38 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
 .barra-cumpl div{position:absolute;left:0;top:0;bottom:0;background:var(--tiza)}
 .barra-cumpl div.corto{background:var(--record)}
 .arranque.peligro-btn{border-color:rgba(217,58,43,.55);color:#F0A79E}
+
+/* ---------- liberar día de fuerza ---------- */
+.liberar{border-top:1px solid var(--linea);margin-top:20px;padding-top:16px}
+.liberar h4{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:17px;margin:0 0 5px;letter-spacing:.03em;
+}
+.candidato{
+  width:100%;text-align:left;border:1px solid var(--linea);border-radius:5px;
+  padding:12px;margin-top:8px;background:var(--lona);
+}
+.candidato.mejor{border-color:var(--record)}
+.candidato .fila1{display:flex;align-items:baseline;gap:9px}
+.candidato .fila1 b{
+  font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:.03em;color:var(--tiza);
+}
+.candidato .fila1 .dia{font-family:var(--mono);font-size:10px;color:var(--humo);
+  letter-spacing:.07em;text-transform:uppercase;flex:1}
+.candidato .fila1 .costo{font-family:var(--mono);font-size:11px;color:var(--humo)}
+.candidato.mejor .fila1 .costo{color:var(--record)}
+.candidato .detalle{
+  font-family:var(--mono);font-size:10.5px;color:var(--humo);margin-top:6px;line-height:1.5;
+}
+.candidato .detalle em{font-style:normal;color:var(--esquina)}
+.compensar{
+  border-left:2px solid var(--record);background:rgba(229,168,60,.09);
+  padding:10px 12px;margin-top:10px;font-size:13px;color:#F3DCB0;line-height:1.5;
+}
+.compensar b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:5px}
+.compensar ul{margin:0;padding-left:16px}
+.cinta-liberado{
+  background:rgba(229,168,60,.12);border-left:2px solid var(--record);
+  padding:10px 12px;margin:14px 0 0;font-size:13px;color:#F3DCB0;line-height:1.5;
+}

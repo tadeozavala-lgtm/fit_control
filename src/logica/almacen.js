@@ -8,14 +8,14 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 7;
+export const ESQUEMA_ACTUAL = 8;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
  * habría que mostrar un rango genérico de libro, que es lo que esto reemplaza.
  */
 export function AJUSTES_POR_DEFECTO() {
-  return { edad: 44, fcReposo: 65, fcMax: null, marca: null };
+  return { edad: 44, fcReposo: 65, fcMax: null, marca: null, diasLiberados: [] };
 }
 
 export function vacio() {
@@ -117,7 +117,24 @@ function v6_a_v7(datos) {
   return { ...datos, esquema: 7, plan: datos.plan || null };
 }
 
-const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5, 5: v5_a_v6, 6: v6_a_v7 };
+/**
+ * v7 -> v8
+ *  - `ajustes.diasLiberados`: días de fuerza que Tadeo soltó para poder correr.
+ *    No se borran de la rutina: siguen ahí y cuentan si los entrena igual, solo
+ *    dejan de bloquear ese día para el plan de carrera.
+ */
+function v7_a_v8(datos) {
+  return {
+    ...datos,
+    esquema: 8,
+    ajustes: { ...datos.ajustes, diasLiberados: datos.ajustes?.diasLiberados || [] }
+  };
+}
+
+const MIGRACIONES = {
+  1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5,
+  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8
+};
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {
@@ -127,6 +144,7 @@ export function migrar(crudo) {
   if (!datos.unidad) datos.unidad = "kg";
   if (!Array.isArray(datos.carreras)) datos.carreras = [];
   datos.ajustes = { ...AJUSTES_POR_DEFECTO(), ...(datos.ajustes || {}) };
+  if (!Array.isArray(datos.ajustes.diasLiberados)) datos.ajustes.diasLiberados = [];
   if (!datos.ajustesRutina) datos.ajustesRutina = {};
   if (datos.plan === undefined) datos.plan = null;
   let v = Number(datos.esquema) || 1;

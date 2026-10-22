@@ -13,22 +13,14 @@ import {
 } from "../logica/plan.js";
 import { formatoRitmo, formatoTiempo, carrerasDeSemana, resumenCarreras } from "../logica/carrera.js";
 import { semanaISO } from "../logica/volumen.js";
+import {
+  diasOcupados, candidatosALiberar, mejorCandidato, puedeLiberar,
+  compensaciones, diasRestantes, MINIMO_FUERZA
+} from "../logica/dias.js";
 
-/** Los días que ya ocupa la fuerza, leídos de la rutina. */
-const DIA_RUTINA = { Lunes: "lun", Martes: "mar", Miércoles: "mie", Jueves: "jue", Viernes: "vie", Sábado: "sab", Domingo: "dom" };
-
-function diasDeFuerza(rutina) {
-  const dias = new Set();
-  rutina.dias
-    .filter((d) => d.ejercicios)
-    .forEach((d) => {
-      String(d.dia || "")
-        .split(/[·,]/)
-        .map((x) => DIA_RUTINA[x.trim()])
-        .filter(Boolean)
-        .forEach((x) => dias.add(x));
-    });
-  return [...dias];
+/** Los días que ocupa la fuerza, descontando los liberados para correr. */
+function diasDeFuerza(app) {
+  return diasOcupados(app.rutina, app.datos.ajustes.diasLiberados || []);
 }
 
 export function pintarPlan(app, contenedor) {
@@ -44,7 +36,7 @@ export function pintarPlan(app, contenedor) {
 /* ---------- configurador ---------- */
 
 function pintarConfigurador(app, contenedor) {
-  const fuerza = diasDeFuerza(app.rutina);
+  const fuerza = diasDeFuerza(app);
   const estado = {
     objetivo: "10k",
     dias: ["mar", "jue", "sab"].filter((d) => !fuerza.includes(d)),
@@ -99,7 +91,8 @@ function pintarConfigurador(app, contenedor) {
       </div>
 
       ${avisoConfig(estado, marca, kmActuales, fuerza)}
-      <button class="arranque" id="planGenerar">Generar plan</button>`;
+      <button class="arranque" id="planGenerar">Generar plan</button>
+      ${bloqueLiberar(app, estado, fuerza)}`;
 
     s.querySelectorAll("[data-obj]").forEach((b) => {
       b.onclick = () => { estado.objetivo = b.dataset.obj; pintar(); };
@@ -114,6 +107,32 @@ function pintarConfigurador(app, contenedor) {
       };
     });
     s.querySelector("#planFecha").onchange = (ev) => { estado.fecha = ev.target.value; pintar(); };
+
+    s.querySelectorAll("[data-liberar]").forEach((b) => {
+      b.onclick = () => {
+        const id = b.dataset.liberar;
+        const comp = compensaciones(app.rutina, id, app.datos.ajustes.diasLiberados);
+        const dia = app.rutina.dias.find((d) => d.id === id);
+        const texto = comp.length
+          ? `\n\nPara no perder volumen:\n${comp.map((c) => "· " + c.texto).join("\n")}`
+          : "";
+        if (!confirm(`Liberar ${dia.nombre} (${dia.dia}) para correr.\n\nEl día no se borra: si lo entrenas igual, sus series siguen contando.${texto}\n\n¿Seguro?`)) return;
+        app.datos.ajustes.diasLiberados = [...(app.datos.ajustes.diasLiberados || []), id];
+        app.guardar();
+        // Repinta entero: el configurador recalcula sus días libres por defecto
+        // con la fuerza ya reducida, así que el día suelto entra solo.
+        app.pintar();
+      };
+    });
+
+    const devolver = s.querySelector("#liberarDevolver");
+    if (devolver) {
+      devolver.onclick = () => {
+        app.datos.ajustes.diasLiberados = [];
+        app.guardar();
+        app.pintar();
+      };
+    }
 
     s.querySelector("#planGenerar").onclick = () => {
       const r = generar({
@@ -285,7 +304,7 @@ function bloqueSemanas(app, plan) {
 function bloqueAcciones(app, plan) {
   const s = document.createElement("section");
   s.className = "bloque";
-  const avisos = conflictos(plan, diasDeFuerza(app.rutina));
+  const avisos = conflictos(plan, diasDeFuerza(app));
 
   s.innerHTML = `
     ${avisos.length ? `<p class="cinta-descarga">${avisos.join("<br>")}</p>` : ""}
@@ -310,4 +329,76 @@ function bloqueAcciones(app, plan) {
     app.pintar();
   };
   return s;
+}
+
+
+/* ---------- liberar un día de fuerza ---------- */
+
+/**
+ * Oferta de soltar un día de pesas para correr.
+ *
+ * Se muestra siempre que haya margen, no solo cuando faltan días: el plan de
+ * 21K sube bastante el volumen y puede convenir aunque hoy quepan tres días.
+ * La recomendación sale del cálculo de volumen semanal, no de una opinión.
+ */
+function bloqueLiberar(app, estado, fuerza) {
+  const liberados = app.datos.ajustes.diasLiberados || [];
+
+  if (liberados.length) {
+    const sueltos = liberados
+      .map((id) => app.rutina.dias.find((d) => d.id === id))
+      .filter(Boolean);
+    return `
+      <div class="liberar">
+        <h4>Días de fuerza liberados</h4>
+        <p class="cinta-liberado">
+          ${sueltos.map((d) => `<b style="display:inline">${d.nombre}</b> (${d.dia})`).join(", ")}
+          ${sueltos.length > 1 ? "están libres" : "está libre"} para correr.
+          La fuerza queda en ${diasRestantes(app.rutina, liberados)} días.
+          El día no se borró: si lo entrenas igual, sus series siguen contando para el volumen.
+        </p>
+        <button class="arranque gris" id="liberarDevolver">Devolver a fuerza</button>
+      </div>`;
+  }
+
+  if (!puedeLiberar(app.rutina, liberados)) return "";
+
+  const candidatos = candidatosALiberar(app.rutina, liberados);
+  const mejor = mejorCandidato(app.rutina, liberados);
+  const libres = DIAS_SEMANA.filter((d) => !fuerza.includes(d)).length;
+
+  return `
+    <div class="liberar">
+      <h4>¿Necesitas otro día?</h4>
+      <p style="font-size:13.5px;color:#CFDDE4;margin:0">
+        Tienes ${libres} ${libres === 1 ? "día libre" : "días libres"} de pesas.
+        Puedes bajar la fuerza a ${MINIMO_FUERZA} días y usar el que sueltes para correr;
+        por debajo de ${MINIMO_FUERZA} ya no se mantiene músculo en déficit.
+        Esto es lo que cuesta cada opción, en series semanales:
+      </p>
+      ${candidatos
+        .map(
+          (c) => `<button class="candidato ${c.id === mejor.id ? "mejor" : ""}" data-liberar="${c.id}">
+            <span class="fila1">
+              <b>${c.nombre}</b>
+              <span class="dia">${c.dia}${c.id === mejor.id ? " · el que menos cuesta" : ""}</span>
+              <span class="costo">−${c.seriesPerdidas} series</span>
+            </span>
+            <span class="detalle">
+              ${c.porGrupo
+                .slice(0, 4)
+                .map((g) => `${g.nombre} ${g.antes}→${g.despues}`)
+                .join(" · ")}
+              ${c.caenBajo.length ? `<br>caen bajo rango: <em>${c.caenBajo.join(", ")}</em>` : "<br>ningún grupo cae bajo rango"}
+            </span>
+          </button>`
+        )
+        .join("")}
+      ${mejor && compensaciones(app.rutina, mejor.id, liberados).length
+        ? `<div class="compensar"><b>Si sueltas ${mejor.nombre}, recoloca esto</b>
+            <ul>${compensaciones(app.rutina, mejor.id, liberados)
+              .map((c) => `<li>${c.texto}</li>`)
+              .join("")}</ul></div>`
+        : ""}
+    </div>`;
 }

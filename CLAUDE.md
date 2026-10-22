@@ -25,6 +25,9 @@ Ese contexto manda sobre cualquier otra consideración.
    regla que el peso: una sola unidad guardada, la vista convierte.
 9. **El plan de carrera no inventa días.** Reparte solo en los que Tadeo marca
    como libres, para que los cuatro de fuerza se respeten.
+   Un día liberado (`ajustes.diasLiberados`) deja de bloquear esa fecha pero NO
+   se borra de la rutina: si lo entrena, sus series cuentan igual. El piso es
+   de tres días de fuerza, y lo decide `puedeLiberar()`, una sola regla.
 10. **La progresión de volumen se calcula con el valor exacto y se redondea al
     publicar.** Redondear en cada paso acumula error y acaba incumpliendo la
     propia regla del 10%. Hay test.

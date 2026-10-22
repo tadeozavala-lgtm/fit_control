@@ -27,7 +27,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 279 tests
+npm test           # 302 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -94,11 +94,12 @@ src/
     carrera.js           zonas Karvonen, ritmos, Riegel y VDOT
     ajustes-rutina.js    capa de edición encima de rutina.json
     plan.js              generador de planes de carrera
+    dias.js              qué cuesta soltar un día de fuerza
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   279 tests
+tests/                   302 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -139,6 +140,21 @@ Reglas de la progresión:
 
 Los ritmos salen de tu marca en la pestaña Z2, no de una tabla. Sin marca el
 plan se genera igual, pero sin ritmos.
+
+### Bajar la fuerza a 3 días
+
+Si el plan necesita un día más, el configurador ofrece soltar uno de pesas y
+dice **cuál cuesta menos**, calculado sobre el volumen semanal real: no por
+series perdidas sino por cuánto se hunde cada grupo bajo su mínimo. Perder 30
+series repartidas entre ocho grupos no es lo mismo que perder 15 todas de
+espalda.
+
+Para esta rutina sale Full Body (−22.5 series, déficit 6) frente a Pull (−30,
+déficit 14) o Legs (−34, déficit 26). Al soltarlo propone dónde recolocar lo
+que se pierde: 2 series de isquios, 1 de glúteo y 3 de core en Legs.
+
+El día **no se borra**: sigue en la rutina y si lo entrenas sus series cuentan
+igual. Tres días es el piso; por debajo no se mantiene músculo en déficit.
 
 ## Editar desde el gimnasio
 
