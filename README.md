@@ -18,6 +18,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
+- Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -26,7 +27,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 224 tests
+npm test           # 279 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -92,11 +93,12 @@ src/
     notas.js             señales de sesión y detección de fatiga
     carrera.js           zonas Karvonen, ritmos, Riegel y VDOT
     ajustes-rutina.js    capa de edición encima de rutina.json
+    plan.js              generador de planes de carrera
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   224 tests
+tests/                   279 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -115,6 +117,28 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Planes de carrera
+
+La pestaña Plan genera un bloque para 5K (8 semanas), 10K (10) o media maratón
+(12). Se le dan los días libres y reparte ahí: **no inventa días**, así que los
+cuatro de fuerza se respetan y el configurador marca con un punto los que ya
+están ocupados.
+
+Reglas de la progresión:
+
+- El volumen sube como mucho **10% entre semanas de carga**. La comparación salta
+  las descargas a propósito: la regla habla de progresión de carga, no de la
+  diferencia entre una semana suave y la siguiente dura.
+- **Descarga cada cuarta semana** al 75%, salvo dentro del afinamiento.
+- La fase base no mete calidad. Primero volumen, que es lo que protege de la
+  lesión; el tempo entra en construcción y las series solo en el 5K.
+- La tirada larga va al último día libre y nunca pega con otra sesión dura.
+- Si ya corres más o menos de lo que el bloque supone, todo se escala para no
+  pegar un salto el primer día.
+
+Los ritmos salen de tu marca en la pestaña Z2, no de una tabla. Sin marca el
+plan se genera igual, pero sin ritmos.
 
 ## Editar desde el gimnasio
 

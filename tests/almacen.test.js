@@ -228,3 +228,37 @@ describe("migración v4 a v5: carreras y ajustes", () => {
     expect(datos.ajustes.fcReposo).toBe(55);
   });
 });
+
+describe("migración v6 a v7: plan de carrera", () => {
+  it("agrega el plan vacío", () => {
+    const v7 = migrar({ esquema: 6, sesiones: {} });
+    expect(v7.esquema).toBe(ESQUEMA_ACTUAL);
+    expect(v7.plan).toBeNull();
+  });
+
+  it("una base v1 llega hasta v7 conservando todo lo del camino", () => {
+    const v7 = migrar({
+      sesiones: { "push|2026-10-01": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } } }
+    });
+    expect(v7.esquema).toBe(ESQUEMA_ACTUAL);
+    expect(v7.sesiones["push|2026-10-01|1"].ej.pu1[0].p).toBe(60);
+    expect(v7.sesiones["push|2026-10-01|1"].sust).toEqual({});
+    expect(v7.sesiones["push|2026-10-01|1"].notas.sueno).toBeNull();
+    expect(v7.carreras).toEqual([]);
+    expect(v7.ajustesRutina).toEqual({});
+    expect(v7.plan).toBeNull();
+  });
+
+  it("el respaldo trae un plan cuando aquí no hay ninguno", () => {
+    const otro = migrar({ esquema: 7, sesiones: {}, plan: { objetivo: "10k", semanas: 10 } });
+    const { datos } = importarJSON(exportarJSON(otro), migrar({ esquema: 7, sesiones: {} }));
+    expect(datos.plan.objetivo).toBe("10k");
+  });
+
+  it("pero NO pisa un plan en curso: se perdería dónde va Tadeo", () => {
+    const enCurso = migrar({ esquema: 7, sesiones: {}, plan: { objetivo: "21k", semanas: 12 } });
+    const otro = migrar({ esquema: 7, sesiones: {}, plan: { objetivo: "5k", semanas: 8 } });
+    const { datos } = importarJSON(exportarJSON(otro), enCurso);
+    expect(datos.plan.objetivo).toBe("21k");
+  });
+});

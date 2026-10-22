@@ -23,6 +23,11 @@ Ese contexto manda sobre cualquier otra consideración.
    un test que lo impide.
 8. **Distancia en km, tiempo en segundos, ritmo en segundos por km.** Misma
    regla que el peso: una sola unidad guardada, la vista convierte.
+9. **El plan de carrera no inventa días.** Reparte solo en los que Tadeo marca
+   como libres, para que los cuatro de fuerza se respeten.
+10. **La progresión de volumen se calcula con el valor exacto y se redondea al
+    publicar.** Redondear en cada paso acumula error y acaba incumpliendo la
+    propia regla del 10%. Hay test.
 
 ## Al cambiar la rutina
 

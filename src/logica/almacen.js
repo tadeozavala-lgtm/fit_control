@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 6;
+export const ESQUEMA_ACTUAL = 7;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
@@ -25,6 +25,7 @@ export function vacio() {
     carreras: [],
     ajustes: AJUSTES_POR_DEFECTO(),
     ajustesRutina: {},
+    plan: null,
     semana: 1,
     unidad: "kg"
   };
@@ -106,7 +107,17 @@ function v5_a_v6(datos) {
   return { ...datos, esquema: 6, ajustesRutina: datos.ajustesRutina || {} };
 }
 
-const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5, 5: v5_a_v6 };
+/**
+ * v6 -> v7
+ *  - `plan`: el plan de carrera generado, o null si no hay ninguno activo.
+ *    Se guarda ya desarrollado en semanas y no solo su configuración, para que
+ *    regenerar no cambie bajo los pies un plan que Tadeo ya empezó a seguir.
+ */
+function v6_a_v7(datos) {
+  return { ...datos, esquema: 7, plan: datos.plan || null };
+}
+
+const MIGRACIONES = { 1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5, 5: v5_a_v6, 6: v6_a_v7 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
 export function migrar(crudo) {
@@ -117,6 +128,7 @@ export function migrar(crudo) {
   if (!Array.isArray(datos.carreras)) datos.carreras = [];
   datos.ajustes = { ...AJUSTES_POR_DEFECTO(), ...(datos.ajustes || {}) };
   if (!datos.ajustesRutina) datos.ajustesRutina = {};
+  if (datos.plan === undefined) datos.plan = null;
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {
     datos = MIGRACIONES[v](datos);
@@ -249,6 +261,9 @@ export function importarJSON(texto, actuales) {
   if (entrante.ajustesRutina) {
     datos.ajustesRutina = { ...datos.ajustesRutina, ...entrante.ajustesRutina };
   }
+  // Un plan solo entra si el respaldo trae uno y aquí no hay ninguno activo:
+  // pisar un plan en curso con otro del respaldo perdería dónde va Tadeo.
+  if (entrante.plan && !datos.plan) datos.plan = entrante.plan;
 
   // Las carreras se fusionan por id, igual que las sesiones por clave.
   const vistas = new Set((datos.carreras || []).map((c) => c.id));

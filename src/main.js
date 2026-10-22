@@ -9,6 +9,7 @@ import { pintarDia } from "./ui/fuerza.js";
 import { pintarIntervalo, marcarPaso } from "./ui/cardio.js";
 import { pintarCarrera } from "./ui/carrera.js";
 import { pintarProgreso } from "./ui/progreso.js";
+import { pintarPlan } from "./ui/plan.js";
 import { conectarModal } from "./ui/modal.js";
 import { registerSW } from "virtual:pwa-register";
 
@@ -170,7 +171,11 @@ function detenerSecuencia() {
 function pintarPestanas() {
   const nav = document.getElementById("pestanas");
   nav.innerHTML = "";
-  [...app.rutina.dias, { id: "prog", nombre: "Progreso", tipo: "progreso" }].forEach((d) => {
+  [
+    ...app.rutina.dias,
+    { id: "plan", nombre: "Plan", tipo: "plan" },
+    { id: "prog", nombre: "Progreso", tipo: "progreso" }
+  ].forEach((d) => {
     const b = document.createElement("button");
     b.className = "pestana";
     b.textContent = d.nombre;
@@ -190,6 +195,7 @@ function pintarPestanas() {
 function pintar() {
   const v = document.getElementById("vista");
   v.innerHTML = "";
+  if (app.diaActivo === "plan") return pintarPlan(app, v);
   if (app.diaActivo === "prog") return pintarProgreso(app, v);
   const dia = app.rutina.dias.find((d) => d.id === app.diaActivo);
   if (!dia) return;
