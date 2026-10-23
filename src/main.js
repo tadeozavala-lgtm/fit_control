@@ -10,6 +10,7 @@ import { pintarIntervalo, marcarPaso } from "./ui/cardio.js";
 import { pintarCarrera } from "./ui/carrera.js";
 import { pintarProgreso } from "./ui/progreso.js";
 import { pintarPlan } from "./ui/plan.js";
+import { pintarNutricion } from "./ui/nutricion.js";
 import { conectarModal } from "./ui/modal.js";
 import { registerSW } from "virtual:pwa-register";
 
@@ -174,6 +175,7 @@ function pintarPestanas() {
   [
     ...app.rutina.dias,
     { id: "plan", nombre: "Plan", tipo: "plan" },
+    { id: "nutri", nombre: "Comer", tipo: "nutricion" },
     { id: "prog", nombre: "Progreso", tipo: "progreso" }
   ].forEach((d) => {
     const b = document.createElement("button");
@@ -196,6 +198,7 @@ function pintar() {
   const v = document.getElementById("vista");
   v.innerHTML = "";
   if (app.diaActivo === "plan") return pintarPlan(app, v);
+  if (app.diaActivo === "nutri") return pintarNutricion(app, v);
   if (app.diaActivo === "prog") return pintarProgreso(app, v);
   const dia = app.rutina.dias.find((d) => d.id === app.diaActivo);
   if (!dia) return;

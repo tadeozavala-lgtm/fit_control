@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 8;
+export const ESQUEMA_ACTUAL = 9;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
@@ -16,6 +16,22 @@ export const ESQUEMA_ACTUAL = 8;
  */
 export function AJUSTES_POR_DEFECTO() {
   return { edad: 44, fcReposo: 65, fcMax: null, marca: null, diasLiberados: [] };
+}
+
+/**
+ * Configuración de nutrición. El peso no vive aquí: sale del último registro de
+ * `datos.pesos`, para que no haya dos pesos distintos que se contradigan.
+ */
+export function NUTRICION_POR_DEFECTO() {
+  return {
+    sexo: "hombre",
+    altura: 178,
+    actividad: "sentado",
+    objetivo: "recomposicion",
+    comidas: 4,
+    pesoInicial: 110,
+    ajusteManual: 0
+  };
 }
 
 export function vacio() {
@@ -26,6 +42,8 @@ export function vacio() {
     ajustes: AJUSTES_POR_DEFECTO(),
     ajustesRutina: {},
     plan: null,
+    pesos: [],
+    nutricion: NUTRICION_POR_DEFECTO(),
     semana: 1,
     unidad: "kg"
   };
@@ -131,9 +149,23 @@ function v7_a_v8(datos) {
   };
 }
 
+/**
+ * v8 -> v9
+ *  - `pesos`: registro de báscula, que es lo que corrige las estimaciones.
+ *  - `nutricion`: sexo, altura, nivel de actividad diaria y objetivo.
+ */
+function v8_a_v9(datos) {
+  return {
+    ...datos,
+    esquema: 9,
+    pesos: datos.pesos || [],
+    nutricion: { ...NUTRICION_POR_DEFECTO(), ...(datos.nutricion || {}) }
+  };
+}
+
 const MIGRACIONES = {
   1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5,
-  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8
+  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8, 8: v8_a_v9
 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
@@ -147,6 +179,8 @@ export function migrar(crudo) {
   if (!Array.isArray(datos.ajustes.diasLiberados)) datos.ajustes.diasLiberados = [];
   if (!datos.ajustesRutina) datos.ajustesRutina = {};
   if (datos.plan === undefined) datos.plan = null;
+  if (!Array.isArray(datos.pesos)) datos.pesos = [];
+  datos.nutricion = { ...NUTRICION_POR_DEFECTO(), ...(datos.nutricion || {}) };
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {
     datos = MIGRACIONES[v](datos);
@@ -282,6 +316,17 @@ export function importarJSON(texto, actuales) {
   // Un plan solo entra si el respaldo trae uno y aquí no hay ninguno activo:
   // pisar un plan en curso con otro del respaldo perdería dónde va Tadeo.
   if (entrante.plan && !datos.plan) datos.plan = entrante.plan;
+  if (entrante.nutricion) datos.nutricion = { ...datos.nutricion, ...entrante.nutricion };
+
+  // Los pesos se fusionan por fecha: una fecha solo puede tener un peso.
+  const porFecha = new Map((datos.pesos || []).map((x) => [x.fecha, x]));
+  (entrante.pesos || []).forEach((x) => {
+    if (!porFecha.has(x.fecha)) {
+      porFecha.set(x.fecha, x);
+      agregadas++;
+    }
+  });
+  datos.pesos = [...porFecha.values()].sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
 
   // Las carreras se fusionan por id, igual que las sesiones por clave.
   const vistas = new Set((datos.carreras || []).map((c) => c.id));

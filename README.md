@@ -19,6 +19,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
+- Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -27,7 +28,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 302 tests
+npm test           # 372 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -95,11 +96,13 @@ src/
     ajustes-rutina.js    capa de edición encima de rutina.json
     plan.js              generador de planes de carrera
     dias.js              qué cuesta soltar un día de fuerza
+    nutricion.js         TMB, macros, topes de seguridad y tendencia
+    gasto.js             gasto real leído de sesiones y carreras
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   302 tests
+tests/                   372 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -118,6 +121,39 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Nutrición
+
+La pestaña Comer calcula calorías y macronutrientes para cuatro objetivos
+(perder grasa, recomposición, mantenimiento, ganar músculo).
+
+**El gasto del entrenamiento no se estima, se lee.** La app ya sabe cuántas
+series marcaste y cuántos kilómetros corriste, así que el gasto sale de ahí. Por
+eso los factores de actividad son bajos: representan la vida diaria sin
+entrenar. Multiplicar por un factor "muy activo" *y además* sumar el ejercicio
+cuenta dos veces lo mismo, y es el error más común en estas calculadoras.
+
+El entrenamiento se promedia sobre 14 días en vez de aplicarse al día: comer
+según lo que entrenaste cada día produce saltos de 600 kcal que nadie sostiene,
+y la grasa no se gana ni se pierde en 24 horas.
+
+**Topes que no se pueden saltar:**
+
+- El déficit nunca pasa del 20% del gasto.
+- Las calorías nunca bajan del metabolismo basal, ni de 1500 en absoluto.
+- La proteína se fija primero (hasta 2.2 g/kg en déficit) y la grasa tiene un
+  mínimo de 0.8 g/kg; los carbohidratos se llevan el resto.
+- Si las calorías no dan ni para proteína y grasa mínima, se recorta a
+  proporción y la app avisa de que el objetivo es demasiado agresivo.
+
+**La báscula corrige el cálculo.** Mifflin-St Jeor falla ±10% entre personas, así
+que el número es solo el punto de partida. Registrando el peso, la app compara
+la tendencia real (media móvil de 7 días, que filtra el ruido de agua y sal)
+contra la que el plan espera, y propone un ajuste acotado a ±250 kcal. Si bajas
+más del 1% del peso por semana sugiere **subir** calorías: a ese ritmo se va
+músculo.
+
+Nada de esto sustituye a un nutriólogo ni a una analítica.
 
 ## Planes de carrera
 

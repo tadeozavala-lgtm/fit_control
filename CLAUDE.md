@@ -31,6 +31,13 @@ Ese contexto manda sobre cualquier otra consideración.
 10. **La progresión de volumen se calcula con el valor exacto y se redondea al
     publicar.** Redondear en cada paso acumula error y acaba incumpliendo la
     propia regla del 10%. Hay test.
+11. **El gasto del entrenamiento se suma APARTE del factor de actividad.** Los
+    factores de `ACTIVIDAD` son de vida diaria sin entrenar, a propósito: un
+    factor "muy activo" ya incluye el ejercicio y sumarlo otra vez lo cuenta
+    dos veces. Si tocas uno, revisa el otro.
+12. **Los topes de nutrición no se negocian:** déficit máximo del 20%, nunca
+    por debajo del metabolismo basal, proteína antes que nada. Un número más
+    agresivo no acelera nada que valga la pena. Hay tests sobre cada tope.
 
 ## Al cambiar la rutina
 
