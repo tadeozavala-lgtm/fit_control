@@ -11,24 +11,41 @@ import { pintarCarrera } from "./ui/carrera.js";
 import { pintarProgreso } from "./ui/progreso.js";
 import { pintarPlan } from "./ui/plan.js";
 import { pintarNutricion } from "./ui/nutricion.js";
+import { pintarRutina } from "./ui/rutina.js";
 import { conectarModal } from "./ui/modal.js";
 import { registerSW } from "virtual:pwa-register";
 
 const almacen = crearAlmacen(window);
 
+/**
+ * La rutina base: los días de fuerza salen de la generada cuando hay una, y los
+ * de cardio siempre de rutina.json.
+ *
+ * Zona 2 y HIIT se manejan aparte a propósito: el generador no los toca y el
+ * plan de carrera ya se encarga de ellos. Así rearmar las pesas nunca borra el
+ * trabajo de correr.
+ */
+function rutinaEnUso(datos) {
+  const generada = datos?.rutinaGenerada;
+  if (!generada) return rutina;
+  const cardio = rutina.dias.filter((d) => !d.ejercicios);
+  return { ...rutina, dias: [...generada.dias, ...cardio] };
+}
+
 /** El contexto que reciben todas las vistas. */
 const app = {
-  // `rutina` es rutina.json con la capa de ajustes de Tadeo encima. Se recalcula
-  // al pintar, no se guarda: así un despliegue nuevo del repo se hereda solo.
+  // `rutina` es la rutina en uso con la capa de ajustes de Tadeo encima. Se
+  // recalcula al pintar, no se guarda: así un despliegue nuevo del repo se
+  // hereda solo y los ajustes manuales sobreviven a regenerar.
   get rutina() {
-    return rutinaAjustada(rutina, app.datos?.ajustesRutina);
+    return rutinaAjustada(rutinaEnUso(app.datos), app.datos?.ajustesRutina);
   },
   rutinaBase: rutina,
 
-  /** El ejercicio tal como viene del repo, sin la capa encima. */
+  /** El ejercicio tal como viene de la rutina en uso, sin la capa encima. */
   ejercicioBase(id) {
-    return rutina.dias
-      .filter((d) => d.ejercicios)
+    return rutinaEnUso(app.datos)
+      .dias.filter((d) => d.ejercicios)
       .flatMap((d) => d.ejercicios)
       .find((e) => e.id === id);
   },
@@ -94,6 +111,17 @@ const app = {
   },
 
   pintar,
+
+  /**
+   * Repinta pestañas y vista. Hace falta cuando cambian los DÍAS, no solo su
+   * contenido: al aplicar una rutina generada la barra seguía mostrando Push /
+   * Pull / Legs y al tocarlos no había nada que pintar.
+   */
+  pintarTodo() {
+    pintarPestanas();
+    pintar();
+  },
+
   correrSecuencia,
   detenerSecuencia
 };
@@ -174,6 +202,7 @@ function pintarPestanas() {
   nav.innerHTML = "";
   [
     ...app.rutina.dias,
+    { id: "armar", nombre: "Rutina", tipo: "rutina" },
     { id: "plan", nombre: "Plan", tipo: "plan" },
     { id: "nutri", nombre: "Comer", tipo: "nutricion" },
     { id: "prog", nombre: "Progreso", tipo: "progreso" }
@@ -197,6 +226,7 @@ function pintarPestanas() {
 function pintar() {
   const v = document.getElementById("vista");
   v.innerHTML = "";
+  if (app.diaActivo === "armar") return pintarRutina(app, v);
   if (app.diaActivo === "plan") return pintarPlan(app, v);
   if (app.diaActivo === "nutri") return pintarNutricion(app, v);
   if (app.diaActivo === "prog") return pintarProgreso(app, v);
@@ -287,8 +317,17 @@ const actualizarSW = registerSW({
   conectarModal();
   conectarControles();
 
+  // Con una rutina generada los ids de los días cambian, así que la pestaña
+  // inicial se busca por el nombre del día en vez de por un id fijo.
+  const nombreDia = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"][
+    new Date().getDay()
+  ];
+  const deHoy = app.rutina.dias.find((d) => d.ejercicios && d.dia === nombreDia);
   const porDia = { 1: "push", 2: "pull", 3: "z2", 4: "legs", 5: "hiitB", 6: "full", 0: "prog" };
-  app.diaActivo = porDia[new Date().getDay()] || "push";
+  app.diaActivo =
+    deHoy?.id || (app.rutina.dias.some((d) => d.id === porDia[new Date().getDay()])
+      ? porDia[new Date().getDay()]
+      : app.rutina.dias[0].id);
 
   pintarPestanas();
   pintar();

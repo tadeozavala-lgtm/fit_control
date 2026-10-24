@@ -8,7 +8,7 @@
  */
 
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 9;
+export const ESQUEMA_ACTUAL = 10;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
@@ -44,6 +44,7 @@ export function vacio() {
     plan: null,
     pesos: [],
     nutricion: NUTRICION_POR_DEFECTO(),
+    rutinaGenerada: null,
     semana: 1,
     unidad: "kg"
   };
@@ -163,9 +164,19 @@ function v8_a_v9(datos) {
   };
 }
 
+/**
+ * v9 -> v10
+ *  - `rutinaGenerada`: la rutina de fuerza armada desde el cuestionario, o null
+ *    para usar la de rutina.json. Sustituye SOLO los días de fuerza; Zona 2 y
+ *    HIIT siguen viniendo del repo porque se manejan aparte.
+ */
+function v9_a_v10(datos) {
+  return { ...datos, esquema: 10, rutinaGenerada: datos.rutinaGenerada || null };
+}
+
 const MIGRACIONES = {
   1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5,
-  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8, 8: v8_a_v9
+  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8, 8: v8_a_v9, 9: v9_a_v10
 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
@@ -180,6 +191,7 @@ export function migrar(crudo) {
   if (!datos.ajustesRutina) datos.ajustesRutina = {};
   if (datos.plan === undefined) datos.plan = null;
   if (!Array.isArray(datos.pesos)) datos.pesos = [];
+  if (datos.rutinaGenerada === undefined) datos.rutinaGenerada = null;
   datos.nutricion = { ...NUTRICION_POR_DEFECTO(), ...(datos.nutricion || {}) };
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {
@@ -198,6 +210,19 @@ export function claveSesion(dia, fecha, n = 1) {
 export function partirClave(clave) {
   const [dia, fecha, n] = String(clave).split("|");
   return { dia, fecha, n: Number(n) || 1 };
+}
+
+/**
+ * Sesiones donde se registró un ejercicio concreto, mire el día que mire.
+ *
+ * El récord de un press de banca es del press de banca, no del lunes. Antes el
+ * historial se buscaba por día, así que al rearmar la rutina y mover un
+ * ejercicio de Push a Torso A sus marcas desaparecían aunque conservara el id.
+ */
+export function sesionesConEjercicio(datos, claveEjercicio) {
+  return Object.values(datos.sesiones || {})
+    .filter((s) => ((s.ej || {})[claveEjercicio] || []).some((x) => x && x.ok))
+    .sort((a, b) => String(a.fecha).localeCompare(String(b.fecha)));
 }
 
 /** Las sesiones de un día de rutina, con contenido real, ordenadas por fecha. */
@@ -317,6 +342,11 @@ export function importarJSON(texto, actuales) {
   // pisar un plan en curso con otro del respaldo perdería dónde va Tadeo.
   if (entrante.plan && !datos.plan) datos.plan = entrante.plan;
   if (entrante.nutricion) datos.nutricion = { ...datos.nutricion, ...entrante.nutricion };
+  // Igual que el plan de carrera: una rutina del respaldo no pisa la que está
+  // en uso, porque el historial se registró contra esta.
+  if (entrante.rutinaGenerada && !datos.rutinaGenerada) {
+    datos.rutinaGenerada = entrante.rutinaGenerada;
+  }
 
   // Los pesos se fusionan por fecha: una fecha solo puede tener un peso.
   const porFecha = new Map((datos.pesos || []).map((x) => [x.fecha, x]));

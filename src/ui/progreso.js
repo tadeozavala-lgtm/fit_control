@@ -1,6 +1,8 @@
 import { conUnidad, mostrar, kgALb } from "../logica/unidades.js";
 import { mejorSerie, tonelaje } from "../logica/fuerza.js";
-import { sesionesDe, exportarCSV, exportarJSON, importarJSON } from "../logica/almacen.js";
+import {
+  sesionesDe, sesionesConEjercicio, exportarCSV, exportarJSON, importarJSON
+} from "../logica/almacen.js";
 import { resumen, semanaISO, lunesDe, semanasConDatos } from "../logica/volumen.js";
 import {
   ESCALAS, CLAVES, MAYOR_ES_MEJOR, promedio, alerta, consejo, serie, sesionesConNotas
@@ -29,44 +31,60 @@ export function pintarProgreso(app, contenedor) {
   const senales = bloqueSenales(app);
   if (senales) contenedor.appendChild(senales);
 
-  let hubo = false;
+  // Las tarjetas se arman por EJERCICIO, no por día: si la rutina se rearma y
+  // un ejercicio cambia de día, su curva es la misma y debe seguir siendo una
+  // sola tarjeta, no dos partidas por la mitad.
+  const claves = [];
+  const vistos = new Set();
+  const apuntar = (clave, nombre, sustituto) => {
+    if (vistos.has(clave)) return;
+    vistos.add(clave);
+    claves.push({ clave, nombre, sustituto });
+  };
+
   app.rutina.dias
     .filter((d) => d.ejercicios)
-    .forEach((dia) => {
-      const sesiones = sesionesDe(app.datos, dia.id);
+    .forEach((dia) => dia.ejercicios.forEach((e) => apuntar(e.id, e.nombre, false)));
 
-      // Los sustitutos que se hayan usado en este día llevan su propio
-      // historial y merecen su propia tarjeta, igual que los de la rutina.
-      const claves = [];
-      dia.ejercicios.forEach((e) => claves.push({ clave: e.id, nombre: e.nombre }));
-      sesiones.forEach((s) => {
-        Object.values(s.sust || {}).forEach((id) => {
-          if (claves.some((c) => c.clave === id)) return;
-          const sust = (app.catalogo.ejercicios || []).find((x) => x.id === id);
-          if (sust) claves.push({ clave: id, nombre: sust.nombre, sustituto: true });
-        });
-      });
-
-      claves.forEach(({ clave, nombre, sustituto }) => {
-        const h = sesiones.filter((s) => s.ej[clave] && mejorSerie(s.ej[clave]));
-        if (!h.length) return;
-        hubo = true;
-        const serie = h.map((s) => mejorSerie(s.ej[clave]).e1rm);
-        const ult = mejorSerie(h[h.length - 1].ej[clave]);
-        const max = Math.max(...serie);
-        const min = Math.min(...serie);
-        const delta = serie.length > 1 ? ((serie[serie.length - 1] - serie[0]) / serie[0]) * 100 : 0;
-
-        const c = document.createElement("div");
-        c.className = "tarjeta-prog";
-        c.innerHTML = `
-          <div class="fila"><h4>${nombre}</h4>
-            <span class="cifra">${delta > 0 ? "+" : ""}${delta.toFixed(0)}%</span></div>
-          <div class="detalle">${sustituto ? "sustituto · " : ""}${h.length} sesiones · mejor serie ${ult ? conUnidad(ult.peso, u) + " × " + ult.reps : "—"} · e1RM ${conUnidad(max, u, 0)}</div>
-          ${chispa(serie, min, max)}`;
-        contenedor.appendChild(c);
-      });
+  // Los sustitutos usados alguna vez llevan su propio historial y merecen su
+  // tarjeta, igual que los de la rutina.
+  Object.values(app.datos.sesiones || {}).forEach((s) => {
+    Object.values(s.sust || {}).forEach((id) => {
+      const sust = (app.catalogo.ejercicios || []).find((x) => x.id === id);
+      if (sust) apuntar(id, sust.nombre, true);
     });
+  });
+
+  // Ejercicios de rutinas anteriores que ya no están en la actual: su historial
+  // no se borra, solo deja de recibir series nuevas.
+  Object.values(app.datos.sesiones || {}).forEach((s) => {
+    Object.keys(s.ej || {}).forEach((id) => {
+      if (vistos.has(id)) return;
+      const delCat = (app.catalogo.ejercicios || []).find((x) => x.id === id);
+      apuntar(id, delCat ? delCat.nombre : id, false);
+    });
+  });
+
+  let hubo = false;
+  claves.forEach(({ clave, nombre, sustituto }) => {
+    const h = sesionesConEjercicio(app.datos, clave);
+    if (!h.length) return;
+    hubo = true;
+    const serie = h.map((s) => mejorSerie(s.ej[clave]).e1rm);
+    const ult = mejorSerie(h[h.length - 1].ej[clave]);
+    const max = Math.max(...serie);
+    const min = Math.min(...serie);
+    const delta = serie.length > 1 ? ((serie[serie.length - 1] - serie[0]) / serie[0]) * 100 : 0;
+
+    const c = document.createElement("div");
+    c.className = "tarjeta-prog";
+    c.innerHTML = `
+      <div class="fila"><h4>${nombre}</h4>
+        <span class="cifra">${delta > 0 ? "+" : ""}${delta.toFixed(0)}%</span></div>
+      <div class="detalle">${sustituto ? "sustituto · " : ""}${h.length} sesiones · mejor serie ${ult ? conUnidad(ult.peso, u) + " × " + ult.reps : "—"} · e1RM ${conUnidad(max, u, 0)}</div>
+      ${chispa(serie, min, max)}`;
+    contenedor.appendChild(c);
+  });
 
   if (!hubo) {
     const p = document.createElement("p");
