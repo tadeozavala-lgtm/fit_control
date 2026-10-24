@@ -20,6 +20,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
+- Generador de rutinas de musculación desde un cuestionario de cinco preguntas.
 - Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
@@ -28,7 +29,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 372 tests
+npm test           # 418 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run build      # genera dist/
@@ -96,13 +97,14 @@ src/
     ajustes-rutina.js    capa de edición encima de rutina.json
     plan.js              generador de planes de carrera
     dias.js              qué cuesta soltar un día de fuerza
+    generador.js         arma la rutina de fuerza desde el cuestionario
     nutricion.js         TMB, macros, topes de seguridad y tendencia
     gasto.js             gasto real leído de sesiones y carreras
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
   ui/                    render; nada de lógica de negocio aquí
 scripts/validar-rutina.js
-tests/                   372 tests
+tests/                   418 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -121,6 +123,48 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
+
+## Generar la rutina de fuerza
+
+La pestaña Rutina arma la rutina de musculación desde cinco preguntas: días por
+semana, minutos por sesión, objetivo, equipo disponible y experiencia. La vista
+previa se recalcula en cada toque, así que se puede mover el tiempo por sesión y
+ver qué entra y qué se cae antes de aplicar nada.
+
+Al aplicarla, **reemplaza las pestañas de fuerza**. Zona 2 y HIIT no se tocan:
+vienen de `rutina.json` y el plan de carrera ya se encarga de ellos. Se vuelve a
+la rutina original con un botón.
+
+**El tiempo por sesión es una restricción dura, no una sugerencia.** Una rutina
+de 70 minutos para quien tiene 45 no se cumple: se abandona a media sesión y lo
+que se corta siempre es el final, que es donde está el trabajo accesorio. El
+generador recorta él mismo, en este orden: una serie a los aislamientos,
+aislamientos enteros desde el final, y solo entonces series a los compuestos.
+Los compuestos son los que justifican la sesión.
+
+Otras reglas del generador:
+
+- **Un tope semanal para la bisagra de cadera.** Sin él metía peso muerto cuatro
+  veces por semana, porque puntúa altísimo: es compuesto y arrastra media
+  espalda y toda la cadena posterior.
+- **Penaliza repetir patrón dentro de la sesión.** Cuatro empujes horizontales
+  seguidos no son variedad, son el mismo estímulo cuatro veces.
+- **Rellena por necesidad, no por orden de lista.** Con el orden de la
+  plantilla, bíceps y core quedaban siempre fuera por ir al final.
+- **Un día tiene que entrenar su grupo principal.** Con solo peso corporal salía
+  un día "Legs" compuesto de dos ejercicios de core: pasaba el conteo y no era
+  un día de pierna.
+
+### El historial sobrevive
+
+Regenerar la rutina no puede costar meses de registro. Dos piezas lo garantizan:
+
+1. **Los ids se reciclan.** Un press de banca que ya existía conserva su id, y
+   además hereda el peso sugerido que ya se conocía.
+2. **El historial se busca por ejercicio, no por día.** El récord de un press de
+   banca es del press de banca, no del lunes. Antes la búsqueda era por día, así
+   que mover un ejercicio de Push a Torso A borraba sus marcas de la vista
+   aunque conservara el id.
 
 ## Nutrición
 

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   migrar, vacio, ESQUEMA_ACTUAL, claveSesion, partirClave,
-  sesionesDe, exportarJSON, importarJSON, exportarCSV
+  sesionesDe, sesionesConEjercicio, exportarJSON, importarJSON, exportarCSV
 } from "../src/logica/almacen.js";
 
 const S = (p, r, ok = true) => ({ p, r, ok });
@@ -260,5 +260,41 @@ describe("migración v6 a v7: plan de carrera", () => {
     const otro = migrar({ esquema: 7, sesiones: {}, plan: { objetivo: "5k", semanas: 8 } });
     const { datos } = importarJSON(exportarJSON(otro), enCurso);
     expect(datos.plan.objetivo).toBe("21k");
+  });
+});
+
+describe("historial por ejercicio, no por día", () => {
+  const datos = migrar({
+    esquema: ESQUEMA_ACTUAL,
+    sesiones: {
+      "push|2026-10-01|1": { fecha: "2026-10-01", ej: { pu1: [S(60, 8)] } },
+      "torsoA|2026-10-20|1": { fecha: "2026-10-20", ej: { pu1: [S(65, 8)] } },
+      "pull|2026-10-02|1": { fecha: "2026-10-02", ej: { pl2: [S(50, 10)] } }
+    }
+  });
+
+  it("reúne un ejercicio aunque se haya hecho en días distintos", () => {
+    // Este es el punto de rearmar la rutina: el press de banca puede pasar de
+    // Push a Torso A, y su historial tiene que seguirlo.
+    const h = sesionesConEjercicio(datos, "pu1");
+    expect(h).toHaveLength(2);
+    expect(h.map((s) => s.fecha)).toEqual(["2026-10-01", "2026-10-20"]);
+  });
+
+  it("no mezcla ejercicios distintos", () => {
+    expect(sesionesConEjercicio(datos, "pl2")).toHaveLength(1);
+  });
+
+  it("ignora las series no completadas", () => {
+    const sinMarcar = migrar({
+      esquema: ESQUEMA_ACTUAL,
+      sesiones: { "a|2026-10-01|1": { fecha: "2026-10-01", ej: { x: [S(60, 8, false)] } } }
+    });
+    expect(sesionesConEjercicio(sinMarcar, "x")).toHaveLength(0);
+  });
+
+  it("un ejercicio que nunca se hizo devuelve lista vacía", () => {
+    expect(sesionesConEjercicio(datos, "zzz")).toEqual([]);
+    expect(sesionesConEjercicio({}, "pu1")).toEqual([]);
   });
 });

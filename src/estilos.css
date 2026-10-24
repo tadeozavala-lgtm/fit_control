@@ -684,3 +684,54 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   font-size:12px;color:var(--humo);line-height:1.55;padding:16px 0 0;
   border-top:1px solid var(--linea);margin-top:18px;
 }
+
+/* ---------- cuestionario de rutina ---------- */
+.pregunta{margin-top:22px}
+.pregunta h4{
+  font-family:var(--display);font-weight:700;text-transform:uppercase;
+  font-size:18px;margin:0 0 3px;letter-spacing:.03em;
+}
+.pregunta .ayuda{font-size:13px;color:var(--humo);margin:0 0 10px;line-height:1.45}
+.opciones{display:grid;gap:6px}
+.opciones.dos{grid-template-columns:repeat(2,1fr)}
+.opciones.cuatro{grid-template-columns:repeat(4,1fr)}
+.opciones.cinco{grid-template-columns:repeat(5,1fr)}
+.opciones button{
+  padding:12px 8px;border:1px solid var(--linea);border-radius:5px;background:var(--lona);
+  font-family:var(--display);font-weight:700;font-size:16px;text-transform:uppercase;
+  letter-spacing:.03em;color:var(--humo);line-height:1.15;
+}
+.opciones button[aria-pressed="true"]{background:var(--esquina);color:#fff;border-color:var(--esquina)}
+.opciones button small{
+  display:block;font-family:var(--mono);font-size:9px;font-weight:400;
+  letter-spacing:.05em;margin-top:3px;opacity:.75;text-transform:none;
+}
+.deslizador{display:flex;align-items:center;gap:12px;margin-top:10px}
+.deslizador input[type=range]{flex:1;accent-color:var(--esquina)}
+.deslizador .valor{
+  font-family:var(--display);font-weight:800;font-size:30px;line-height:1;
+  min-width:86px;text-align:right;
+}
+.deslizador .valor small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--humo)}
+
+.previa-dia{background:var(--lona-3);padding:12px}
+.previa-dia + .previa-dia{border-top:1px solid var(--linea)}
+.previa-cab{display:flex;align-items:baseline;gap:9px;margin-bottom:7px}
+.previa-cab b{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:.03em;flex:1}
+.previa-cab .dia{font-family:var(--mono);font-size:10px;color:var(--humo);
+  letter-spacing:.07em;text-transform:uppercase}
+.previa-cab .min{font-family:var(--mono);font-size:12px;color:var(--tiza)}
+.previa-ej{display:flex;gap:9px;padding:5px 0;font-size:13.5px;align-items:baseline}
+.previa-ej .ser{font-family:var(--mono);font-size:11px;color:var(--record);width:52px;flex-shrink:0}
+.previa-ej .nom{flex:1;color:#CFDDE4}
+.previa-ej .gr{font-family:var(--mono);font-size:9.5px;color:var(--humo);
+  letter-spacing:.06em;text-transform:uppercase}
+.previa-ej.comp .nom{color:var(--tiza)}
+.marco-previa{border:1px solid var(--linea);margin-top:12px}
+
+.en-uso{
+  background:rgba(217,58,43,.12);border-left:2px solid var(--esquina);
+  padding:11px 13px;margin-top:12px;font-size:13.5px;line-height:1.5;color:#F7C9C2;
+}
+.en-uso b{display:block;font-family:var(--display);font-weight:700;font-size:16px;
+  text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}

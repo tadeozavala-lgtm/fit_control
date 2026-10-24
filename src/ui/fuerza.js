@@ -12,7 +12,7 @@ import {
   mejorSerie, tonelaje, seriesHechas, sugerencia,
   recordPrevio, esRecord, esDescarga, factorSemana, ajustarFilas
 } from "../logica/fuerza.js";
-import { sesionesDe } from "../logica/almacen.js";
+import { sesionesConEjercicio } from "../logica/almacen.js";
 import { abrirTecnica } from "./modal.js";
 import { resolver, sustituir } from "../logica/sustituciones.js";
 import { abrirAlternativas } from "./sustituciones.js";
@@ -89,9 +89,10 @@ function tarjeta(app, dia, original, idx, ses) {
   ses.ej[clave] = ajustarFilas(ses.ej[clave], e.series);
   const series = ses.ej[clave];
 
-  // El historial se busca por la clave activa: el sustituto no hereda ni
-  // contamina los récords del ejercicio original.
-  const previas = sesionesDe(app.datos, dia.id).filter((s) => s.fecha !== app.hoy());
+  // El historial se busca por la clave activa y en TODOS los días: el sustituto
+  // no hereda ni contamina los récords del original, y un ejercicio que cambia
+  // de día al rearmar la rutina se lleva sus marcas consigo.
+  const previas = sesionesConEjercicio(app.datos, clave).filter((s) => s.fecha !== app.hoy());
   const anterior = [...previas].reverse().find((s) => mejorSerie(s.ej[clave]));
   const mejorPrev = anterior ? mejorSerie(anterior.ej[clave]) : null;
   const rec = recordPrevio(previas, clave, app.hoy());

@@ -38,6 +38,17 @@ Ese contexto manda sobre cualquier otra consideración.
 12. **Los topes de nutrición no se negocian:** déficit máximo del 20%, nunca
     por debajo del metabolismo basal, proteína antes que nada. Un número más
     agresivo no acelera nada que valga la pena. Hay tests sobre cada tope.
+13. **El historial se busca por EJERCICIO, nunca por día** (`sesionesConEjercicio`).
+    El récord de un press de banca es del press de banca, no del lunes: si la
+    rutina se rearma y el ejercicio cambia de día, sus marcas lo siguen.
+14. **El generador recicla ids.** Un ejercicio que ya existía conserva el suyo y
+    hereda su peso sugerido. Regenerar la rutina no puede costar meses de
+    registro.
+15. **El generador no toca los días de cardio.** `rutinaEnUso()` en `main.js`
+    mezcla los días generados con los de cardio de `rutina.json`. Zona 2 y HIIT
+    se manejan aparte.
+16. **Si cambian los DÍAS y no solo su contenido, usa `app.pintarTodo()`**, no
+    `app.pintar()`: la barra de pestañas también tiene que repintarse.
 
 ## Al cambiar la rutina
 
