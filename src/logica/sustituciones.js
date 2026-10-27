@@ -97,6 +97,13 @@ export function resolver(ejercicio, sesion, catalogo) {
 
   // La prescripción es del hueco, no del sustituto: mismas series, reps, tempo
   // y descanso. Lo que cambia es el movimiento y a qué músculos cuenta.
+  //
+  // Todo lo que describe el MOVIMIENTO pasa a ser del sustituto, y eso incluye
+  // `catalogoId`, de donde salen las fotos de la ventana de técnica: enseñar
+  // las del original bajo el nombre del sustituto sería peor que no enseñar
+  // ninguna. La técnica escrita se cae por lo mismo —el catálogo no la trae y
+  // las indicaciones del original no aplican a otro movimiento—; `sustituyeA`
+  // deja que la vista lo explique en vez de dejar huecos sin razón.
   return {
     ej: {
       ...ejercicio,
@@ -104,6 +111,11 @@ export function resolver(ejercicio, sesion, catalogo) {
       grupo: sust.grupo,
       secundarios: sust.secundarios,
       equipo: sust.equipo,
+      mecanica: sust.mecanica,
+      patron: sust.patron,
+      catalogoId: sust.id,
+      tecnica: null,
+      sustituyeA: ejercicio.nombre,
       sugerido: "peso a criterio"
     },
     sustituido: true,

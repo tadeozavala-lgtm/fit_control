@@ -6,6 +6,7 @@
  */
 
 import { alternativas, resolver } from "../logica/sustituciones.js";
+import { fotosDe } from "../logica/imagenes.js";
 
 export function abrirAlternativas(app, ejercicio, alElegir) {
   const velo = document.getElementById("velo");
@@ -53,9 +54,23 @@ function fila(a, activa) {
   if (a.secundarios?.length) partes.push("+ " + a.secundarios.map(nombreGrupo).join(", ").toLowerCase());
   return `
     <button class="alt ${activa ? "activa" : ""}" data-alt="${a.id}">
+      ${miniatura(a)}
       <span class="alt-txt"><b>${a.nombre}</b><span>${partes.join(" · ")}</span></span>
       <span class="alt-ir">${activa ? "en uso" : "usar"}</span>
     </button>`;
+}
+
+/**
+ * Una foto chica por alternativa.
+ *
+ * Media docena de nombres traducidos no dicen gran cosa frente a una máquina
+ * ocupada; la foto se reconoce de un vistazo. Pesa poco (es la misma que ya se
+ * cachea) y `loading="lazy"` evita bajarlas todas si no se hace scroll.
+ */
+function miniatura(a) {
+  const [foto] = fotosDe(a.id);
+  if (!foto) return "";
+  return `<img class="alt-foto" src="${foto}" alt="" loading="lazy" decoding="async">`;
 }
 
 function filaOriginal(e) {

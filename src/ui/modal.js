@@ -13,11 +13,7 @@ export function abrirTecnica(e, unidad) {
       <span>RIR <b>${e.rir}</b></span><span>desc <b>${e.descanso}s</b></span>
     </div>
     ${htmlMecanica(e)}
-    <h3>Ejecución</h3>
-    <ul>${(t.ejecucion || []).map((x) => `<li>${x}</li>`).join("")}</ul>
-    <h3>Errores que cuestan caro</h3>
-    <ul>${(t.errores || []).map((x) => `<li>${x}</li>`).join("")}</ul>
-    ${t.aviso ? `<div class="aviso">${t.aviso}</div>` : ""}
+    ${textoTecnica(e, t)}
     ${tablaEquivalencias(e)}
     <h3>Cómo leer el tempo</h3>
     <ul>
@@ -45,6 +41,27 @@ export function conectarModal() {
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") cerrar();
   });
+}
+
+/**
+ * La técnica escrita, si la hay.
+ *
+ * Un sustituto del catálogo no la trae, y copiarle la del original sería dar
+ * indicaciones de otro movimiento: mejor decirlo y dejar que mande la foto.
+ */
+function textoTecnica(e, t) {
+  if (!t.ejecucion?.length && !t.errores?.length) {
+    return e.sustituyeA
+      ? `<p class="sinficha">Sustituye a <b>${e.sustituyeA}</b>, así que la guía escrita
+          de ese ejercicio no aplica aquí: ve las fotos y respeta el tempo y el RIR.</p>`
+      : "";
+  }
+  return `
+    <h3>Ejecución</h3>
+    <ul>${(t.ejecucion || []).map((x) => `<li>${x}</li>`).join("")}</ul>
+    <h3>Errores que cuestan caro</h3>
+    <ul>${(t.errores || []).map((x) => `<li>${x}</li>`).join("")}</ul>
+    ${t.aviso ? `<div class="aviso">${t.aviso}</div>` : ""}`;
 }
 
 function tablaEquivalencias(e) {

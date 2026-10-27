@@ -103,6 +103,24 @@ describe("resolver el hueco de la rutina", () => {
     expect(r.ej.descanso).toBe(120);
   });
 
+  it("las fotos y la técnica pasan a ser del sustituto, no del original", () => {
+    // Enseñar el press de banca bajo el nombre del pec deck es peor que no
+    // enseñar nada: la ficha del catálogo manda en todo lo que es movimiento.
+    const original = ej({ catalogoId: "e", tecnica: { ejecucion: ["codos pegados"] } });
+    const r = resolver(original, { ej: {}, sust: { pl2: "a" } }, catalogo);
+    expect(r.ej.catalogoId).toBe("a");
+    expect(r.ej.tecnica).toBe(null);
+    expect(r.ej.sustituyeA).toBe("Remo con barra");
+  });
+
+  it("sin sustitución la ficha del original queda intacta", () => {
+    const original = ej({ catalogoId: "e", tecnica: { ejecucion: ["codos pegados"] } });
+    const r = resolver(original, { ej: {}, sust: {} }, catalogo);
+    expect(r.ej.catalogoId).toBe("e");
+    expect(r.ej.tecnica.ejecucion).toEqual(["codos pegados"]);
+    expect(r.ej.sustituyeA).toBeUndefined();
+  });
+
   it("este es el requisito del issue: el historial no se mezcla", () => {
     const sesion = { ej: {}, sust: { pl2: "a" } };
     expect(resolver(ej(), sesion, catalogo).clave).toBe("a");
