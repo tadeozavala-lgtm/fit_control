@@ -60,6 +60,13 @@ Ese contexto manda sobre cualquier otra consideración.
     `indiceIdsPrevios()` marca como ambigua la entrada compartida y deja que
     decida el nombre: si se reciclara a ciegas, regenerar movería meses de
     registro al ejercicio equivocado (ver regla 14).
+19. **Al sustituir, todo lo que describe el MOVIMIENTO es del sustituto**:
+    nombre, grupo, equipo y también `catalogoId`, que es de donde salen las
+    fotos. Enseñar las del original bajo otro nombre es peor que no enseñar
+    ninguna. La técnica escrita se cae (`tecnica: null`) porque el catálogo no
+    la trae y la del original es de otro ejercicio; `sustituyeA` deja que la
+    vista lo explique. Lo que NO cambia es la prescripción: series, reps, tempo
+    y descanso son del hueco de la rutina.
 
 ## Al cambiar la rutina
 

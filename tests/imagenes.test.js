@@ -8,6 +8,7 @@ import rutina from "../src/datos/rutina.json";
 import catalogo from "../src/datos/catalogo.json";
 import manifiesto from "../src/datos/imagenes.json";
 import { fotosDe, fotosDeEjercicio, tieneFotos, CARPETA } from "../src/logica/imagenes.js";
+import { resolver, alternativas } from "../src/logica/sustituciones.js";
 
 /**
  * Las fotos de técnica son datos generados (`npm run imagenes`) y la ventana de
@@ -93,6 +94,24 @@ describe("resolución de rutas", () => {
   it("prefiere catalogoId sobre el id cuando están los dos", () => {
     const [a, b] = catalogo.ejercicios;
     expect(fotosDeEjercicio({ id: a.id, catalogoId: b.id })).toEqual(fotosDe(b.id));
+  });
+
+  it("un ejercicio sustituido enseña las fotos del sustituto", () => {
+    const original = rutina.dias[0].ejercicios[0];
+    const sustituto = catalogo.ejercicios.find((c) => c.grupo === original.grupo && c.id !== original.catalogoId);
+    const { ej } = resolver(original, { ej: {}, sust: { [original.id]: sustituto.id } }, catalogo);
+    expect(fotosDeEjercicio(ej)).toEqual(fotosDe(sustituto.id));
+    expect(fotosDeEjercicio(ej)).not.toEqual(fotosDe(original.catalogoId));
+  });
+
+  it("toda alternativa que se puede ofrecer tiene foto que enseñar", () => {
+    // La hoja de cambio pone una miniatura por fila; si alguna no tuviera
+    // foto, la lista se vería despareja justo cuando hay que elegir rápido.
+    for (const e of rutina.dias.filter((d) => d.tipo === "fuerza").flatMap((d) => d.ejercicios)) {
+      for (const alt of alternativas(e, catalogo, { limite: 8 })) {
+        expect(fotosDe(alt.id).length, alt.nombre).toBeGreaterThan(0);
+      }
+    }
   });
 
   it("no revienta con un ejercicio desconocido ni sin ejercicio", () => {

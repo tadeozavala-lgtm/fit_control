@@ -235,6 +235,10 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--esquina);
 }
+.hoja .sinficha{
+  margin:16px 0 0;font-size:13.5px;color:#CFDDE4;line-height:1.5;
+  border-left:2px solid var(--linea-fuerte);padding-left:12px;
+}
 .mecanica .sinfoto{
   margin:10px 0 0;font-size:13px;color:var(--humo);line-height:1.5;
 }
@@ -402,8 +406,13 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   border:1px solid var(--linea-fuerte);border-radius:4px;padding:7px 10px;
   letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;
 }
+.alt-foto{
+  width:54px;height:54px;object-fit:cover;border-radius:5px;flex-shrink:0;
+  border:1px solid var(--linea);background:var(--lona-2);
+}
 .alt.activa .alt-txt b{color:var(--record)}
 .alt.activa .alt-ir{border-color:var(--record);color:var(--record)}
+.alt.activa .alt-foto{border-color:var(--record)}
 .hoja .fuente{
   font-family:var(--mono);font-size:10px;color:var(--humo);
   margin-top:18px;line-height:1.6;

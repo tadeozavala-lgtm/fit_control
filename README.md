@@ -22,7 +22,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
 - Generador de rutinas de musculación desde un cuestionario de cinco preguntas.
-- Sustituciones cuando la máquina está ocupada, con historial propio por ejercicio.
+- Sustituciones cuando la máquina está ocupada, con foto de cada alternativa e historial propio por ejercicio.
 - Progreso por ejercicio con minigráfica, respaldo JSON y exportación CSV.
 
 ## Correr el proyecto
@@ -30,7 +30,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 433 tests
+npm test           # 437 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -109,7 +109,7 @@ src/
   ui/                    render; nada de lógica de negocio aquí
 public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   433 tests
+tests/                   437 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -291,6 +291,13 @@ mismo grupo muscular, priorizando **otro equipo** y **el mismo patrón de
 movimiento**. La prescripción no cambia (mismas series, reps, tempo y descanso),
 las series cuentan igual para el volumen semanal, y el historial del sustituto
 se guarda aparte para no contaminar los récords del original.
+
+Cada alternativa se lista con una miniatura: media docena de nombres traducidos
+no dicen gran cosa frente a una máquina ocupada, y la foto se reconoce de un
+vistazo. Al sustituir, la ventana de técnica pasa a ser la del sustituto —sus
+fotos, no las del original—, y como el catálogo no trae técnica escrita, en vez
+de prestarle las indicaciones del original (que son de otro movimiento) lo dice
+y deja mandar a las fotos, el tempo y el RIR.
 
 El catálogo son 92 ejercicios seleccionados y traducidos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
