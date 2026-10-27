@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -61,6 +62,17 @@ describe("cobertura", () => {
   it("todo el catálogo tiene fotos, para que la rutina generada también", () => {
     const sin = catalogo.ejercicios.filter((e) => !fotosDe(e.id).length).map((e) => e.nombre);
     expect(sin).toEqual([]);
+  });
+
+  it("nunca declara la misma foto dos veces para un ejercicio", () => {
+    // Animar dos cuadros idénticos promete un movimiento que no se ve. El
+    // importador las descarta; con una sola foto la vista esconde el control.
+    for (const [id, fotos] of Object.entries(manifiesto.por)) {
+      const huellas = fotos.map((f) =>
+        createHash("sha256").update(readFileSync(join(CARPETA_FS, f))).digest("hex")
+      );
+      expect(new Set(huellas).size, id).toBe(fotos.length);
+    }
   });
 });
 

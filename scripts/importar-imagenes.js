@@ -62,11 +62,17 @@ for (const ej of catalogo.ejercicios) {
   }
 
   const guardadas = [];
+  const vistas = [];
   for (let i = 0; i < Math.min(2, imagenes.length); i++) {
     const r = await fetch(ORIGEN_IMG + imagenes[i]);
     if (!r.ok) continue;
     const buf = Buffer.from(await r.arrayBuffer());
     const salida = await sharp(buf).resize(ANCHO).webp({ quality: CALIDAD }).toBuffer();
+    // Unos pocos ejercicios del origen traen la misma foto dos veces. Animar
+    // dos cuadros idénticos promete un movimiento que no se ve: mejor una sola
+    // foto fija y que la vista esconda el control de pausa.
+    if (vistas.some((v) => v.equals(salida))) continue;
+    vistas.push(salida);
     const nombre = `${ej.id}-${i}.webp`;
     writeFileSync(join(SALIDA, nombre), salida);
     guardadas.push(nombre);

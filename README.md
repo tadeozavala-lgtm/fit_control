@@ -30,7 +30,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 432 tests
+npm test           # 433 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -107,9 +107,9 @@ src/
     avisos.js            flash, campana, voz
     imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
-public/ejercicios/       184 fotos webp (3 MB), fuera del precaché
+public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   432 tests
+tests/                   433 tests
 ```
 
 ## Decisiones que vale la pena conocer
