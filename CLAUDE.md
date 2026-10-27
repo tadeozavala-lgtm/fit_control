@@ -49,6 +49,17 @@ Ese contexto manda sobre cualquier otra consideración.
     se manejan aparte.
 16. **Si cambian los DÍAS y no solo su contenido, usa `app.pintarTodo()`**, no
     `app.pintar()`: la barra de pestañas también tiene que repintarse.
+17. **Las fotos de técnica NO entran al precaché.** Son 3 MB contra los ~220 KB
+    de la app: instalarla no puede costar eso por fotos que se miran de vez en
+    cuando. Van por `runtimeCaching` (`CacheFirst` sobre `/ejercicios/`) y se
+    guardan al abrirlas. Hay un test que vigila que `globPatterns` no incluya
+    webp. Si alguna vez no cargan, el modal lo dice; nunca un hueco en blanco.
+18. **`catalogoId` apunta al catálogo, no identifica al ejercicio.** Dos
+    ejercicios distintos pueden compartir ficha y fotos ("Press banca ligero" y
+    "Press banca con barra") y cada uno conserva su historial. Por eso
+    `indiceIdsPrevios()` marca como ambigua la entrada compartida y deja que
+    decida el nombre: si se reciclara a ciegas, regenerar movería meses de
+    registro al ejercicio equivocado (ver regla 14).
 
 ## Al cambiar la rutina
 
@@ -68,6 +79,11 @@ el orden de las sustituciones.
 `src/datos/catalogo.json` NO se edita a mano: lo genera `npm run catalogo` desde
 free-exercise-db. Para agregar una alternativa, edita la selección curada en
 `scripts/importar-catalogo.js` y vuelve a correrlo.
+
+`src/datos/imagenes.json` y `public/ejercicios/` tampoco: los genera
+`npm run imagenes` desde la misma fuente. Un ejercicio nuevo de `rutina.json`
+necesita `catalogoId` para tener fotos en la ventana de técnica; sin él la
+ventana funciona igual, solo sin fotos.
 
 ## Idioma
 

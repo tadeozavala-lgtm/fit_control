@@ -12,7 +12,8 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Comparación contra la sesión anterior y marca de récord en dorado (1RM estimado, Epley).
 - Autollenado del peso de la última sesión, ajustado si toca semana de descarga.
 - Pista de progresión: cuándo subir carga y cuándo bajarla.
-- Guías de técnica por ejercicio, con tabla de equivalencias kg↔lb y referencia de discos.
+- Guías de técnica por ejercicio, con fotos de inicio y fin del movimiento que se
+  alternan, tabla de equivalencias kg↔lb y referencia de discos.
 - Secuenciador de HIIT que canta los bloques en voz alta (opcional).
 - Volumen semanal por grupo muscular contra su rango de referencia.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
@@ -29,9 +30,10 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 418 tests
+npm test           # 433 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
+npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
 npm run build      # genera dist/
 ```
 
@@ -85,6 +87,7 @@ desplegar, así que un JSON roto nunca llega al teléfono.
 src/
   datos/rutina.json      la rutina completa (editable sin tocar código)
   datos/catalogo.json    92 alternativas, generado con npm run catalogo
+  datos/imagenes.json    qué fotos tiene cada ejercicio, generado con npm run imagenes
   logica/                funciones puras, 100% cubiertas por tests
     unidades.js          conversión kg ↔ lb
     fuerza.js            1RM estimado, progresión, récords, descarga
@@ -102,9 +105,11 @@ src/
     gasto.js             gasto real leído de sesiones y carreras
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
+    imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
+public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   418 tests
+tests/                   433 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -291,6 +296,26 @@ El catálogo son 92 ejercicios seleccionados y traducidos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
 dominio público), generados con `npm run catalogo` y commiteados: la app no
 depende de la red en tiempo de ejecución.
+
+## Mecánica del ejercicio
+
+El botón de información abre, arriba de la ficha, **dos fotos del ejercicio que
+se alternan**: inicio y fin del movimiento. Es lo que haría un GIF, sin GIF ni
+vídeo. Se puede pausar, y si el teléfono pide menos animación
+(`prefers-reduced-motion`) arrancan quietas.
+
+Son las mismas fotos de
+[free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
+dominio público), rebajadas a 520 px y WebP con `npm run imagenes`: 12 MB en
+origen quedan en 3 MB para los 92 ejercicios.
+
+**Las fotos no van en el precaché del service worker.** La app instalada pesa
+~220 KB; sumarle 3 MB encarecería cada instalación y cada actualización por unas
+fotos que se miran de vez en cuando. Se guardan la primera vez que se abre cada
+ejercicio (`CacheFirst` sobre `/ejercicios/`) y de ahí en adelante están offline.
+Conviene abrir la ficha de los ejercicios nuevos **antes** de bajar al sótano del
+gimnasio; si no hay red y no están guardadas, el modal lo dice en vez de dejar un
+hueco en blanco. Hay tests que vigilan que las fotos no se cuelen al precaché.
 
 ## Respaldo
 

@@ -32,9 +32,25 @@ export default defineConfig({
         ]
       },
       workbox: {
+        // Las fotos de técnica (webp) quedan FUERA del precaché a propósito:
+        // son ~3 MB contra los ~100 KB de la app. Instalarla no puede costar
+        // eso por unas fotos que se miran de vez en cuando; se guardan la
+        // primera vez que se abren y a partir de ahí están offline.
         globPatterns: ["**/*.{js,css,html,png,json,woff2}"],
         cleanupOutdatedCaches: true,
-        navigateFallback: "index.html"
+        navigateFallback: "index.html",
+        navigateFallbackDenylist: [/^\/?ejercicios\//],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes("/ejercicios/"),
+            handler: "CacheFirst",
+            options: {
+              cacheName: "fotos-ejercicios",
+              expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] }
+            }
+          }
+        ]
       }
     })
   ],
