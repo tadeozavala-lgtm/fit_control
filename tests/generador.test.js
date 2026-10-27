@@ -192,6 +192,15 @@ describe("reciclar ids para no perder el historial", () => {
     expect(idPara(banca, indice)).toBe("pu1");
   });
 
+  it("cuando dos ejercicios comparten ficha de catálogo, decide el nombre", () => {
+    // "Press banca ligero" (fb2) y "Press banca con barra" (pu1) apuntan a la
+    // misma entrada del catálogo para enseñar las mismas fotos, pero cada uno
+    // tiene su propio historial. El id no puede salir sorteado.
+    expect(indice.porCatalogo.get("Barbell_Bench_Press_-_Medium_Grip")).toBe(null);
+    const banca = catalogo.ejercicios.find((e) => e.id === "Barbell_Bench_Press_-_Medium_Grip");
+    expect(idPara(banca, indice)).toBe("pu1");
+  });
+
   it("uno nuevo estrena el id del catálogo", () => {
     const nuevo = catalogo.ejercicios.find((e) => e.nombre === "Pec deck");
     expect(idPara(nuevo, indice)).toBe(nuevo.id);

@@ -1,4 +1,5 @@
 import { rangoSugerido, kgALb } from "../logica/unidades.js";
+import { htmlMecanica, conectarMecanica, detenerMecanica } from "./mecanica.js";
 
 export function abrirTecnica(e, unidad) {
   const velo = document.getElementById("velo");
@@ -11,6 +12,7 @@ export function abrirTecnica(e, unidad) {
       <span><b>${e.series}×${e.reps}</b></span><span>tempo <b>${e.tempo}</b></span>
       <span>RIR <b>${e.rir}</b></span><span>desc <b>${e.descanso}s</b></span>
     </div>
+    ${htmlMecanica(e)}
     <h3>Ejecución</h3>
     <ul>${(t.ejecucion || []).map((x) => `<li>${x}</li>`).join("")}</ul>
     <h3>Errores que cuestan caro</h3>
@@ -25,11 +27,13 @@ export function abrirTecnica(e, unidad) {
     <button class="cerrar">Cerrar</button>`;
 
   hoja.querySelector(".cerrar").onclick = cerrar;
+  conectarMecanica(hoja);
   velo.classList.add("abierto");
   hoja.scrollTop = 0;
 }
 
 export function cerrar() {
+  detenerMecanica();
   document.getElementById("velo").classList.remove("abierto");
 }
 

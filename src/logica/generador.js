@@ -273,7 +273,15 @@ export function indiceIdsPrevios(rutinaPrevia) {
     .filter((d) => d.ejercicios)
     .forEach((d) => {
       d.ejercicios.forEach((e) => {
-        if (e.catalogoId) porCatalogo.set(e.catalogoId, e.id);
+        if (e.catalogoId) {
+          // `catalogoId` apunta a una entrada del catálogo, y dos ejercicios
+          // distintos pueden apuntar a la misma: "Press banca ligero" y "Press
+          // banca con barra" comparten ficha y fotos pero tienen historial
+          // propio. Cuando pasa, el catálogo deja de identificar a uno solo y
+          // marcamos la entrada como ambigua para que decida el nombre.
+          const visto = porCatalogo.get(e.catalogoId);
+          porCatalogo.set(e.catalogoId, visto === undefined || visto === e.id ? e.id : null);
+        }
         porNombre.set(normalizar(e.nombre), e.id);
         if (e.sugerido && /kg/i.test(e.sugerido)) sugeridos.set(e.id, e.sugerido);
       });

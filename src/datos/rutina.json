@@ -61,6 +61,7 @@
           "mecanica": "compound",
           "fuerza": "push",
           "patron": "empuje-horizontal",
+          "catalogoId": "Incline_Dumbbell_Bench_With_Palms_Facing_In",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -92,6 +93,7 @@
           "mecanica": "compound",
           "fuerza": "push",
           "patron": "empuje-vertical",
+          "catalogoId": "Seated_Dumbbell_Press",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -120,6 +122,7 @@
           "mecanica": "isolation",
           "fuerza": "push",
           "patron": "empuje-horizontal",
+          "catalogoId": "Cable_Crossover",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -177,6 +180,7 @@
           "mecanica": "isolation",
           "fuerza": "push",
           "patron": null,
+          "catalogoId": "Decline_EZ_Bar_Triceps_Extension",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -205,6 +209,7 @@
           "mecanica": "isolation",
           "fuerza": "push",
           "patron": null,
+          "catalogoId": "Triceps_Pushdown_-_Rope_Attachment",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -246,6 +251,7 @@
           "mecanica": "compound",
           "fuerza": "pull",
           "patron": "traccion-vertical",
+          "catalogoId": "Wide-Grip_Lat_Pulldown",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
@@ -309,6 +315,7 @@
           "mecanica": "compound",
           "fuerza": "pull",
           "patron": "traccion-horizontal",
+          "catalogoId": "One-Arm_Dumbbell_Row",
           "descanso": 75,
           "tecnica": {
             "ejecucion": [
@@ -337,6 +344,7 @@
           "mecanica": "isolation",
           "fuerza": "pull",
           "patron": "traccion-vertical",
+          "catalogoId": "Straight-Arm_Pulldown",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -590,6 +598,7 @@
           "mecanica": "isolation",
           "fuerza": "pull",
           "patron": null,
+          "catalogoId": "Lying_Leg_Curls",
           "descanso": 60,
           "tecnica": {
             "ejecucion": [
@@ -645,6 +654,7 @@
           "mecanica": "isolation",
           "fuerza": "push",
           "patron": null,
+          "catalogoId": "Standing_Calf_Raises",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
@@ -745,6 +755,7 @@
           "mecanica": "compound",
           "fuerza": "push",
           "patron": "empuje-horizontal",
+          "catalogoId": "Barbell_Bench_Press_-_Medium_Grip",
           "descanso": 50,
           "tecnica": {
             "ejecucion": [
@@ -808,6 +819,7 @@
           "mecanica": "compound",
           "fuerza": "pull",
           "patron": "traccion-horizontal",
+          "catalogoId": "Seated_Cable_Rows",
           "descanso": 50,
           "tecnica": {
             "ejecucion": [
@@ -835,6 +847,7 @@
           "mecanica": "isolation",
           "fuerza": "static",
           "patron": null,
+          "catalogoId": "Plank",
           "descanso": 50,
           "tiempo": true,
           "tecnica": {

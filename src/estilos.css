@@ -213,6 +213,33 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   border-left:2px solid var(--record);padding:9px 0 9px 12px;margin-top:18px;
   font-size:13.5px;color:#F3DCB0;
 }
+/* mecánica: dos fotos alternándose, inicio y fin del movimiento */
+.mecanica{margin-top:16px}
+.mecanica .marco{
+  position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;
+  border:1px solid var(--linea-fuerte);border-radius:6px;background:var(--lona-2);
+}
+.mecanica .cuadro{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;
+}
+.mecanica .cuadro.ver{display:block}
+.mecanica .mando{
+  display:flex;align-items:center;gap:10px;margin-top:8px;
+}
+.mecanica .pausa{
+  border:1px solid var(--linea-fuerte);border-radius:5px;padding:7px 12px;color:var(--tiza);
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+}
+.mecanica .pausa:active{background:var(--lona-2)}
+.mecanica .paso{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--esquina);
+}
+.mecanica .sinfoto{
+  margin:10px 0 0;font-size:13px;color:var(--humo);line-height:1.5;
+}
+.mecanica .fuente{margin-top:8px}
+
 .cerrar{
   width:100%;margin-top:22px;padding:14px;border:1px solid var(--linea-fuerte);border-radius:6px;
   font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tiza);

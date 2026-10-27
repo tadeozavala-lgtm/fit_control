@@ -1,0 +1,380 @@
+{
+  "esquema": 1,
+  "generado": "2026-10-27",
+  "ancho": 520,
+  "fuente": {
+    "nombre": "free-exercise-db",
+    "url": "https://github.com/yuhonas/free-exercise-db",
+    "licencia": "The Unlicense (dominio público)"
+  },
+  "por": {
+    "Barbell_Curl": [
+      "Barbell_Curl-0.webp",
+      "Barbell_Curl-1.webp"
+    ],
+    "Close-Grip_EZ_Bar_Curl": [
+      "Close-Grip_EZ_Bar_Curl-0.webp",
+      "Close-Grip_EZ_Bar_Curl-1.webp"
+    ],
+    "Concentration_Curls": [
+      "Concentration_Curls-0.webp",
+      "Concentration_Curls-1.webp"
+    ],
+    "Standing_Biceps_Cable_Curl": [
+      "Standing_Biceps_Cable_Curl-0.webp",
+      "Standing_Biceps_Cable_Curl-1.webp"
+    ],
+    "Incline_Dumbbell_Curl": [
+      "Incline_Dumbbell_Curl-0.webp",
+      "Incline_Dumbbell_Curl-1.webp"
+    ],
+    "Hammer_Curls": [
+      "Hammer_Curls-0.webp",
+      "Hammer_Curls-1.webp"
+    ],
+    "Cable_Hammer_Curls_-_Rope_Attachment": [
+      "Cable_Hammer_Curls_-_Rope_Attachment-0.webp",
+      "Cable_Hammer_Curls_-_Rope_Attachment-1.webp"
+    ],
+    "Preacher_Curl": [
+      "Preacher_Curl-0.webp",
+      "Preacher_Curl-1.webp"
+    ],
+    "Seated_Dumbbell_Curl": [
+      "Seated_Dumbbell_Curl-0.webp",
+      "Seated_Dumbbell_Curl-1.webp"
+    ],
+    "Ab_Crunch_Machine": [
+      "Ab_Crunch_Machine-0.webp",
+      "Ab_Crunch_Machine-1.webp"
+    ],
+    "Cable_Crunch": [
+      "Cable_Crunch-0.webp",
+      "Cable_Crunch-1.webp"
+    ],
+    "Cable_Reverse_Crunch": [
+      "Cable_Reverse_Crunch-0.webp",
+      "Cable_Reverse_Crunch-1.webp"
+    ],
+    "Hanging_Leg_Raise": [
+      "Hanging_Leg_Raise-0.webp",
+      "Hanging_Leg_Raise-1.webp"
+    ],
+    "Plank": [
+      "Plank-0.webp",
+      "Plank-1.webp"
+    ],
+    "Leg_Extensions": [
+      "Leg_Extensions-0.webp",
+      "Leg_Extensions-1.webp"
+    ],
+    "Leg_Press": [
+      "Leg_Press-0.webp",
+      "Leg_Press-1.webp"
+    ],
+    "Barbell_Squat": [
+      "Barbell_Squat-0.webp",
+      "Barbell_Squat-1.webp"
+    ],
+    "Dumbbell_Squat": [
+      "Dumbbell_Squat-0.webp",
+      "Dumbbell_Squat-1.webp"
+    ],
+    "Smith_Machine_Squat": [
+      "Smith_Machine_Squat-0.webp",
+      "Smith_Machine_Squat-1.webp"
+    ],
+    "Front_Barbell_Squat": [
+      "Front_Barbell_Squat-0.webp",
+      "Front_Barbell_Squat-1.webp"
+    ],
+    "Goblet_Squat": [
+      "Goblet_Squat-0.webp",
+      "Goblet_Squat-1.webp"
+    ],
+    "Hack_Squat": [
+      "Hack_Squat-0.webp",
+      "Hack_Squat-1.webp"
+    ],
+    "Barbell_Walking_Lunge": [
+      "Barbell_Walking_Lunge-0.webp",
+      "Barbell_Walking_Lunge-1.webp"
+    ],
+    "Barbell_Lunge": [
+      "Barbell_Lunge-0.webp",
+      "Barbell_Lunge-1.webp"
+    ],
+    "Dumbbell_Lunges": [
+      "Dumbbell_Lunges-0.webp",
+      "Dumbbell_Lunges-1.webp"
+    ],
+    "Pullups": [
+      "Pullups-0.webp",
+      "Pullups-1.webp"
+    ],
+    "Chin-Up": [
+      "Chin-Up-0.webp",
+      "Chin-Up-1.webp"
+    ],
+    "Underhand_Cable_Pulldowns": [
+      "Underhand_Cable_Pulldowns-0.webp",
+      "Underhand_Cable_Pulldowns-1.webp"
+    ],
+    "Wide-Grip_Lat_Pulldown": [
+      "Wide-Grip_Lat_Pulldown-0.webp",
+      "Wide-Grip_Lat_Pulldown-1.webp"
+    ],
+    "Close-Grip_Front_Lat_Pulldown": [
+      "Close-Grip_Front_Lat_Pulldown-0.webp",
+      "Close-Grip_Front_Lat_Pulldown-1.webp"
+    ],
+    "V-Bar_Pulldown": [
+      "V-Bar_Pulldown-0.webp",
+      "V-Bar_Pulldown-1.webp"
+    ],
+    "Barbell_Deadlift": [
+      "Barbell_Deadlift-0.webp",
+      "Barbell_Deadlift-1.webp"
+    ],
+    "Straight-Arm_Pulldown": [
+      "Straight-Arm_Pulldown-0.webp",
+      "Straight-Arm_Pulldown-1.webp"
+    ],
+    "Rope_Straight-Arm_Pulldown": [
+      "Rope_Straight-Arm_Pulldown-0.webp",
+      "Rope_Straight-Arm_Pulldown-1.webp"
+    ],
+    "Leverage_High_Row": [
+      "Leverage_High_Row-0.webp",
+      "Leverage_High_Row-1.webp"
+    ],
+    "Bent_Over_Barbell_Row": [
+      "Bent_Over_Barbell_Row-0.webp",
+      "Bent_Over_Barbell_Row-1.webp"
+    ],
+    "Reverse_Grip_Bent-Over_Rows": [
+      "Reverse_Grip_Bent-Over_Rows-0.webp",
+      "Reverse_Grip_Bent-Over_Rows-1.webp"
+    ],
+    "Bent_Over_Two-Dumbbell_Row": [
+      "Bent_Over_Two-Dumbbell_Row-0.webp",
+      "Bent_Over_Two-Dumbbell_Row-1.webp"
+    ],
+    "One-Arm_Dumbbell_Row": [
+      "One-Arm_Dumbbell_Row-0.webp",
+      "One-Arm_Dumbbell_Row-1.webp"
+    ],
+    "Leverage_Iso_Row": [
+      "Leverage_Iso_Row-0.webp",
+      "Leverage_Iso_Row-1.webp"
+    ],
+    "Smith_Machine_Bent_Over_Row": [
+      "Smith_Machine_Bent_Over_Row-0.webp",
+      "Smith_Machine_Bent_Over_Row-1.webp"
+    ],
+    "T-Bar_Row_with_Handle": [
+      "T-Bar_Row_with_Handle-0.webp",
+      "T-Bar_Row_with_Handle-1.webp"
+    ],
+    "Lying_T-Bar_Row": [
+      "Lying_T-Bar_Row-0.webp",
+      "Lying_T-Bar_Row-1.webp"
+    ],
+    "Seated_Cable_Rows": [
+      "Seated_Cable_Rows-0.webp",
+      "Seated_Cable_Rows-1.webp"
+    ],
+    "Standing_Calf_Raises": [
+      "Standing_Calf_Raises-0.webp",
+      "Standing_Calf_Raises-1.webp"
+    ],
+    "Calf_Press": [
+      "Calf_Press-0.webp",
+      "Calf_Press-1.webp"
+    ],
+    "Calf_Press_On_The_Leg_Press_Machine": [
+      "Calf_Press_On_The_Leg_Press_Machine-0.webp",
+      "Calf_Press_On_The_Leg_Press_Machine-1.webp"
+    ],
+    "Seated_Calf_Raise": [
+      "Seated_Calf_Raise-0.webp",
+      "Seated_Calf_Raise-1.webp"
+    ],
+    "Barbell_Hip_Thrust": [
+      "Barbell_Hip_Thrust-0.webp",
+      "Barbell_Hip_Thrust-1.webp"
+    ],
+    "Cable_Rear_Delt_Fly": [
+      "Cable_Rear_Delt_Fly-0.webp",
+      "Cable_Rear_Delt_Fly-1.webp"
+    ],
+    "Cable_Seated_Lateral_Raise": [
+      "Cable_Seated_Lateral_Raise-0.webp",
+      "Cable_Seated_Lateral_Raise-1.webp"
+    ],
+    "Standing_Low-Pulley_Deltoid_Raise": [
+      "Standing_Low-Pulley_Deltoid_Raise-0.webp",
+      "Standing_Low-Pulley_Deltoid_Raise-1.webp"
+    ],
+    "Dumbbell_Lying_Rear_Lateral_Raise": [
+      "Dumbbell_Lying_Rear_Lateral_Raise-0.webp",
+      "Dumbbell_Lying_Rear_Lateral_Raise-1.webp"
+    ],
+    "Side_Lateral_Raise": [
+      "Side_Lateral_Raise-0.webp",
+      "Side_Lateral_Raise-1.webp"
+    ],
+    "Seated_Side_Lateral_Raise": [
+      "Seated_Side_Lateral_Raise-0.webp",
+      "Seated_Side_Lateral_Raise-1.webp"
+    ],
+    "Face_Pull": [
+      "Face_Pull-0.webp",
+      "Face_Pull-1.webp"
+    ],
+    "Arnold_Dumbbell_Press": [
+      "Arnold_Dumbbell_Press-0.webp",
+      "Arnold_Dumbbell_Press-1.webp"
+    ],
+    "Dumbbell_One-Arm_Shoulder_Press": [
+      "Dumbbell_One-Arm_Shoulder_Press-0.webp",
+      "Dumbbell_One-Arm_Shoulder_Press-1.webp"
+    ],
+    "Seated_Cable_Shoulder_Press": [
+      "Seated_Cable_Shoulder_Press-0.webp",
+      "Seated_Cable_Shoulder_Press-1.webp"
+    ],
+    "Seated_Dumbbell_Press": [
+      "Seated_Dumbbell_Press-0.webp",
+      "Seated_Dumbbell_Press-1.webp"
+    ],
+    "Standing_Military_Press": [
+      "Standing_Military_Press-0.webp",
+      "Standing_Military_Press-1.webp"
+    ],
+    "Seated_Barbell_Military_Press": [
+      "Seated_Barbell_Military_Press-0.webp",
+      "Seated_Barbell_Military_Press-1.webp"
+    ],
+    "Upright_Barbell_Row": [
+      "Upright_Barbell_Row-0.webp",
+      "Upright_Barbell_Row-1.webp"
+    ],
+    "Good_Morning": [
+      "Good_Morning-0.webp",
+      "Good_Morning-1.webp"
+    ],
+    "Lying_Leg_Curls": [
+      "Lying_Leg_Curls-0.webp",
+      "Lying_Leg_Curls-1.webp"
+    ],
+    "Seated_Leg_Curl": [
+      "Seated_Leg_Curl-0.webp",
+      "Seated_Leg_Curl-1.webp"
+    ],
+    "Stiff-Legged_Barbell_Deadlift": [
+      "Stiff-Legged_Barbell_Deadlift-0.webp",
+      "Stiff-Legged_Barbell_Deadlift-1.webp"
+    ],
+    "Romanian_Deadlift": [
+      "Romanian_Deadlift-0.webp",
+      "Romanian_Deadlift-1.webp"
+    ],
+    "Stiff-Legged_Dumbbell_Deadlift": [
+      "Stiff-Legged_Dumbbell_Deadlift-0.webp",
+      "Stiff-Legged_Dumbbell_Deadlift-1.webp"
+    ],
+    "Dumbbell_Flyes": [
+      "Dumbbell_Flyes-0.webp",
+      "Dumbbell_Flyes-1.webp"
+    ],
+    "Incline_Dumbbell_Flyes": [
+      "Incline_Dumbbell_Flyes-0.webp",
+      "Incline_Dumbbell_Flyes-1.webp"
+    ],
+    "Cable_Crossover": [
+      "Cable_Crossover-0.webp",
+      "Cable_Crossover-1.webp"
+    ],
+    "Low_Cable_Crossover": [
+      "Low_Cable_Crossover-0.webp",
+      "Low_Cable_Crossover-1.webp"
+    ],
+    "Pushups": [
+      "Pushups-0.webp",
+      "Pushups-1.webp"
+    ],
+    "Push-Ups_With_Feet_Elevated": [
+      "Push-Ups_With_Feet_Elevated-0.webp",
+      "Push-Ups_With_Feet_Elevated-1.webp"
+    ],
+    "Butterfly": [
+      "Butterfly-0.webp",
+      "Butterfly-1.webp"
+    ],
+    "Barbell_Bench_Press_-_Medium_Grip": [
+      "Barbell_Bench_Press_-_Medium_Grip-0.webp",
+      "Barbell_Bench_Press_-_Medium_Grip-1.webp"
+    ],
+    "Dumbbell_Bench_Press": [
+      "Dumbbell_Bench_Press-0.webp",
+      "Dumbbell_Bench_Press-1.webp"
+    ],
+    "Machine_Bench_Press": [
+      "Machine_Bench_Press-0.webp",
+      "Machine_Bench_Press-1.webp"
+    ],
+    "Decline_Dumbbell_Bench_Press": [
+      "Decline_Dumbbell_Bench_Press-0.webp",
+      "Decline_Dumbbell_Bench_Press-1.webp"
+    ],
+    "Incline_Dumbbell_Bench_With_Palms_Facing_In": [
+      "Incline_Dumbbell_Bench_With_Palms_Facing_In-0.webp",
+      "Incline_Dumbbell_Bench_With_Palms_Facing_In-1.webp"
+    ],
+    "Barbell_Incline_Bench_Press_-_Medium_Grip": [
+      "Barbell_Incline_Bench_Press_-_Medium_Grip-0.webp",
+      "Barbell_Incline_Bench_Press_-_Medium_Grip-1.webp"
+    ],
+    "Leverage_Incline_Chest_Press": [
+      "Leverage_Incline_Chest_Press-0.webp",
+      "Leverage_Incline_Chest_Press-1.webp"
+    ],
+    "Dumbbell_One-Arm_Triceps_Extension": [
+      "Dumbbell_One-Arm_Triceps_Extension-0.webp",
+      "Dumbbell_One-Arm_Triceps_Extension-1.webp"
+    ],
+    "Standing_Overhead_Barbell_Triceps_Extension": [
+      "Standing_Overhead_Barbell_Triceps_Extension-0.webp",
+      "Standing_Overhead_Barbell_Triceps_Extension-1.webp"
+    ],
+    "Triceps_Pushdown_-_V-Bar_Attachment": [
+      "Triceps_Pushdown_-_V-Bar_Attachment-0.webp",
+      "Triceps_Pushdown_-_V-Bar_Attachment-1.webp"
+    ],
+    "Triceps_Pushdown_-_Rope_Attachment": [
+      "Triceps_Pushdown_-_Rope_Attachment-0.webp",
+      "Triceps_Pushdown_-_Rope_Attachment-1.webp"
+    ],
+    "Cable_Rope_Overhead_Triceps_Extension": [
+      "Cable_Rope_Overhead_Triceps_Extension-0.webp",
+      "Cable_Rope_Overhead_Triceps_Extension-1.webp"
+    ],
+    "Bench_Dips": [
+      "Bench_Dips-0.webp",
+      "Bench_Dips-1.webp"
+    ],
+    "Dips_-_Triceps_Version": [
+      "Dips_-_Triceps_Version-0.webp",
+      "Dips_-_Triceps_Version-1.webp"
+    ],
+    "Close-Grip_Barbell_Bench_Press": [
+      "Close-Grip_Barbell_Bench_Press-0.webp",
+      "Close-Grip_Barbell_Bench_Press-1.webp"
+    ],
+    "Decline_EZ_Bar_Triceps_Extension": [
+      "Decline_EZ_Bar_Triceps_Extension-0.webp",
+      "Decline_EZ_Bar_Triceps_Extension-1.webp"
+    ]
+  }
+}
