@@ -5,17 +5,24 @@
 
 import { construirSecuencia, duracion, minutosTrabajo } from "../logica/secuencia.js";
 import { decir } from "../logica/avisos.js";
+import { configDe, modalidad, protocolo, secuenciaDe, etiquetaDias } from "../logica/cardio.js";
+import { selectorCardio } from "./selector-cardio.js";
 
 /* ---------- HIIT por intervalos ---------- */
 
 export function pintarIntervalo(app, dia, contenedor) {
-  const pasos = construirSecuencia(dia.secuencia);
+  const cfg = configDe(app.datos, dia.id);
+  const m = modalidad(cfg.modalidad);
+  const p = protocolo(cfg.protocolo);
+  // La secuencia sale del protocolo elegido, no de rutina.json: así el mismo
+  // 4×4 vale pedaleando, remando o corriendo.
+  const pasos = construirSecuencia(secuenciaDe(cfg.protocolo, cfg.modalidad) || dia.secuencia);
 
   const cartel = document.createElement("section");
   cartel.className = "cartel";
   cartel.innerHTML = `
-    <div class="rotulo">${dia.dia} · Semana ${app.datos.semana}</div>
-    <h1>${dia.nombre}</h1><div class="sub">${dia.sub}</div>
+    <div class="rotulo">${etiquetaDias(cfg.dias)} · Semana ${app.datos.semana}</div>
+    <h1>${dia.nombre}</h1><div class="sub">${p ? p.nombre : dia.sub} · ${m.nombre}</div>
     <dl class="tape">
       <div><dt>Bloques</dt><dd>${pasos.length}</dd></div>
       <div><dt>Total</dt><dd>${Math.round(duracion(pasos) / 60)}<small>min</small></dd></div>
@@ -23,9 +30,12 @@ export function pintarIntervalo(app, dia, contenedor) {
     </dl>`;
   contenedor.appendChild(cartel);
 
+  contenedor.appendChild(selectorCardio(app, dia.id, "hiit", () => app.pintar()));
+
   const s = document.createElement("section");
   s.className = "bloque";
-  if (dia.intro) s.innerHTML = `<p>${dia.intro}</p>`;
+  if (p) s.innerHTML = `<p>${p.porQue} Apunta a zona ${p.zona} en los bloques fuertes.</p>`;
+  else if (dia.intro) s.innerHTML = `<p>${dia.intro}</p>`;
 
   const ul = document.createElement("ul");
   ul.className = "pasos";

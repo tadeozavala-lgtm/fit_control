@@ -14,6 +14,7 @@ import {
 } from "../logica/fuerza.js";
 import { sesionesConEjercicio } from "../logica/almacen.js";
 import { abrirTecnica } from "./modal.js";
+import { cardioDelDia } from "../logica/cardio.js";
 import { resolver, sustituir } from "../logica/sustituciones.js";
 import { abrirAlternativas } from "./sustituciones.js";
 import { pintarNotas } from "./notas.js";
@@ -29,7 +30,7 @@ export function pintarDia(app, dia, contenedor) {
   cartel.innerHTML = `
     <div class="rotulo">${dia.dia} · Semana ${app.datos.semana}</div>
     <h1>${dia.nombre}</h1>
-    <div class="sub">${dia.sub}${dia.remate ? " · " + dia.remate : ""}</div>
+    <div class="sub">${dia.sub}${remateDelDia(app, dia)}</div>
     <dl class="tape">
       <div><dt>Series</dt><dd><span id="tapeHechas">0</span><small id="tapeTotales">/0</small></dd></div>
       <div><dt>Tonelaje</dt><dd><span id="tapeTon">0</span><small>${u}</small></dd></div>
@@ -228,4 +229,23 @@ function refrescar(el, e, series, rec, unidad) {
   const s = sugerencia(series, e, unidad);
   pista.textContent = s.texto;
   pista.classList.toggle("baja", s.accion === "bajar");
+}
+
+/**
+ * Lo que toca al terminar las pesas, leído de la configuración de cardio.
+ *
+ * Antes era una frase escrita a mano en rutina.json ("+ 30 min carrera Zona 2"),
+ * que dejaba de ser verdad en cuanto Tadeo movía el cardio de día. El `remate`
+ * del JSON queda como respaldo para los días que no tengan cardio encima.
+ */
+function remateDelDia(app, dia) {
+  const corto = String(dia.dia || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .slice(0, 3);
+  const cardio = cardioDelDia(app.datos, corto);
+  if (cardio.length) return " · + " + cardio.map((c) => c.texto).join(" + ");
+  return dia.remate ? " · " + dia.remate : "";
 }
