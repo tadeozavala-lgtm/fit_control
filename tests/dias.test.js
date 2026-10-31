@@ -20,45 +20,46 @@ describe("días que ocupa la fuerza", () => {
   });
 
   it("un día liberado deja de ocupar", () => {
-    expect(diasOcupados(rutinaReal, ["full"])).not.toContain("sab");
-    expect(diasOcupados(rutinaReal, ["full"])).toHaveLength(3);
+    expect(diasOcupados(rutinaReal, ["piernaB"])).not.toContain("sab");
+    expect(diasOcupados(rutinaReal, ["piernaB"])).toHaveLength(3);
   });
 
   it("liberar no borra el día de la rutina", () => {
     // Si Tadeo lo entrena igual, sus series tienen que seguir contando.
-    expect(rutinaReal.dias.find((d) => d.id === "full")).toBeTruthy();
-    expect(rutinaSin(rutinaReal, ["full"]).dias.find((d) => d.id === "full")).toBeUndefined();
+    expect(rutinaReal.dias.find((d) => d.id === "piernaB")).toBeTruthy();
+    expect(rutinaSin(rutinaReal, ["piernaB"]).dias.find((d) => d.id === "piernaB")).toBeUndefined();
   });
 });
 
 describe("costo de soltar un día", () => {
   it("cuenta las series que se pierden y qué grupos caen bajo rango", () => {
-    const c = costoDeLiberar(rutinaReal, "pull");
-    expect(c.nombre).toBe("Pull");
+    const c = costoDeLiberar(rutinaReal, "torsoB");
+    expect(c.nombre).toBe("Torso B");
     expect(c.seriesPerdidas).toBeGreaterThan(0);
-    expect(c.caenBajo).toContain("Espalda");
-    expect(c.porGrupo.find((g) => g.grupo === "espalda").despues).toBeLessThan(
-      c.porGrupo.find((g) => g.grupo === "espalda").antes
+    expect(c.caenBajo).toContain("Pecho");
+    expect(c.porGrupo.find((g) => g.grupo === "pecho").despues).toBeLessThan(
+      c.porGrupo.find((g) => g.grupo === "pecho").antes
     );
   });
 
   it("el déficit mide cuánto se hunden los grupos, no cuántas series se van", () => {
-    // Legs pierde más series que Pull pero lo que importa es el hundimiento.
-    const pull = costoDeLiberar(rutinaReal, "pull");
-    const full = costoDeLiberar(rutinaReal, "full");
-    expect(full.seriesPerdidas).toBeLessThan(pull.seriesPerdidas);
-    expect(full.deficit).toBeLessThan(pull.deficit);
+    // Torso A se lleva más series que Pierna B, pero el torso tiene de dónde:
+    // las pocas series de pierna son las que dejan grupos sin piso.
+    const torsoA = costoDeLiberar(rutinaReal, "torsoA");
+    const piernaB = costoDeLiberar(rutinaReal, "piernaB");
+    expect(piernaB.seriesPerdidas).toBeLessThan(torsoA.seriesPerdidas);
+    expect(piernaB.deficit).toBeGreaterThan(torsoA.deficit);
   });
 
   it("un día que reparte su trabajo cuesta menos que uno que lo concentra", () => {
-    const full = costoDeLiberar(rutinaReal, "full");
-    const push = costoDeLiberar(rutinaReal, "push");
-    expect(full.porGrupo.length).toBeGreaterThan(push.porGrupo.length);
-    expect(full.deficit).toBeLessThan(push.deficit);
+    const piernaA = costoDeLiberar(rutinaReal, "piernaA");
+    const torsoA = costoDeLiberar(rutinaReal, "torsoA");
+    expect(piernaA.porGrupo.length).toBeGreaterThan(torsoA.porGrupo.length);
+    expect(piernaA.deficit).toBeLessThan(torsoA.deficit);
   });
 
   it("los grupos salen ordenados por lo que pierden", () => {
-    const c = costoDeLiberar(rutinaReal, "legs");
+    const c = costoDeLiberar(rutinaReal, "piernaB");
     const perdidas = c.porGrupo.map((g) => g.antes - g.despues);
     expect(perdidas).toEqual([...perdidas].sort((a, b) => b - a));
   });
@@ -72,8 +73,8 @@ describe("costo de soltar un día", () => {
     // Las series que aporta Legs son las mismas se haya soltado Full o no, pero
     // el daño es mayor: los grupos llegan sin colchón sobre su mínimo. Por eso
     // el costo se mide siempre sobre lo que queda, no sobre la rutina entera.
-    const solo = costoDeLiberar(rutinaReal, "legs");
-    const tras = costoDeLiberar(rutinaReal, "legs", ["full"]);
+    const solo = costoDeLiberar(rutinaReal, "piernaB");
+    const tras = costoDeLiberar(rutinaReal, "piernaB", ["piernaA"]);
     expect(tras.seriesPerdidas).toBe(solo.seriesPerdidas);
     expect(tras.deficit).toBeGreaterThan(solo.deficit);
   });
@@ -88,57 +89,66 @@ describe("a quién recomendar soltar", () => {
     }
   });
 
-  it("recomienda Full Body: es el circuito metabólico, el más redundante con el cardio", () => {
-    expect(mejorCandidato(rutinaReal).id).toBe("full");
+  it("recomienda Pierna A: es el día accesorio, el que más se solapa con Pierna B", () => {
+    expect(mejorCandidato(rutinaReal).id).toBe("piernaA");
+  });
+
+  it("en torso/pierna ya no hay día gratis", () => {
+    // Con Push/Pull/Legs/Full Body el full body era el día barato: repartía
+    // poco trabajo entre muchos grupos. Aquí cada día es la mitad de las
+    // exposiciones de su región, así que soltar cualquiera hunde algo.
+    candidatosALiberar(rutinaReal).forEach((c) => {
+      expect(c.caenBajo.length, c.nombre).toBeGreaterThan(0);
+    });
   });
 
   it("nunca recomienda soltar los días que aguantan el esqueleto del split", () => {
     const lista = candidatosALiberar(rutinaReal);
     const peores = lista.slice(-2).map((c) => c.id);
-    expect(peores).toContain("legs");
+    expect(peores).toContain("piernaB");
   });
 
   it("deja de recomendar cuando la fuerza bajaría de tres días", () => {
     expect(puedeLiberar(rutinaReal)).toBe(true);
-    expect(puedeLiberar(rutinaReal, ["full"])).toBe(false);
-    expect(mejorCandidato(rutinaReal, ["full"])).toBeNull();
+    expect(puedeLiberar(rutinaReal, ["piernaA"])).toBe(false);
+    expect(mejorCandidato(rutinaReal, ["piernaA"])).toBeNull();
   });
 
   it("tres días es el piso declarado", () => {
     expect(MINIMO_FUERZA).toBe(3);
-    expect(diasRestantes(rutinaReal, ["full"])).toBe(MINIMO_FUERZA);
+    expect(diasRestantes(rutinaReal, ["piernaA"])).toBe(MINIMO_FUERZA);
   });
 });
 
 describe("compensar lo que se pierde", () => {
   it("dice cuántas series faltan y en qué día recolocarlas", () => {
-    const c = compensaciones(rutinaReal, "full");
+    const c = compensaciones(rutinaReal, "piernaA");
     expect(c.length).toBeGreaterThan(0);
     c.forEach((x) => {
       expect(x.faltan).toBeGreaterThan(0);
       expect(x.texto).toMatch(/serie/);
     });
-    expect(c.find((x) => x.grupo === "isquios").dia).toBe("Legs");
+    expect(c.find((x) => x.grupo === "isquios").dia).toBe("Pierna B");
   });
 
   it("si ningún día restante entrena ese grupo, lo dice en vez de inventar", () => {
-    const soloPush = { ...rutinaReal, dias: rutinaReal.dias.filter((d) => ["push", "legs"].includes(d.id)) };
-    const c = compensaciones(soloPush, "legs");
+    const soloTorso = { ...rutinaReal, dias: rutinaReal.dias.filter((d) => ["torsoA", "piernaB"].includes(d.id)) };
+    const c = compensaciones(soloTorso, "piernaB");
     c.forEach((x) => {
       if (!x.dia) expect(x.texto).toMatch(/ningún día/);
     });
   });
 
   it("sin grupos caídos no propone nada", () => {
-    const sinDanio = { ...rutinaReal, dias: rutinaReal.dias.filter((d) => d.id !== "full") };
+    const sinDanio = { ...rutinaReal, dias: rutinaReal.dias.filter((d) => d.id !== "piernaA") };
     // Quitar un día ya quitado no vuelve a hundir nada.
     expect(compensaciones(sinDanio, "zzz")).toEqual([]);
   });
 
   it("aplicar las compensaciones devuelve los grupos a su rango", () => {
     // Comprobación de que el número propuesto es suficiente, no simbólico.
-    const despues = volumenPlaneado(rutinaSin(rutinaReal, ["full"]));
-    compensaciones(rutinaReal, "full").forEach((c) => {
+    const despues = volumenPlaneado(rutinaSin(rutinaReal, ["piernaA"]));
+    compensaciones(rutinaReal, "piernaA").forEach((c) => {
       const conCompensacion = (despues[c.grupo] || 0) + c.faltan;
       expect(estado(c.grupo, conCompensacion), c.grupo).not.toBe("bajo");
     });

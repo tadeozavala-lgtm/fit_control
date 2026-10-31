@@ -3,10 +3,10 @@
   "nombre": "Protocolo Recomposición 4D + 5 Cardio",
   "dias": [
     {
-      "id": "push",
-      "nombre": "Push",
+      "id": "torsoA",
+      "nombre": "Torso A",
       "dia": "Lunes",
-      "sub": "Pecho · Hombro · Tríceps",
+      "sub": "Pecho · Espalda · Hombro · Tríceps · Bíceps",
       "tipo": "fuerza",
       "remate": "+ 30 min carrera Zona 2 al terminar",
       "ejercicios": [
@@ -44,36 +44,35 @@
           }
         },
         {
-          "id": "pu2",
-          "nombre": "Press inclinado con mancuernas",
-          "series": 3,
+          "id": "pl1",
+          "nombre": "Jalón al pecho",
+          "series": 4,
           "reps": "10",
           "repMax": 10,
           "tempo": "3-1-1-0",
           "rir": 2,
-          "sugerido": "20–24 kg c/u",
-          "grupo": "pecho",
+          "sugerido": "55–65 kg",
+          "grupo": "espalda",
           "secundarios": [
-            "hombro",
-            "triceps"
+            "biceps"
           ],
-          "equipo": "mancuerna",
+          "equipo": "polea",
           "mecanica": "compound",
-          "fuerza": "push",
-          "patron": "empuje-horizontal",
-          "catalogoId": "Incline_Dumbbell_Bench_With_Palms_Facing_In",
+          "fuerza": "pull",
+          "patron": "traccion-vertical",
+          "catalogoId": "Wide-Grip_Lat_Pulldown",
           "descanso": 90,
           "tecnica": {
             "ejecucion": [
-              "Banca a 30°, no más: arriba de 45° el trabajo se va al hombro.",
-              "Baja hasta que el codo quede ligeramente bajo la línea del torso.",
-              "Arriba no choques las mancuernas: deja 10 cm y mantén tensión."
+              "Pecho arriba, ligera inclinación atrás (no más de 15°).",
+              "Jala llevando los codos a los bolsillos, no las manos a la barra.",
+              "Sube en 3 seg dejando que el omóplato se estire arriba."
             ],
             "errores": [
-              "Inclinación excesiva del banco.",
-              "Recorrido corto por peso de más."
+              "Jalar con los brazos y olvidar la escápula.",
+              "Balancearse para arrancar la repetición."
             ],
-            "aviso": "Si el hombro molesta, gira las palmas 45° (agarre neutro-diagonal)."
+            "aviso": null
           }
         },
         {
@@ -109,6 +108,69 @@
           }
         },
         {
+          "id": "pl3",
+          "nombre": "Remo mancuerna a una mano",
+          "series": 3,
+          "reps": "10",
+          "repMax": 10,
+          "tempo": "3-0-1-1",
+          "rir": 2,
+          "sugerido": "24–28 kg",
+          "grupo": "espalda",
+          "secundarios": [
+            "biceps"
+          ],
+          "equipo": "mancuerna",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
+          "catalogoId": "One-Arm_Dumbbell_Row",
+          "descanso": 75,
+          "tecnica": {
+            "ejecucion": [
+              "Apoya rodilla y mano en el banco, espalda plana como una mesa.",
+              "Jala hacia la cadera, no hacia el hombro.",
+              "Aprieta 1 seg arriba y estira completo abajo."
+            ],
+            "errores": [
+              "Rotar el torso para levantar más peso.",
+              "Tirón corto sin estiramiento final."
+            ],
+            "aviso": null
+          }
+        },
+        {
+          "id": "fb4",
+          "nombre": "Remo en polea baja",
+          "series": 3,
+          "reps": "12",
+          "repMax": 12,
+          "tempo": "2-1-1-1",
+          "rir": 2,
+          "sugerido": "50–60 kg",
+          "grupo": "espalda",
+          "secundarios": [
+            "biceps"
+          ],
+          "equipo": "polea",
+          "mecanica": "compound",
+          "fuerza": "pull",
+          "patron": "traccion-horizontal",
+          "catalogoId": "Seated_Cable_Rows",
+          "descanso": 50,
+          "tecnica": {
+            "ejecucion": [
+              "Torso vertical, rodillas ligeramente flexionadas.",
+              "Jala al ombligo, aprieta 1 seg.",
+              "Estira completo al frente sin encorvarte."
+            ],
+            "errores": [
+              "Mecer el torso adelante y atrás."
+            ],
+            "aviso": null
+          }
+        },
+        {
           "id": "pu4",
           "nombre": "Aperturas en polea o pec deck",
           "series": 3,
@@ -135,35 +197,6 @@
               "Buscar peso: aquí manda la sensación, no la carga."
             ],
             "aviso": null
-          }
-        },
-        {
-          "id": "pu5",
-          "nombre": "Elevaciones laterales",
-          "series": 4,
-          "reps": "15",
-          "repMax": 15,
-          "tempo": "2-0-1-0",
-          "rir": 1,
-          "sugerido": "8–10 kg",
-          "grupo": "hombro",
-          "equipo": "mancuerna",
-          "mecanica": "isolation",
-          "fuerza": "push",
-          "patron": null,
-          "catalogoId": "Side_Lateral_Raise",
-          "descanso": 45,
-          "tecnica": {
-            "ejecucion": [
-              "Torso 10° al frente, codo ligeramente flexionado.",
-              "Sube hasta la línea del hombro, no más alto.",
-              "Meñique apenas más alto que el pulgar al llegar arriba."
-            ],
-            "errores": [
-              "Impulso de cadera: si te balanceas, baja el peso.",
-              "Encoger el trapecio en lugar de abrir el deltoide."
-            ],
-            "aviso": "Es el ejercicio que más te va a cambiar la silueta al bajar grasa. No lo saltes."
           }
         },
         {
@@ -196,30 +229,29 @@
           }
         },
         {
-          "id": "pu7",
-          "nombre": "Extensión de tríceps en polea",
+          "id": "pl7",
+          "nombre": "Curl martillo",
           "series": 3,
-          "reps": "15",
-          "repMax": 15,
-          "tempo": "2-0-1-1",
+          "reps": "12",
+          "repMax": 12,
+          "tempo": "2-0-1-0",
           "rir": 1,
-          "sugerido": "25–30 kg",
-          "grupo": "triceps",
-          "equipo": "polea",
+          "sugerido": "12–14 kg",
+          "grupo": "biceps",
+          "equipo": "mancuerna",
           "mecanica": "isolation",
-          "fuerza": "push",
+          "fuerza": "pull",
           "patron": null,
-          "catalogoId": "Triceps_Pushdown_-_Rope_Attachment",
+          "catalogoId": "Hammer_Curls",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
-              "Codos pegados al costado, torso ligeramente inclinado.",
-              "Extiende hasta el bloqueo y aprieta 1 seg abajo.",
-              "Sube controlado sin dejar que la polea te jale."
+              "Palmas enfrentadas todo el recorrido.",
+              "Alterna o simultáneo, pero sin mecerte.",
+              "Controla la bajada, no la sueltes."
             ],
             "errores": [
-              "Dar pasos atrás y usar el peso del cuerpo.",
-              "Recorrido a medias por carga excesiva."
+              "Girar la muñeca al subir (eso ya es curl normal)."
             ],
             "aviso": null
           }
@@ -227,45 +259,204 @@
       ]
     },
     {
-      "id": "pull",
-      "nombre": "Pull",
+      "id": "piernaA",
+      "nombre": "Pierna A",
       "dia": "Martes",
-      "sub": "Espalda · Bíceps",
+      "sub": "Bisagra · Cuádriceps · Gemelo · Core",
       "tipo": "fuerza",
       "remate": "+ HIIT Box · Rutina A al terminar",
       "ejercicios": [
         {
-          "id": "pl1",
-          "nombre": "Jalón al pecho",
-          "series": 4,
-          "reps": "10",
-          "repMax": 10,
-          "tempo": "3-1-1-0",
-          "rir": 2,
-          "sugerido": "55–65 kg",
-          "grupo": "espalda",
+          "id": "fb3",
+          "nombre": "Peso muerto convencional",
+          "series": 3,
+          "reps": "6",
+          "repMax": 6,
+          "tempo": "2-1-1-0",
+          "rir": 3,
+          "sugerido": "70–80 kg",
+          "grupo": "isquios",
           "secundarios": [
-            "biceps"
+            "espalda",
+            "gluteo"
           ],
-          "equipo": "polea",
+          "equipo": "barra",
           "mecanica": "compound",
           "fuerza": "pull",
-          "patron": "traccion-vertical",
-          "catalogoId": "Wide-Grip_Lat_Pulldown",
-          "descanso": 90,
+          "patron": "bisagra",
+          "catalogoId": "Barbell_Deadlift",
+          "descanso": 60,
           "tecnica": {
             "ejecucion": [
-              "Pecho arriba, ligera inclinación atrás (no más de 15°).",
-              "Jala llevando los codos a los bolsillos, no las manos a la barra.",
-              "Sube en 3 seg dejando que el omóplato se estire arriba."
+              "Barra sobre el medio del pie, escápulas encima de la barra.",
+              "Empuja el piso con las piernas antes de que suba el torso.",
+              "Bloquea con glúteo, sin hiperextender la lumbar."
             ],
             "errores": [
-              "Jalar con los brazos y olvidar la escápula.",
-              "Balancearse para arrancar la repetición."
+              "Jalar con la espalda y la cadera subiendo primero.",
+              "Alejar la barra del cuerpo."
+            ],
+            "aviso": "Con circuito y fatiga acumulada, el peso muerto es el ejercicio con más riesgo. Si la técnica se rompe, corta la serie."
+          }
+        },
+        {
+          "id": "fb1",
+          "nombre": "Sentadilla goblet",
+          "series": 3,
+          "reps": "10",
+          "repMax": 10,
+          "tempo": "2-0-1-0",
+          "rir": 2,
+          "sugerido": "24–32 kg kettlebell",
+          "grupo": "cuadriceps",
+          "secundarios": [
+            "gluteo"
+          ],
+          "equipo": "kettlebell",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Goblet_Squat",
+          "descanso": 50,
+          "tecnica": {
+            "ejecucion": [
+              "Pesa pegada al pecho, codos por dentro de las rodillas abajo.",
+              "Baja controlado, torso lo más vertical posible.",
+              "Sube empujando el piso, sin perder el pecho arriba."
+            ],
+            "errores": [
+              "Dejar que la pesa se separe del cuerpo."
             ],
             "aviso": null
           }
         },
+        {
+          "id": "lg4",
+          "nombre": "Zancadas caminando",
+          "series": 3,
+          "reps": "12 por pierna",
+          "repMax": 12,
+          "tempo": "2-0-1-0",
+          "rir": 2,
+          "sugerido": "12–16 kg c/u",
+          "grupo": "cuadriceps",
+          "secundarios": [
+            "gluteo"
+          ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "rodilla",
+          "catalogoId": "Barbell_Walking_Lunge",
+          "descanso": 75,
+          "tecnica": {
+            "ejecucion": [
+              "Paso largo, torso vertical, rodilla trasera baja sin tocar el piso.",
+              "Empuja con el talón de la pierna delantera.",
+              "Mira un punto fijo al frente para el equilibrio."
+            ],
+            "errores": [
+              "Paso corto: manda toda la carga a la rodilla.",
+              "Inclinar el torso al frente."
+            ],
+            "aviso": "Si la rodilla protesta, cámbialas por zancadas estáticas o sentadilla búlgara con apoyo."
+          }
+        },
+        {
+          "id": "lg6",
+          "nombre": "Extensión de cuádriceps",
+          "series": 2,
+          "reps": "15",
+          "repMax": 15,
+          "tempo": "2-1-1-0",
+          "rir": 1,
+          "sugerido": "35–45 kg",
+          "grupo": "cuadriceps",
+          "equipo": "máquina",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
+          "catalogoId": "Leg_Extensions",
+          "descanso": 45,
+          "tecnica": {
+            "ejecucion": [
+              "Espalda apoyada, manos en las agarraderas.",
+              "Extiende y aprieta 1 seg arriba.",
+              "Baja controlado sin dejar caer el peso."
+            ],
+            "errores": [
+              "Rango parcial con peso excesivo."
+            ],
+            "aviso": "Buen ejercicio para reforzar la rodilla antes de correr, siempre con carga moderada."
+          }
+        },
+        {
+          "id": "lg9",
+          "nombre": "Elevación de talones sentado",
+          "series": 4,
+          "reps": "15",
+          "repMax": 15,
+          "tempo": "2-1-1-1",
+          "rir": 1,
+          "sugerido": "40–55 kg",
+          "grupo": "gemelo",
+          "equipo": "máquina",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
+          "catalogoId": "Seated_Calf_Raise",
+          "descanso": 45,
+          "tecnica": {
+            "ejecucion": [
+              "Rodilla a 90°, almohadilla sobre el muslo, no sobre la rodilla.",
+              "Talón cae por debajo del escalón hasta el estiramiento completo.",
+              "Sube al máximo y aprieta 1 seg arriba."
+            ],
+            "errores": [
+              "Rebotar abajo y recortar el recorrido para meter más peso."
+            ],
+            "aviso": "Con la rodilla doblada trabaja el sóleo, que de pie casi no entra. Es el que sostiene el pie en los kilómetros largos."
+          }
+        },
+        {
+          "id": "fb5",
+          "nombre": "Plancha lastrada",
+          "series": 3,
+          "reps": "45 seg",
+          "repMax": 45,
+          "tempo": "isométrico",
+          "rir": 1,
+          "sugerido": "disco 5–10 kg",
+          "grupo": "core",
+          "equipo": "peso corporal",
+          "mecanica": "isolation",
+          "fuerza": "static",
+          "patron": null,
+          "catalogoId": "Plank",
+          "descanso": 50,
+          "tiempo": true,
+          "tecnica": {
+            "ejecucion": [
+              "Disco en la parte alta de la espalda, pide que te lo coloquen.",
+              "Cuerpo en tabla, glúteo apretado.",
+              "Si la cadera cae, quita el disco."
+            ],
+            "errores": [
+              "Aguantar la respiración."
+            ],
+            "aviso": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "torsoB",
+      "nombre": "Torso B",
+      "dia": "Jueves",
+      "sub": "Espalda · Pecho · Hombro · Bíceps · Tríceps",
+      "tipo": "fuerza",
+      "remate": "+ 30 min carrera Zona 2 al terminar",
+      "ejercicios": [
         {
           "id": "pl2",
           "nombre": "Remo con barra",
@@ -299,35 +490,67 @@
           }
         },
         {
-          "id": "pl3",
-          "nombre": "Remo mancuerna a una mano",
+          "id": "pu2",
+          "nombre": "Press inclinado con mancuernas",
           "series": 3,
           "reps": "10",
           "repMax": 10,
-          "tempo": "3-0-1-1",
+          "tempo": "3-1-1-0",
           "rir": 2,
-          "sugerido": "24–28 kg",
-          "grupo": "espalda",
+          "sugerido": "20–24 kg c/u",
+          "grupo": "pecho",
           "secundarios": [
-            "biceps"
+            "hombro",
+            "triceps"
           ],
           "equipo": "mancuerna",
           "mecanica": "compound",
-          "fuerza": "pull",
-          "patron": "traccion-horizontal",
-          "catalogoId": "One-Arm_Dumbbell_Row",
-          "descanso": 75,
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
+          "catalogoId": "Incline_Dumbbell_Bench_With_Palms_Facing_In",
+          "descanso": 90,
           "tecnica": {
             "ejecucion": [
-              "Apoya rodilla y mano en el banco, espalda plana como una mesa.",
-              "Jala hacia la cadera, no hacia el hombro.",
-              "Aprieta 1 seg arriba y estira completo abajo."
+              "Banca a 30°, no más: arriba de 45° el trabajo se va al hombro.",
+              "Baja hasta que el codo quede ligeramente bajo la línea del torso.",
+              "Arriba no choques las mancuernas: deja 10 cm y mantén tensión."
             ],
             "errores": [
-              "Rotar el torso para levantar más peso.",
-              "Tirón corto sin estiramiento final."
+              "Inclinación excesiva del banco.",
+              "Recorrido corto por peso de más."
             ],
-            "aviso": null
+            "aviso": "Si el hombro molesta, gira las palmas 45° (agarre neutro-diagonal)."
+          }
+        },
+        {
+          "id": "fb2",
+          "nombre": "Press banca ligero",
+          "series": 3,
+          "reps": "8",
+          "repMax": 8,
+          "tempo": "2-1-1-0",
+          "rir": 3,
+          "sugerido": "50 kg",
+          "grupo": "pecho",
+          "secundarios": [
+            "triceps"
+          ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "empuje-horizontal",
+          "catalogoId": "Barbell_Bench_Press_-_Medium_Grip",
+          "descanso": 50,
+          "tecnica": {
+            "ejecucion": [
+              "Mismo patrón que el lunes pero con carga ligera.",
+              "Prioriza velocidad de subida limpia, no el peso.",
+              "Pausa de 1 seg abajo obligatoria."
+            ],
+            "errores": [
+              "Convertir el circuito en día de fuerza."
+            ],
+            "aviso": "Aquí buscas mantener el patrón, no romper marcas. RIR 3."
           }
         },
         {
@@ -356,6 +579,35 @@
               "Flexionar el codo y convertirlo en extensión de tríceps."
             ],
             "aviso": null
+          }
+        },
+        {
+          "id": "pu5",
+          "nombre": "Elevaciones laterales",
+          "series": 4,
+          "reps": "15",
+          "repMax": 15,
+          "tempo": "2-0-1-0",
+          "rir": 1,
+          "sugerido": "8–10 kg",
+          "grupo": "hombro",
+          "equipo": "mancuerna",
+          "mecanica": "isolation",
+          "fuerza": "push",
+          "patron": null,
+          "catalogoId": "Side_Lateral_Raise",
+          "descanso": 45,
+          "tecnica": {
+            "ejecucion": [
+              "Torso 10° al frente, codo ligeramente flexionado.",
+              "Sube hasta la línea del hombro, no más alto.",
+              "Meñique apenas más alto que el pulgar al llegar arriba."
+            ],
+            "errores": [
+              "Impulso de cadera: si te balanceas, baja el peso.",
+              "Encoger el trapecio en lugar de abrir el deltoide."
+            ],
+            "aviso": "Es el ejercicio que más te va a cambiar la silueta al bajar grasa. No lo saltes."
           }
         },
         {
@@ -419,29 +671,30 @@
           }
         },
         {
-          "id": "pl7",
-          "nombre": "Curl martillo",
+          "id": "pu7",
+          "nombre": "Extensión de tríceps en polea",
           "series": 3,
-          "reps": "12",
-          "repMax": 12,
-          "tempo": "2-0-1-0",
+          "reps": "15",
+          "repMax": 15,
+          "tempo": "2-0-1-1",
           "rir": 1,
-          "sugerido": "12–14 kg",
-          "grupo": "biceps",
-          "equipo": "mancuerna",
+          "sugerido": "25–30 kg",
+          "grupo": "triceps",
+          "equipo": "polea",
           "mecanica": "isolation",
-          "fuerza": "pull",
+          "fuerza": "push",
           "patron": null,
-          "catalogoId": "Hammer_Curls",
+          "catalogoId": "Triceps_Pushdown_-_Rope_Attachment",
           "descanso": 45,
           "tecnica": {
             "ejecucion": [
-              "Palmas enfrentadas todo el recorrido.",
-              "Alterna o simultáneo, pero sin mecerte.",
-              "Controla la bajada, no la sueltes."
+              "Codos pegados al costado, torso ligeramente inclinado.",
+              "Extiende hasta el bloqueo y aprieta 1 seg abajo.",
+              "Sube controlado sin dejar que la polea te jale."
             ],
             "errores": [
-              "Girar la muñeca al subir (eso ya es curl normal)."
+              "Dar pasos atrás y usar el peso del cuerpo.",
+              "Recorrido a medias por carga excesiva."
             ],
             "aviso": null
           }
@@ -449,12 +702,12 @@
       ]
     },
     {
-      "id": "legs",
-      "nombre": "Legs",
-      "dia": "Jueves",
-      "sub": "Pierna completa",
+      "id": "piernaB",
+      "nombre": "Pierna B",
+      "dia": "Sábado",
+      "sub": "Sentadilla · Isquios · Gemelo · Core",
       "tipo": "fuerza",
-      "remate": "+ 30 min carrera Zona 2 al terminar",
+      "remate": "Sin cardio después. Es el día de buscar récords en pierna.",
       "ejercicios": [
         {
           "id": "lg1",
@@ -486,38 +739,6 @@
               "Talones despegándose: si pasa, calza plano y trabaja movilidad de tobillo."
             ],
             "aviso": "Con 110 kg de peso corporal, la profundidad la manda tu rodilla, no el ego. Paralelo limpio vale más que profundo sucio."
-          }
-        },
-        {
-          "id": "lg2",
-          "nombre": "Prensa de pierna",
-          "series": 3,
-          "reps": "12",
-          "repMax": 12,
-          "tempo": "2-1-1-0",
-          "rir": 2,
-          "sugerido": "120–140 kg",
-          "grupo": "cuadriceps",
-          "secundarios": [
-            "gluteo"
-          ],
-          "equipo": "máquina",
-          "mecanica": "compound",
-          "fuerza": "push",
-          "patron": "rodilla",
-          "catalogoId": "Leg_Press",
-          "descanso": 120,
-          "tecnica": {
-            "ejecucion": [
-              "Pies a la anchura de hombros, a media plataforma.",
-              "Baja hasta 90° de rodilla sin que la cadera se despegue.",
-              "No bloquees la rodilla arriba: deja 5° de flexión."
-            ],
-            "errores": [
-              "Despegar la lumbar del respaldo buscando rango.",
-              "Bloqueo violento arriba."
-            ],
-            "aviso": null
           }
         },
         {
@@ -553,35 +774,35 @@
           }
         },
         {
-          "id": "lg4",
-          "nombre": "Zancadas caminando",
+          "id": "lg2",
+          "nombre": "Prensa de pierna",
           "series": 3,
-          "reps": "12 por pierna",
+          "reps": "12",
           "repMax": 12,
-          "tempo": "2-0-1-0",
+          "tempo": "2-1-1-0",
           "rir": 2,
-          "sugerido": "12–16 kg c/u",
+          "sugerido": "120–140 kg",
           "grupo": "cuadriceps",
           "secundarios": [
             "gluteo"
           ],
-          "equipo": "barra",
+          "equipo": "máquina",
           "mecanica": "compound",
           "fuerza": "push",
           "patron": "rodilla",
-          "catalogoId": "Barbell_Walking_Lunge",
-          "descanso": 75,
+          "catalogoId": "Leg_Press",
+          "descanso": 120,
           "tecnica": {
             "ejecucion": [
-              "Paso largo, torso vertical, rodilla trasera baja sin tocar el piso.",
-              "Empuja con el talón de la pierna delantera.",
-              "Mira un punto fijo al frente para el equilibrio."
+              "Pies a la anchura de hombros, a media plataforma.",
+              "Baja hasta 90° de rodilla sin que la cadera se despegue.",
+              "No bloquees la rodilla arriba: deja 5° de flexión."
             ],
             "errores": [
-              "Paso corto: manda toda la carga a la rodilla.",
-              "Inclinar el torso al frente."
+              "Despegar la lumbar del respaldo buscando rango.",
+              "Bloqueo violento arriba."
             ],
-            "aviso": "Si la rodilla protesta, cámbialas por zancadas estáticas o sentadilla búlgara con apoyo."
+            "aviso": null
           }
         },
         {
@@ -610,34 +831,6 @@
               "Despegar la cadera para completar."
             ],
             "aviso": null
-          }
-        },
-        {
-          "id": "lg6",
-          "nombre": "Extensión de cuádriceps",
-          "series": 2,
-          "reps": "15",
-          "repMax": 15,
-          "tempo": "2-1-1-0",
-          "rir": 1,
-          "sugerido": "35–45 kg",
-          "grupo": "cuadriceps",
-          "equipo": "máquina",
-          "mecanica": "isolation",
-          "fuerza": "push",
-          "patron": null,
-          "catalogoId": "Leg_Extensions",
-          "descanso": 45,
-          "tecnica": {
-            "ejecucion": [
-              "Espalda apoyada, manos en las agarraderas.",
-              "Extiende y aprieta 1 seg arriba.",
-              "Baja controlado sin dejar caer el peso."
-            ],
-            "errores": [
-              "Rango parcial con peso excesivo."
-            ],
-            "aviso": "Buen ejercicio para reforzar la rodilla antes de correr, siempre con carga moderada."
           }
         },
         {
@@ -693,171 +886,6 @@
             ],
             "errores": [
               "Cadera arriba (descanso disfrazado) o abajo (carga lumbar)."
-            ],
-            "aviso": null
-          }
-        }
-      ]
-    },
-    {
-      "id": "full",
-      "nombre": "Full Body",
-      "dia": "Sábado",
-      "sub": "Circuito metabólico · descanso 45–60 s",
-      "tipo": "fuerza",
-      "remate": "Mantienes fuerza y quemas más. No busques récords aquí.",
-      "ejercicios": [
-        {
-          "id": "fb1",
-          "nombre": "Sentadilla goblet",
-          "series": 3,
-          "reps": "10",
-          "repMax": 10,
-          "tempo": "2-0-1-0",
-          "rir": 2,
-          "sugerido": "24–32 kg kettlebell",
-          "grupo": "cuadriceps",
-          "secundarios": [
-            "gluteo"
-          ],
-          "equipo": "kettlebell",
-          "mecanica": "compound",
-          "fuerza": "push",
-          "patron": "rodilla",
-          "catalogoId": "Goblet_Squat",
-          "descanso": 50,
-          "tecnica": {
-            "ejecucion": [
-              "Pesa pegada al pecho, codos por dentro de las rodillas abajo.",
-              "Baja controlado, torso lo más vertical posible.",
-              "Sube empujando el piso, sin perder el pecho arriba."
-            ],
-            "errores": [
-              "Dejar que la pesa se separe del cuerpo."
-            ],
-            "aviso": null
-          }
-        },
-        {
-          "id": "fb2",
-          "nombre": "Press banca ligero",
-          "series": 3,
-          "reps": "8",
-          "repMax": 8,
-          "tempo": "2-1-1-0",
-          "rir": 3,
-          "sugerido": "50 kg",
-          "grupo": "pecho",
-          "secundarios": [
-            "triceps"
-          ],
-          "equipo": "barra",
-          "mecanica": "compound",
-          "fuerza": "push",
-          "patron": "empuje-horizontal",
-          "catalogoId": "Barbell_Bench_Press_-_Medium_Grip",
-          "descanso": 50,
-          "tecnica": {
-            "ejecucion": [
-              "Mismo patrón que el lunes pero con carga ligera.",
-              "Prioriza velocidad de subida limpia, no el peso.",
-              "Pausa de 1 seg abajo obligatoria."
-            ],
-            "errores": [
-              "Convertir el circuito en día de fuerza."
-            ],
-            "aviso": "Aquí buscas mantener el patrón, no romper marcas. RIR 3."
-          }
-        },
-        {
-          "id": "fb3",
-          "nombre": "Peso muerto convencional",
-          "series": 3,
-          "reps": "6",
-          "repMax": 6,
-          "tempo": "2-1-1-0",
-          "rir": 3,
-          "sugerido": "70–80 kg",
-          "grupo": "isquios",
-          "secundarios": [
-            "espalda",
-            "gluteo"
-          ],
-          "equipo": "barra",
-          "mecanica": "compound",
-          "fuerza": "pull",
-          "patron": "bisagra",
-          "catalogoId": "Barbell_Deadlift",
-          "descanso": 60,
-          "tecnica": {
-            "ejecucion": [
-              "Barra sobre el medio del pie, escápulas encima de la barra.",
-              "Empuja el piso con las piernas antes de que suba el torso.",
-              "Bloquea con glúteo, sin hiperextender la lumbar."
-            ],
-            "errores": [
-              "Jalar con la espalda y la cadera subiendo primero.",
-              "Alejar la barra del cuerpo."
-            ],
-            "aviso": "Con circuito y fatiga acumulada, el peso muerto es el ejercicio con más riesgo. Si la técnica se rompe, corta la serie."
-          }
-        },
-        {
-          "id": "fb4",
-          "nombre": "Remo en polea baja",
-          "series": 3,
-          "reps": "12",
-          "repMax": 12,
-          "tempo": "2-1-1-1",
-          "rir": 2,
-          "sugerido": "50–60 kg",
-          "grupo": "espalda",
-          "secundarios": [
-            "biceps"
-          ],
-          "equipo": "polea",
-          "mecanica": "compound",
-          "fuerza": "pull",
-          "patron": "traccion-horizontal",
-          "catalogoId": "Seated_Cable_Rows",
-          "descanso": 50,
-          "tecnica": {
-            "ejecucion": [
-              "Torso vertical, rodillas ligeramente flexionadas.",
-              "Jala al ombligo, aprieta 1 seg.",
-              "Estira completo al frente sin encorvarte."
-            ],
-            "errores": [
-              "Mecer el torso adelante y atrás."
-            ],
-            "aviso": null
-          }
-        },
-        {
-          "id": "fb5",
-          "nombre": "Plancha lastrada",
-          "series": 3,
-          "reps": "45 seg",
-          "repMax": 45,
-          "tempo": "isométrico",
-          "rir": 1,
-          "sugerido": "disco 5–10 kg",
-          "grupo": "core",
-          "equipo": "peso corporal",
-          "mecanica": "isolation",
-          "fuerza": "static",
-          "patron": null,
-          "catalogoId": "Plank",
-          "descanso": 50,
-          "tiempo": true,
-          "tecnica": {
-            "ejecucion": [
-              "Disco en la parte alta de la espalda, pide que te lo coloquen.",
-              "Cuerpo en tabla, glúteo apretado.",
-              "Si la cadera cae, quita el disco."
-            ],
-            "errores": [
-              "Aguantar la respiración."
             ],
             "aviso": null
           }
@@ -978,5 +1006,6 @@
         }
       }
     }
-  ]
+  ],
+  "split": "Torso / Pierna ×2"
 }
