@@ -153,9 +153,9 @@ export function pintarRutina(app, contenedor) {
     const volver = cuerpo.querySelector("#volverOriginal");
     if (volver) {
       volver.onclick = () => {
-        if (!confirm("Vuelves a Push / Pull / Legs / Full Body.\n\nTus registros no se tocan. ¿Seguro?")) return;
+        if (!confirm("Vuelves a Torso / Pierna ×2.\n\nTus registros no se tocan. ¿Seguro?")) return;
         app.datos.rutinaGenerada = null;
-        app.diaActivo = "push";
+        app.diaActivo = app.rutinaBase.dias[0].id;
         app.guardar();
         app.pintarTodo();
       };

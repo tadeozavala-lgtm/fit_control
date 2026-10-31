@@ -139,9 +139,10 @@ describe("aplicar la capa", () => {
   it("la rutina real aguanta la capa sin perder días ni ejercicios", () => {
     const r = rutinaAjustada(rutinaReal, { pu1: { series: 5 }, lg1: { descanso: 180 } });
     expect(r.dias).toHaveLength(rutinaReal.dias.length);
-    const push = r.dias.find((d) => d.id === "push");
-    expect(push.ejercicios.find((e) => e.id === "pu1").series).toBe(5);
-    expect(push.ejercicios.find((e) => e.id === "pu2").series).toBe(3);
+    const torsoA = r.dias.find((d) => d.id === "torsoA");
+    expect(torsoA.ejercicios.find((e) => e.id === "pu1").series).toBe(5);
+    const torsoB = r.dias.find((d) => d.id === "torsoB");
+    expect(torsoB.ejercicios.find((e) => e.id === "pu2").series).toBe(3);
   });
 });
 

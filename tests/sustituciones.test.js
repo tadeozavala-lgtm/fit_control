@@ -6,6 +6,10 @@ import {
   normalizar, puntuar, alternativas, buscar, resolver, sustituir, gruposDelCatalogo
 } from "../src/logica/sustituciones.js";
 
+/** El ejercicio por su id, mire el día que mire: la rutina se rearma. */
+const deRutina = (id) =>
+  rutinaReal.dias.flatMap((d) => d.ejercicios || []).find((e) => e.id === id);
+
 const ej = (extra = {}) => ({
   id: "pl2",
   nombre: "Remo con barra",
@@ -217,9 +221,7 @@ describe("el catálogo real", () => {
   });
 
   it("la mejor alternativa siempre cambia de equipo cuando existe otra opción", () => {
-    const remo = rutinaReal.dias
-      .find((d) => d.id === "pull")
-      .ejercicios.find((e) => e.id === "pl2");
+    const remo = deRutina("pl2");
     expect(alternativas(remo, catalogoReal)[0].equipo).not.toBe(remo.equipo);
   });
 
@@ -229,8 +231,8 @@ describe("el catálogo real", () => {
 });
 
 describe("el patrón de movimiento manda", () => {
-  const remo = rutinaReal.dias.find((d) => d.id === "pull").ejercicios.find((e) => e.id === "pl2");
-  const jalon = rutinaReal.dias.find((d) => d.id === "pull").ejercicios.find((e) => e.id === "pl1");
+  const remo = deRutina("pl2");
+  const jalon = deRutina("pl1");
 
   it("para un remo propone otros remos, no dominadas", () => {
     const tres = alternativas(remo, catalogoReal, { limite: 3 });
@@ -243,13 +245,13 @@ describe("el patrón de movimiento manda", () => {
   });
 
   it("para la sentadilla no propone un peso muerto", () => {
-    const sent = rutinaReal.dias.find((d) => d.id === "legs").ejercicios.find((e) => e.id === "lg1");
+    const sent = deRutina("lg1");
     const tres = alternativas(sent, catalogoReal, { limite: 3 });
     expect(tres.some((a) => a.patron === "bisagra")).toBe(false);
   });
 
   it("para el press de banca propone empujes horizontales", () => {
-    const banca = rutinaReal.dias.find((d) => d.id === "push").ejercicios.find((e) => e.id === "pu1");
+    const banca = deRutina("pu1");
     const tres = alternativas(banca, catalogoReal, { limite: 3 });
     expect(tres.every((a) => a.patron === "empuje-horizontal"), tres.map((a) => a.nombre).join(", ")).toBe(true);
   });
@@ -257,13 +259,13 @@ describe("el patrón de movimiento manda", () => {
 
 describe("el peso corporal es el último recurso", () => {
   it("para una banca cargada propone antes mancuernas o máquina", () => {
-    const banca = rutinaReal.dias.find((d) => d.id === "push").ejercicios.find((e) => e.id === "pu1");
+    const banca = deRutina("pu1");
     const mejor = alternativas(banca, catalogoReal, { limite: 1 })[0];
     expect(mejor.equipo).not.toBe("peso corporal");
   });
 
   it("pero sigue estando disponible más abajo en la lista", () => {
-    const banca = rutinaReal.dias.find((d) => d.id === "push").ejercicios.find((e) => e.id === "pu1");
+    const banca = deRutina("pu1");
     const todas = alternativas(banca, catalogoReal, { limite: 8 });
     expect(todas.some((a) => a.equipo === "peso corporal")).toBe(true);
   });

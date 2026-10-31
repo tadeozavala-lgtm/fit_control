@@ -1,8 +1,8 @@
 # fit_control
 
 Registro de entrenamiento del **Protocolo Recomposición 4D + 5 Cardio**: 4 días de
-fuerza (Push, Pull, Legs, Full Body) y 5 de cardio (3 de carrera en Zona 2, 2 de
-HIIT de box). PWA sin dependencias de runtime, pensada para usarse con una mano,
+fuerza (Torso A, Pierna A, Torso B, Pierna B) y 5 de cardio (3 de carrera en Zona 2,
+2 de HIIT de box). PWA sin dependencias de runtime, pensada para usarse con una mano,
 con el teléfono en silencio y sin señal dentro del gimnasio.
 
 ## Qué hace
@@ -30,7 +30,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 437 tests
+npm test           # 438 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -109,7 +109,7 @@ src/
   ui/                    render; nada de lógica de negocio aquí
 public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   437 tests
+tests/                   438 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -125,6 +125,16 @@ Hay un test que simula 118 segundos congelados y verifica que la cuenta siga bie
 **El aviso principal es visual, no sonoro.** En iOS, Web Audio respeta el switch
 de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 único canal que funciona siempre; la campana es el extra.
+
+**El split es Torso / Pierna ×2, no Push / Pull / Legs / Full Body.** Con cuatro
+sesiones de 60–70 min, los dos dan la misma frecuencia (2× por grupo), y con
+volumen y frecuencia igualados la diferencia entre splits es pequeña. Lo que
+decidió fue el reparto del tiempo: el día de Legs pedía 70 min y el Full Body se
+quedaba en 37. Repartido en torso/pierna son 58 / 44 / 55 / 62 min, y el gemelo
+—que se quedaba en 4 series— pasa a 8 con una segunda exposición sentado, que
+trabaja el sóleo. Todos los grupos quedan dentro de su rango. El costo: soltar
+un día para correr pesa más que antes (ver más abajo), y los días de pierna
+caen martes y sábado, uno de ellos con HIIT.
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
@@ -234,9 +244,15 @@ series perdidas sino por cuánto se hunde cada grupo bajo su mínimo. Perder 30
 series repartidas entre ocho grupos no es lo mismo que perder 15 todas de
 espalda.
 
-Para esta rutina sale Full Body (−22.5 series, déficit 6) frente a Pull (−30,
-déficit 14) o Legs (−34, déficit 26). Al soltarlo propone dónde recolocar lo
-que se pierde: 2 series de isquios, 1 de glúteo y 3 de core en Legs.
+Para esta rutina sale Pierna A (−24 series, déficit 12.5) frente a Torso B
+(−34, déficit 13.5) o Pierna B (−27.5, déficit 17.5). Al soltarlo propone dónde
+recolocar lo que se pierde: 3 series de cuádriceps, 3 de glúteo, 2 de gemelo,
+2 de isquios y 3 de core en Pierna B.
+
+Con el split anterior (Push/Pull/Legs/Full Body) había un día barato: el full
+body repartía poco trabajo entre muchos grupos. En torso/pierna cada día son la
+mitad de las exposiciones de su región, así que **soltar cualquiera hunde algún
+grupo**. Hay un test que lo comprueba.
 
 El día **no se borra**: sigue en la rutina y si lo entrenas sus series cuentan
 igual. Tres días es el piso; por debajo no se mantiene músculo en déficit.

@@ -75,6 +75,12 @@ CAPA, nunca como copia de la rutina: así hereda los despliegues nuevos. Lo que
 alimenta otros cálculos (`grupo`, `equipo`, `patron`) no se edita desde la app.
 
 
+Los días de fuerza son `torsoA`, `piernaA`, `torsoB`, `piernaB` (antes eran
+`push`, `pull`, `legs`, `full`). Nada en la lógica debe depender de esos ids:
+el historial va por ejercicio (regla 13) y la pestaña inicial se busca por el
+nombre del día. Si necesitas un ejercicio concreto en un test, búscalo por su
+id entre todos los días, no por el día que lo contiene.
+
 `src/datos/rutina.json` es dato, no código. Correr `npm run validar` después de
 tocarlo. `sugerido` siempre en kg o la cadena "peso corporal".
 

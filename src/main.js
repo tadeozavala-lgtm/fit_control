@@ -52,7 +52,7 @@ const app = {
 
   catalogo,
   datos: null,
-  diaActivo: "push",
+  diaActivo: "torsoA",
   reloj: null,
   hoy: () => new Date().toISOString().slice(0, 10),
   unidad: () => (app.datos.unidad === "lb" ? "lb" : "kg"),
@@ -323,7 +323,7 @@ const actualizarSW = registerSW({
     new Date().getDay()
   ];
   const deHoy = app.rutina.dias.find((d) => d.ejercicios && d.dia === nombreDia);
-  const porDia = { 1: "push", 2: "pull", 3: "z2", 4: "legs", 5: "hiitB", 6: "full", 0: "prog" };
+  const porDia = { 1: "torsoA", 2: "piernaA", 3: "z2", 4: "torsoB", 5: "hiitB", 6: "piernaB", 0: "prog" };
   app.diaActivo =
     deHoy?.id || (app.rutina.dias.some((d) => d.id === porDia[new Date().getDay()])
       ? porDia[new Date().getDay()]
