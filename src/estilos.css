@@ -771,3 +771,27 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
 }
 .en-uso b{display:block;font-family:var(--display);font-weight:700;font-size:16px;
   text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+
+/* ---------- selector de cardio ---------- */
+.sel-cardio .dias-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.sel-cardio .chip{
+  flex:1;min-width:42px;padding:10px 0;border:1px solid var(--linea-fuerte);border-radius:5px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--humo);background:transparent;
+}
+.sel-cardio .chip.activo{border-color:var(--esquina);color:var(--tiza);background:var(--lona-2)}
+.sel-cardio .campo-sel{display:block;margin-bottom:12px}
+.sel-cardio .campo-sel span{
+  display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--humo);margin-bottom:5px;
+}
+.sel-cardio .campo-sel select{
+  width:100%;padding:11px 10px;border:1px solid var(--linea-fuerte);border-radius:5px;
+  background:var(--lona-2);color:var(--tiza);font-family:var(--texto);font-size:15px;
+}
+.sel-cardio .ficha-mod{margin:0 0 10px;font-size:13.5px;color:#CFDDE4;line-height:1.5}
+.sel-cardio .ficha-mod .ojo{color:var(--humo)}
+.sel-cardio .aviso-choque{
+  margin:12px 0 0;padding:9px 0 9px 12px;border-left:2px solid var(--record);
+  font-size:13px;color:#F3DCB0;line-height:1.5;
+}
