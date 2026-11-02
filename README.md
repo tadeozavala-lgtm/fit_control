@@ -32,7 +32,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 507 tests
+npm test           # 508 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -88,7 +88,7 @@ desplegar, así que un JSON roto nunca llega al teléfono.
 ```
 src/
   datos/rutina.json      la rutina completa (editable sin tocar código)
-  datos/catalogo.json    92 alternativas, generado con npm run catalogo
+  datos/catalogo.json    100 alternativas, generado con npm run catalogo
   datos/imagenes.json    qué fotos tiene cada ejercicio, generado con npm run imagenes
   logica/                funciones puras, 100% cubiertas por tests
     unidades.js          conversión kg ↔ lb
@@ -111,9 +111,9 @@ src/
     equilibrio.js        revisión de la rutina: directo vs rebote, dosis y patrones
     imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
-public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
+public/ejercicios/       199 fotos webp (3.2 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   507 tests
+tests/                   508 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -303,7 +303,7 @@ fotos, no las del original—, y como el catálogo no trae técnica escrita, en 
 de prestarle las indicaciones del original (que son de otro movimiento) lo dice
 y deja mandar a las fotos, el tempo y el RIR.
 
-El catálogo son 92 ejercicios seleccionados y traducidos de
+El catálogo son 100 ejercicios seleccionados y traducidos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
 dominio público), generados con `npm run catalogo` y commiteados: la app no
 depende de la red en tiempo de ejecución.
@@ -318,7 +318,7 @@ vídeo. Se puede pausar, y si el teléfono pide menos animación
 Son las mismas fotos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
 dominio público), rebajadas a 520 px y WebP con `npm run imagenes`: 12 MB en
-origen quedan en 3 MB para los 92 ejercicios.
+origen quedan en 3.2 MB para los 100 ejercicios.
 
 **Las fotos no van en el precaché del service worker.** La app instalada pesa
 ~220 KB; sumarle 3 MB encarecería cada instalación y cada actualización por unas

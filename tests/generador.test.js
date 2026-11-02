@@ -125,7 +125,9 @@ describe("selección de ejercicios", () => {
 
   it("elige el mejor disponible, o null si no queda ninguno", () => {
     expect(elegirEjercicio(catalogo, "pecho", new Set(), "completo", new Map(), new Map())).toBeTruthy();
-    expect(elegirEjercicio(catalogo, "gluteo", new Set(), "corporal", new Map(), new Map())).toBeNull();
+    // El gemelo no tiene nada de peso corporal en el catálogo: con ese equipo
+    // no hay candidato y debe devolver null en vez de colar otra cosa.
+    expect(elegirEjercicio(catalogo, "gemelo", new Set(), "corporal", new Map(), new Map())).toBeNull();
   });
 });
 
@@ -358,12 +360,26 @@ describe("el volumen que produce", () => {
 
 describe("un día tiene que entrenar lo que su nombre dice", () => {
   it("rechaza un Legs que con ese equipo solo podría hacer core", () => {
-    // Con solo peso corporal el catálogo no tiene nada de cuádriceps, así que
-    // el día de pierna salía compuesto de dos ejercicios de core: pasaba el
-    // conteo de ejercicios y no era un día de pierna.
-    const r = generarRutina({ dias: 3, minutos: 50, ...BASE, equipo: "corporal" });
+    // La regla: un día tiene que entrenar el grupo que le da nombre. Se prueba
+    // con un catálogo de mentira para que no dependa de lo que haya en el real:
+    // aquí no hay nada de pierna, así que el día de Legs no se puede armar.
+    const sinPierna = {
+      ejercicios: catalogo.ejercicios.filter(
+        (e) => !["cuadriceps", "isquios", "gluteo", "gemelo"].includes(e.grupo)
+      )
+    };
+    const r = generarRutina({ dias: 3, minutos: 50, ...BASE, catalogo: sinPierna });
     expect(r.ok).toBe(false);
     expect(r.error).toMatch(/Legs/);
+  });
+
+  it("y con solo peso corporal ya sí arma un día de pierna de verdad", () => {
+    // Antes fallaba: el catálogo no tenía nada de pierna sin máquina y el día
+    // salía compuesto de core. Ahora hay sentadilla, puente y subida al cajón.
+    const r = generarRutina({ dias: 3, minutos: 50, ...BASE, equipo: "corporal" });
+    expect(r.ok).toBe(true);
+    const legs = r.rutina.dias.find((d) => d.id === "legs");
+    expect(legs.ejercicios.some((e) => e.grupo === "cuadriceps")).toBe(true);
   });
 
   it("cuando sí genera, cada día entrena su grupo principal", () => {

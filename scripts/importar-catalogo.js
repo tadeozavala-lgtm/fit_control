@@ -145,6 +145,7 @@ const SELECCION = {
   "Barbell Lunge": "Zancadas con barra",
   "Dumbbell Lunges": "Zancadas con mancuernas",
   "Barbell Walking Lunge": "Zancadas caminando",
+  "Bodyweight Squat": "Sentadilla con peso corporal",
 
   // ----- isquios y glúteo -----
   "Romanian Deadlift": "Peso muerto rumano",
@@ -154,12 +155,19 @@ const SELECCION = {
   "Seated Leg Curl": "Curl femoral sentado",
   "Good Morning": "Buenos días",
   "Barbell Hip Thrust": "Empuje de cadera con barra",
+  "Barbell Glute Bridge": "Puente de glúteo con barra",
+  "Pull Through": "Pull through en polea",
+  "One-Legged Cable Kickback": "Patada de glúteo en polea",
+  "Butt Lift (Bridge)": "Puente de glúteo",
+  "Step-up with Knee Raise": "Subida al cajón con rodilla",
 
   // ----- gemelo -----
   "Standing Calf Raises": "Elevación de talones de pie",
   "Seated Calf Raise": "Elevación de talones sentado",
   "Calf Press On The Leg Press Machine": "Elevación de talones en prensa",
   "Calf Press": "Elevación de talones en máquina",
+  "Standing Barbell Calf Raise": "Elevación de talones con barra",
+  "Calf Raise On A Dumbbell": "Elevación de talones con mancuerna",
 
   // ----- core -----
   "Plank": "Plancha",
@@ -182,8 +190,8 @@ const PATRONES = [
   [/pulldown|pull-?up|pullup|chin-?up|pullover|straight-arm/i, "traccion-vertical"],
   [/bench press|push-?ups?|pushups|chest press|flyes?|flye|crossover|butterfly/i, "empuje-horizontal"],
   [/military|shoulder press|overhead press|arnold|seated dumbbell press|upright/i, "empuje-vertical"],
-  [/squat|leg press|hack|lunge/i, "rodilla"],
-  [/deadlift|good morning|hip thrust/i, "bisagra"]
+  [/squat|leg press|hack|lunge|step-?up/i, "rodilla"],
+  [/deadlift|good morning|hip thrust|glute bridge|pull through/i, "bisagra"]
 ];
 
 function patronDe(nombreEn) {

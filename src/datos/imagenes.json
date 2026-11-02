@@ -1,6 +1,6 @@
 {
   "esquema": 1,
-  "generado": "2026-10-27",
+  "generado": "2026-11-02",
   "ancho": 520,
   "fuente": {
     "nombre": "free-exercise-db",
@@ -79,6 +79,10 @@
     "Dumbbell_Squat": [
       "Dumbbell_Squat-0.webp",
       "Dumbbell_Squat-1.webp"
+    ],
+    "Bodyweight_Squat": [
+      "Bodyweight_Squat-0.webp",
+      "Bodyweight_Squat-1.webp"
     ],
     "Smith_Machine_Squat": [
       "Smith_Machine_Squat-0.webp",
@@ -183,6 +187,14 @@
       "Seated_Cable_Rows-0.webp",
       "Seated_Cable_Rows-1.webp"
     ],
+    "Standing_Barbell_Calf_Raise": [
+      "Standing_Barbell_Calf_Raise-0.webp",
+      "Standing_Barbell_Calf_Raise-1.webp"
+    ],
+    "Calf_Raise_On_A_Dumbbell": [
+      "Calf_Raise_On_A_Dumbbell-0.webp",
+      "Calf_Raise_On_A_Dumbbell-1.webp"
+    ],
     "Standing_Calf_Raises": [
       "Standing_Calf_Raises-0.webp",
       "Standing_Calf_Raises-1.webp"
@@ -202,6 +214,26 @@
     "Barbell_Hip_Thrust": [
       "Barbell_Hip_Thrust-0.webp",
       "Barbell_Hip_Thrust-1.webp"
+    ],
+    "One-Legged_Cable_Kickback": [
+      "One-Legged_Cable_Kickback-0.webp",
+      "One-Legged_Cable_Kickback-1.webp"
+    ],
+    "Butt_Lift_Bridge": [
+      "Butt_Lift_Bridge-0.webp",
+      "Butt_Lift_Bridge-1.webp"
+    ],
+    "Barbell_Glute_Bridge": [
+      "Barbell_Glute_Bridge-0.webp",
+      "Barbell_Glute_Bridge-1.webp"
+    ],
+    "Pull_Through": [
+      "Pull_Through-0.webp",
+      "Pull_Through-1.webp"
+    ],
+    "Step-up_with_Knee_Raise": [
+      "Step-up_with_Knee_Raise-0.webp",
+      "Step-up_with_Knee_Raise-1.webp"
     ],
     "Cable_Rear_Delt_Fly": [
       "Cable_Rear_Delt_Fly-0.webp",
