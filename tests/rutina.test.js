@@ -11,7 +11,7 @@ import { rangoSugerido } from "../src/logica/unidades.js";
 describe("integridad de rutina.json", () => {
   it("tiene los siete días del protocolo", () => {
     expect(rutina.dias.map((d) => d.id)).toEqual([
-      "push", "pull", "legs", "full", "z2", "hiitA", "hiitB"
+      "torsoA", "piernaA", "torsoB", "piernaB", "z2", "hiitA", "hiitB"
     ]);
   });
 
