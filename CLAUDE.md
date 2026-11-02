@@ -68,6 +68,18 @@ Ese contexto manda sobre cualquier otra consideración.
     vista lo explique. Lo que NO cambia es la prescripción: series, reps, tempo
     y descanso son del hueco de la rutina.
 
+20. **Los días y la modalidad de cardio los decide Tadeo, no `rutina.json`.**
+    Viven en `datos.cardio` (esquema 11). Lo que quede escrito a mano sobre
+    cardio —el `remate` de un día de fuerza, un rango de minutos— deja de ser
+    verdad en cuanto mueve un día: se calcula con `cardioDelDia()`. Una lista
+    de días vacía significa que esa sesión está apagada, no que haya que
+    rellenarla con los días de siempre.
+21. **Las zonas de pulso se corrigen por modalidad.** La FC máxima no es la
+    misma pedaleando que corriendo (−5) ni nadando (−12). `fcMaxDe()` aplica la
+    corrección y las zonas salen de ahí: es la regla 7 llevada a su conclusión.
+    Y los minutos que un protocolo declara tienen que ser los que dura de
+    verdad; hay un test que no deja que se separen.
+
 ## Al cambiar la rutina
 
 Los ajustes que Tadeo hace desde la app viven en `datos.ajustesRutina` como una

@@ -7,8 +7,10 @@
  * migración; `migrar()` lleva cualquier respaldo viejo hasta la versión de hoy.
  */
 
+import { CARDIO_POR_DEFECTO } from "./cardio.js";
+
 export const CLAVE = "protocolo4d5:v1";
-export const ESQUEMA_ACTUAL = 10;
+export const ESQUEMA_ACTUAL = 11;
 
 /**
  * Ajustes del corredor. La edad y la FC en reposo deciden las zonas; sin ellas
@@ -45,6 +47,7 @@ export function vacio() {
     pesos: [],
     nutricion: NUTRICION_POR_DEFECTO(),
     rutinaGenerada: null,
+    cardio: CARDIO_POR_DEFECTO(),
     semana: 1,
     unidad: "kg"
   };
@@ -174,9 +177,23 @@ function v9_a_v10(datos) {
   return { ...datos, esquema: 10, rutinaGenerada: datos.rutinaGenerada || null };
 }
 
+/**
+ * v10 -> v11
+ *  - `cardio`: qué días cae cada sesión de cardio y con qué modalidad. Antes
+ *    los días estaban escritos en rutina.json y no se podían mover; el
+ *    objetivo de Tadeo con el cardio es salud cardiovascular, así que el día
+ *    concreto y la máquina dan igual mientras los minutos estén.
+ *    El valor inicial es exactamente lo que decía rutina.json, para que quien
+ *    ya venía usando la app no note el cambio hasta que quiera moverlo.
+ */
+function v10_a_v11(datos) {
+  return { ...datos, esquema: 11, cardio: { ...CARDIO_POR_DEFECTO(), ...(datos.cardio || {}) } };
+}
+
 const MIGRACIONES = {
   1: v1_a_v2, 2: v2_a_v3, 3: v3_a_v4, 4: v4_a_v5,
-  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8, 8: v8_a_v9, 9: v9_a_v10
+  5: v5_a_v6, 6: v6_a_v7, 7: v7_a_v8, 8: v8_a_v9, 9: v9_a_v10,
+  10: v10_a_v11
 };
 
 /** Lleva cualquier versión guardada hasta ESQUEMA_ACTUAL. Nunca pierde datos. */
@@ -192,6 +209,7 @@ export function migrar(crudo) {
   if (datos.plan === undefined) datos.plan = null;
   if (!Array.isArray(datos.pesos)) datos.pesos = [];
   if (datos.rutinaGenerada === undefined) datos.rutinaGenerada = null;
+  datos.cardio = { ...CARDIO_POR_DEFECTO(), ...(datos.cardio || {}) };
   datos.nutricion = { ...NUTRICION_POR_DEFECTO(), ...(datos.nutricion || {}) };
   let v = Number(datos.esquema) || 1;
   while (v < ESQUEMA_ACTUAL && MIGRACIONES[v]) {

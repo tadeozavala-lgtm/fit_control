@@ -18,6 +18,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Volumen semanal por grupo muscular contra su rango de referencia.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
+- Cardio intercambiable: días libres, nueve modalidades y cinco protocolos de HIIT.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
@@ -30,7 +31,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 437 tests
+npm test           # 478 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -105,11 +106,12 @@ src/
     gasto.js             gasto real leído de sesiones y carreras
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
+    cardio.js            modalidades, protocolos de HIIT y días configurables
     imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
 public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   437 tests
+tests/                   478 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -323,6 +325,36 @@ ejercicio (`CacheFirst` sobre `/ejercicios/`) y de ahí en adelante están offli
 Conviene abrir la ficha de los ejercicios nuevos **antes** de bajar al sótano del
 gimnasio; si no hay red y no están guardadas, el modal lo dice en vez de dejar un
 hueco en blanco. Hay tests que vigilan que las fotos no se cuelen al precaché.
+
+## Cardio intercambiable
+
+El objetivo del cardio aquí es salud cardiovascular, no un tiempo en una
+carrera. Eso cambia la pregunta: el corazón no sabe si estás corriendo o
+remando, solo sabe cuánto tiempo pasas en qué zona. Así que **los días y la
+modalidad se eligen desde la app**, en la propia pestaña de cardio, y no están
+escritos en `rutina.json`.
+
+Nueve modalidades para Zona 2 y HIIT (carrera, caminata en inclinación, bici,
+elíptica, remo, escaladora, natación, cuerda y box) y cinco protocolos de
+intervalos (4×4 noruego, 30-30, 10-20-30, cuerda + sombra y EMOM de box). El
+protocolo es independiente de la modalidad: un 4×4 es un 4×4 pedaleando,
+remando o corriendo, y la secuencia se reescribe con el verbo que toca
+("4 min FUERTE · pedalea fuerte").
+
+**Las zonas se recalculan al cambiar de modalidad.** La frecuencia máxima no es
+la misma en todas: en bici se alcanzan unas 5 pulsaciones menos que corriendo y
+nadando unas 12, porque hay menos masa muscular en juego y, en el agua, cuenta
+la posición horizontal. Usar la máxima de correr para nadar sube el techo de la
+Zona 2 unas 8 pulsaciones, y lo que parece rodaje suave ya es tempo. Cada
+modalidad trae su corrección y la vista dice de dónde sale.
+
+La app también avisa cuando la modalidad del día pisa el músculo que toca
+entrenar: remar antes de un día de torso deja la espalda cansada, y la bici
+hace lo propio con el cuádriceps antes de pierna. No lo prohíbe, lo dice.
+
+Los días de fuerza ya no llevan escrito "+ 30 min de carrera Zona 2": esa línea
+se calcula desde la configuración, así que sigue siendo verdad cuando el cardio
+se mueve de día.
 
 ## Respaldo
 

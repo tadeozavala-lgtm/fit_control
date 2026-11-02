@@ -13,28 +13,41 @@ import {
   nuevaCarrera, TIPOS, carrerasDeSemana, resumenCarreras, avisoVolumen
 } from "../logica/carrera.js";
 import { semanaISO } from "../logica/volumen.js";
+import { configDe, modalidad, fcMaxDe, etiquetaDias } from "../logica/cardio.js";
+import { selectorCardio } from "./selector-cardio.js";
 
 export function pintarCarrera(app, dia, contenedor) {
   const aj = app.datos.ajustes;
-  const fcMax = aj.fcMax || fcMaxEstimada(aj.edad);
+  const cfg = configDe(app.datos, "z2");
 
-  contenedor.appendChild(cartel(app, dia));
-  contenedor.appendChild(bloqueZonas(app, fcMax));
+  // La máxima de correr es la referencia; cada modalidad la corrige. Pedalear
+  // con las zonas de correr convierte un rodaje suave en un tempo.
+  const fcMaxCarrera = aj.fcMax || fcMaxEstimada(aj.edad);
+  const fcMax = fcMaxDe(cfg.modalidad, fcMaxCarrera, aj.fcReposo);
+
+  contenedor.appendChild(cartel(app, dia, cfg));
+  contenedor.appendChild(
+    selectorCardio(app, "z2", "z2", () => app.pintar())
+  );
+  contenedor.appendChild(bloqueZonas(app, fcMax, cfg, fcMaxCarrera));
   (dia.bloques || []).forEach((b) => contenedor.appendChild(bloqueTexto(b)));
-  contenedor.appendChild(bloqueCronos(app, dia));
+  contenedor.appendChild(bloqueCronos(app, cfg));
   contenedor.appendChild(bloqueRegistro(app));
   contenedor.appendChild(bloquePredictor(app));
   contenedor.appendChild(bloqueAjustes(app));
 }
 
-function cartel(app, dia) {
+function cartel(app, dia, cfg) {
   const s = document.createElement("section");
   s.className = "cartel";
   const semana = semanaISO(app.hoy());
   const r = resumenCarreras(carrerasDeSemana(app.datos.carreras, semana, semanaISO));
+  const m = modalidad(cfg.modalidad);
   s.innerHTML = `
-    <div class="rotulo">${dia.dia} · Semana ${app.datos.semana}</div>
-    <h1>Zona 2</h1><div class="sub">${dia.sub}</div>
+    <div class="rotulo">${etiquetaDias(cfg.dias)} · Semana ${app.datos.semana}</div>
+    <h1>Zona 2</h1><div class="sub">${m.nombre} · ${cfg.minutos} min · ${cfg.dias.length} ${
+      cfg.dias.length === 1 ? "día" : "días"
+    } por semana</div>
     <dl class="tape">
       <div><dt>Esta semana</dt><dd>${r.km}<small>km</small></dd></div>
       <div><dt>Tiempo</dt><dd style="font-size:22px">${formatoTiempo(r.segundos)}</dd></div>
@@ -45,22 +58,41 @@ function cartel(app, dia) {
 
 /* ---------- zonas ---------- */
 
-function bloqueZonas(app, fcMax) {
+/**
+ * La descripción de la Zona 2 depende de lo que Tadeo haya elegido: decir
+ * "tus 3 días de rodaje" cuando nada en pantalla es un rodaje sobra.
+ */
+function paraZona2(cfg, m) {
+  const n = cfg.dias.length;
+  if (!n) return `Sin día asignado · ${m.nombre.toLowerCase()}`;
+  return `Tus ${n} ${n === 1 ? "día" : "días"} de ${m.nombre.toLowerCase()}`;
+}
+
+function bloqueZonas(app, fcMax, cfg, fcMaxCarrera) {
   const aj = app.datos.ajustes;
   const zonas = zonasKarvonen(fcMax, aj.fcReposo);
+  const m = modalidad(cfg.modalidad);
+  const corregida = fcMax !== fcMaxCarrera;
   const s = document.createElement("section");
   s.className = "bloque";
   s.innerHTML = `
-    <h3>Tus zonas de pulso</h3>
+    <h3>Tus zonas de pulso${corregida ? ` en ${m.nombre.toLowerCase()}` : ""}</h3>
     <p>Calculadas con Karvonen a partir de tu FC en reposo (${aj.fcReposo} ppm) y una
-       máxima estimada de ${fcMax} ppm para ${aj.edad} años. Para rodar en Zona 2 debes
-       poder hablar frases completas: si jadeas, te saliste.</p>
+       máxima de ${fcMax} ppm${
+         corregida
+           ? `: los ${fcMaxCarrera} ppm de correr menos ${Math.abs(m.ajusteFcMax)}, que es
+              lo que baja la máxima en esta modalidad por la menor masa muscular en juego.
+              Con las zonas de correr, lo que crees Zona 2 aquí ya es Zona 3`
+           : ` estimada para ${aj.edad} años`
+       }. Para rodar en Zona 2 debes poder hablar frases completas: si jadeas, te saliste.</p>
     <div class="zonas">
       ${zonas
         .map(
           (z) => `<div class="zona ${z.n === 2 ? "tuya" : ""}">
             <span class="n">Z${z.n}</span>
-            <span class="txt"><b>${z.nombre}</b><span>${z.para}</span></span>
+            <span class="txt"><b>${z.nombre}</b><span>${
+              z.n === 2 ? paraZona2(cfg, m) : z.para
+            }</span></span>
             <span class="ppm">${z.desde}–${z.hasta}</span>
           </div>`
         )
@@ -77,15 +109,20 @@ function bloqueTexto(b) {
   return s;
 }
 
-function bloqueCronos(app, dia) {
+function bloqueCronos(app, cfg) {
   const s = document.createElement("section");
   s.className = "bloque";
   s.innerHTML = `<h3>Cronómetro</h3><p>Arranca el bloque y deja el teléfono en el bolsillo.</p>`;
-  (dia.cronos || []).forEach((c) => {
+  // Los minutos salen de lo que eligió arriba; los de al lado quedan por si
+  // hoy sobra o falta tiempo, que es la mitad de las veces.
+  const opciones = [...new Set([cfg.minutos, cfg.minutos - 10, cfg.minutos + 10])]
+    .filter((n) => n >= 10)
+    .sort((a, b) => a - b);
+  opciones.forEach((n) => {
     const b = document.createElement("button");
     b.className = "arranque gris";
-    b.textContent = c.nombre;
-    b.onclick = () => app.reloj.arrancar(c.seg, "Zona 2");
+    b.textContent = `Bloque ${n} min${n === cfg.minutos ? " · el de hoy" : ""}`;
+    b.onclick = () => app.reloj.arrancar(n * 60, "Zona 2");
     s.appendChild(b);
   });
   return s;
