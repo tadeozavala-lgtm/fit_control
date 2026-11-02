@@ -262,7 +262,7 @@
       "id": "piernaA",
       "nombre": "Pierna A",
       "dia": "Martes",
-      "sub": "Bisagra · Cuádriceps · Gemelo · Core",
+      "sub": "Bisagra · Cuádriceps · Glúteo · Gemelo · Core",
       "tipo": "fuerza",
       "remate": "+ HIIT Box · Rutina A al terminar",
       "ejercicios": [
@@ -297,6 +297,40 @@
               "Alejar la barra del cuerpo."
             ],
             "aviso": "Con circuito y fatiga acumulada, el peso muerto es el ejercicio con más riesgo. Si la técnica se rompe, corta la serie."
+          }
+        },
+        {
+          "id": "fb6",
+          "nombre": "Empuje de cadera con barra",
+          "series": 3,
+          "reps": "10",
+          "repMax": 10,
+          "tempo": "2-1-1-1",
+          "rir": 2,
+          "sugerido": "60–80 kg",
+          "grupo": "gluteo",
+          "secundarios": [
+            "isquios",
+            "gemelo"
+          ],
+          "equipo": "barra",
+          "mecanica": "compound",
+          "fuerza": "push",
+          "patron": "bisagra",
+          "catalogoId": "Barbell_Hip_Thrust",
+          "descanso": 60,
+          "tecnica": {
+            "ejecucion": [
+              "Espalda alta apoyada en el banco, barra sobre la cadera con almohadilla.",
+              "Pies a la anchura de la cadera: al subir, la espinilla queda vertical.",
+              "Sube apretando el glúteo, no empujando con la lumbar. Arriba, tronco paralelo al suelo.",
+              "Aguanta 1 seg arriba con la barbilla metida y baja en 2 seg."
+            ],
+            "errores": [
+              "Arquear la lumbar para subir más: el recorrido lo da la cadera, no la espalda.",
+              "Mirar al techo. La vista sigue al pecho y la barbilla se queda metida."
+            ],
+            "aviso": "Es el único ejercicio de la rutina que entrena el glúteo de frente. Sin él, sus diez series salen todas de rebote de sentadillas y pesos muertos."
           }
         },
         {

@@ -68,6 +68,30 @@ Ese contexto manda sobre cualquier otra consideración.
     vista lo explique. Lo que NO cambia es la prescripción: series, reps, tempo
     y descanso son del hueco de la rutina.
 
+20. **Los días y la modalidad de cardio los decide Tadeo, no `rutina.json`.**
+    Viven en `datos.cardio` (esquema 11). Lo que quede escrito a mano sobre
+    cardio —el `remate` de un día de fuerza, un rango de minutos— deja de ser
+    verdad en cuanto mueve un día: se calcula con `cardioDelDia()`. Una lista
+    de días vacía significa que esa sesión está apagada, no que haya que
+    rellenarla con los días de siempre.
+21. **Las zonas de pulso se corrigen por modalidad.** La FC máxima no es la
+    misma pedaleando que corriendo (−5) ni nadando (−12). `fcMaxDe()` aplica la
+    corrección y las zonas salen de ahí: es la regla 7 llevada a su conclusión.
+    Y los minutos que un protocolo declara tienen que ser los que dura de
+    verdad; hay un test que no deja que se separen.
+
+22. **Una rutina no se juzga solo por series por grupo.** `equilibrio.js` es la
+    revisión completa: directo contra rebote, dosis por sesión y parejas de
+    patrones. El generador la aplica MIENTRAS arma (necesidad semanal, recorte
+    de series al llegar al techo, parche de huecos al final) y devuelve en
+    `equilibrio` lo que no pudo cuadrar. Si tocas el generador, corre los tests
+    de `tests/equilibrio.test.js`: fijan que de 3 a 6 días no quede ningún
+    grupo corto, ninguno sin trabajo directo y ningún empuje/tracción grave.
+23. **Pasarse del rango por rebote no es lo mismo que pasarse por series
+    directas.** Lo directo se decide y se puede recortar; lo que cae de otros
+    ejercicios, no. Por eso solo lo directo es aviso de nivel alto, y el tope
+    por sesión que el generador respeta se mide en series directas.
+
 ## Al cambiar la rutina
 
 Los ajustes que Tadeo hace desde la app viven en `datos.ajustesRutina` como una

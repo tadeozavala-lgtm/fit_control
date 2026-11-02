@@ -23,6 +23,9 @@
 
 import { GRUPOS, rangoDe } from "./volumen.js";
 import { normalizar } from "./sustituciones.js";
+import {
+  avisos as avisosEquilibrio, equilibrios, PAREJAS, TOPE_POR_SESION
+} from "./equilibrio.js";
 
 /* ---------- el cuestionario ---------- */
 
@@ -201,6 +204,17 @@ export function minutosSesion(ejercicios) {
  * generador la metía cuatro veces por semana porque puntúa altísimo: es
  * compuesta y arrastra media espalda y toda la cadena posterior.
  */
+/**
+ * Veces por semana que se puede repetir un patrón muy fatigante.
+ *
+ * Solo lo aplican las pasadas normales. La pasada de equilibrio puede saltarlo
+ * para darle a un grupo su PRIMER ejercicio directo: el tope existe para que no
+ * salgan cuatro peso muerto en la semana, no para dejar el glúteo sin un solo
+ * ejercicio propio. En el catálogo el único glúteo directo es un empuje de
+ * cadera, que cuenta como bisagra y lo echaban fuera el peso muerto y el
+ * rumano; y un empuje de cadera no cuesta el sistema nervioso que cuesta un
+ * peso muerto, que es de lo que protege el tope.
+ */
 export const TOPE_SEMANAL = { bisagra: 2 };
 
 /**
@@ -217,14 +231,15 @@ export const TOPE_SEMANAL = { bisagra: 2 };
  * @param {Map} patronesSesion patrón -> veces en ESTA sesión
  */
 export function puntuarEjercicio(
-  ejercicio, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion
+  ejercicio, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion, opciones = {}
 ) {
   if (ejercicio.grupo !== grupo) return -1;
+  if (opciones.patron && ejercicio.patron !== opciones.patron) return -1;
   if (!EQUIPOS[equipo].permite.includes(ejercicio.equipo)) return -1;
   if (yaUsados.has(ejercicio.id)) return -1;
 
   const tope = TOPE_SEMANAL[ejercicio.patron];
-  if (tope && (patronesSemana?.get(ejercicio.patron) || 0) >= tope) return -1;
+  if (!opciones.ignorarTope && tope && (patronesSemana?.get(ejercicio.patron) || 0) >= tope) return -1;
 
   let puntos = 0;
   if (ejercicio.mecanica === "compound") puntos += 5;
@@ -238,17 +253,23 @@ export function puntuarEjercicio(
   // Cuatro empujes horizontales seguidos no son variedad, son el mismo
   // estímulo cuatro veces. Repetir patrón dentro de la sesión resta.
   puntos -= 2 * (patronesSesion?.get(ejercicio.patron) || 0);
+  // Y también resta repetirlo en la SEMANA, más suave. Sin esto salían cuatro
+  // remos distintos y ni un solo jalón: la espalda quedaba entrenada entera en
+  // horizontal porque los remos llevan barra y ganan por un punto cada vez.
+  puntos -= 1.5 * (patronesSemana?.get(ejercicio.patron) || 0);
   return puntos;
 }
 
 /** El mejor ejercicio disponible para un grupo. */
 export function elegirEjercicio(
-  catalogo, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion
+  catalogo, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion, opciones = {}
 ) {
   const candidatos = (catalogo.ejercicios || [])
     .map((e) => ({
       e,
-      p: puntuarEjercicio(e, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion)
+      p: puntuarEjercicio(
+        e, grupo, yaUsados, equipo, usosSemanales, patronesSemana, patronesSesion, opciones
+      )
     }))
     .filter((x) => x.p >= 0)
     .sort((a, b) => b.p - a.p || a.e.nombre.localeCompare(b.e.nombre));
@@ -422,6 +443,18 @@ export function generarRutina(cfg) {
   const usosSemanales = new Map();
   const patronesSemana = new Map();
 
+  // Volumen efectivo acumulado de TODA la semana, incluido lo que cae de
+  // rebote. Sin esto, cada día rellenaba mirando solo sus propias series y el
+  // bíceps acababa con el doble de lo que creía: lo suyo más lo que le dejan
+  // los remos de los otros días.
+  const semanal = {};
+  const sumarSemanal = (grupo, series) => {
+    semanal[grupo] = (semanal[grupo] || 0) + series;
+  };
+  // Cuánto le falta a un grupo, en proporción a su propio mínimo: así el core
+  // (mínimo 6) no pierde siempre contra el pecho (mínimo 10).
+  const necesidad = (g) => (semanal[g] || 0) / rangoDe(g).min;
+
   const apuntar = (e) => {
     usosSemanales.set(e.id, (usosSemanales.get(e.id) || 0) + 1);
     if (e.patron) patronesSemana.set(e.patron, (patronesSemana.get(e.patron) || 0) + 1);
@@ -436,16 +469,61 @@ export function generarRutina(cfg) {
       seriesPorGrupo[g] = 0;
     });
 
+    // Series efectivas que ya lleva cada grupo EN ESTA SESIÓN, incluidas las
+    // de rebote y las de grupos que no son del día: el tope de dosis es por
+    // músculo, no por plantilla.
+    const enSesion = {};
+    const directoEnSesion = {};
+
+    /**
+     * Series que caben sin pasar del máximo semanal del grupo.
+     *
+     * Quitar el ejercicio entero dejaba días con un solo movimiento (un split
+     * Torso/Pierna nombra espalda los dos días y el techo se alcanza a mitad
+     * de semana). Recortar series conserva el ejercicio y respeta el rango,
+     * que es lo que haría cualquier entrenador: no borrar el remo, hacer tres
+     * series en vez de cinco. Nunca baja de dos.
+     */
+    const seriesQueCaben = (grupo, series) => {
+      const sitio = rangoDe(grupo).max - (semanal[grupo] || 0);
+      if (series <= sitio) return series;
+      return Math.max(2, Math.floor(sitio));
+    };
+
     const anadir = (e) => {
       usados.add(e.id);
       apuntar(e);
       if (e.patron) patronesSesion.set(e.patron, (patronesSesion.get(e.patron) || 0) + 1);
       const pres = prescribir(e, objetivo, indice);
+      pres.series = seriesQueCaben(e.grupo, pres.series);
       candidatos.push(pres);
       seriesPorGrupo[e.grupo] = (seriesPorGrupo[e.grupo] || 0) + pres.series;
+      enSesion[e.grupo] = (enSesion[e.grupo] || 0) + pres.series;
+      directoEnSesion[e.grupo] = (directoEnSesion[e.grupo] || 0) + pres.series;
+      sumarSemanal(e.grupo, pres.series);
       (e.secundarios || []).forEach((g) => {
         if (g in seriesPorGrupo) seriesPorGrupo[g] += pres.series * 0.5;
+        enSesion[g] = (enSesion[g] || 0) + pres.series * 0.5;
+        sumarSemanal(g, pres.series * 0.5);
       });
+    };
+
+    /**
+     * Si añadir este ejercicio pasaría al grupo del tope de la sesión.
+     * Más de diez series del mismo músculo el mismo día rinden cada vez menos;
+     * mejor que esas series caigan en otro día.
+     */
+    const pasaDeDosis = (e) => {
+      const pres = prescribir(e, objetivo, indice);
+      // Series directas: es lo único que se decide aquí. Lo que caiga de
+      // rebote depende de qué más tenga el día y no se puede fijar antes.
+      if ((directoEnSesion[e.grupo] || 0) + pres.series > TOPE_POR_SESION) return true;
+      // Y que no empuje a los secundarios por encima de su máximo semanal:
+      // a esos no se les puede recortar series, porque sus series son de
+      // otro ejercicio.
+      return (e.secundarios || []).some(
+        (g) => (semanal[g] || 0) + pres.series * 0.5 > rangoDe(g).max
+      );
     };
 
     // Primera pasada: un ejercicio por grupo, en el orden del split.
@@ -460,15 +538,18 @@ export function generarRutina(cfg) {
     // vaya primero en la lista. Con el orden de la plantilla, bíceps y core
     // quedaban siempre fuera por ir al final.
     while (candidatos.length < exp.maxEjercicios) {
-      const pendientes = [...plantilla.grupos].sort(
-        (a, b) => (seriesPorGrupo[a] || 0) - (seriesPorGrupo[b] || 0)
-      );
+      // Un grupo que ya llegó a su máximo semanal no recibe más: con cuatro
+      // o cinco días, rellenar cada sesión hasta el tope dejaba la espalda en
+      // 26 series, seis por encima de su rango.
+      const pendientes = [...plantilla.grupos]
+        .filter((g) => (semanal[g] || 0) < rangoDe(g).max)
+        .sort((a, b) => necesidad(a) - necesidad(b));
       let anadido = false;
       for (const g of pendientes) {
         const e = elegirEjercicio(
           catalogo, g, usados, equipo, usosSemanales, patronesSemana, patronesSesion
         );
-        if (e) {
+        if (e && !pasaDeDosis(e)) {
           anadir(e);
           anadido = true;
           break;
@@ -522,9 +603,45 @@ export function generarRutina(cfg) {
     };
   }
 
+  // Pasada de equilibrio: lo que la plantilla no alcanza a cubrir.
+  //
+  // Un split reparte grupos entre días, pero hay dos agujeros que ninguna
+  // plantilla ve: un grupo que se queda por debajo de su mínimo semanal y uno
+  // que llega a su rango solo de rebote (el glúteo clásico, que sale entero
+  // de sentadillas sin que ningún ejercicio lo entrene de frente). Aquí se
+  // intenta tapar cada uno con UN ejercicio directo, si cabe en el tiempo.
+  const ctx = { catalogo, equipo, objetivo, indice, exp, minutos, usosSemanales, patronesSemana };
+  const reparados = [];
+
+  for (let intento = 0; intento < Object.keys(GRUPOS).length; intento++) {
+    const hueco = avisosEquilibrio({ dias: diasGenerados }).find(
+      (a) => a.tipo === "bajo" || a.tipo === "ausente" || a.tipo === "sin-directo"
+    );
+    if (!hueco) break;
+    const puesto = taparHueco(diasGenerados, hueco.grupo, ctx);
+    if (!puesto) break;
+    reparados.push(`${GRUPOS[hueco.grupo]}: ${puesto}`);
+  }
+
+  // Y los desequilibrios de patrón: que la espalda sume sus series no sirve de
+  // nada si todas son remos y el pecho empuja el doble de lo que ella tira.
+  for (let intento = 0; intento < PAREJAS.length * 2; intento++) {
+    const flojo = patronFlojo(diasGenerados);
+    if (!flojo) break;
+    const puesto = taparPatron(diasGenerados, flojo, ctx);
+    if (!puesto) break;
+    reparados.push(puesto);
+  }
+  if (reparados.length) {
+    avisos.push(`Equilibrio: ${reparados.join(" · ")}`);
+  }
+
   return {
     ok: true,
     avisos,
+    // Lo que queda sin cuadrar después de intentarlo, para que la vista lo
+    // enseñe antes de aplicar la rutina en vez de que aparezca en el gimnasio.
+    equilibrio: avisosEquilibrio({ dias: diasGenerados }),
     rutina: {
       generada: true,
       split: split.nombre,
@@ -536,6 +653,102 @@ export function generarRutina(cfg) {
       dias: diasGenerados
     }
   };
+}
+
+/** El patrón que hace falta para compensar la pareja más desequilibrada. */
+function patronFlojo(dias) {
+  const malos = equilibrios({ dias }).filter((e) => e.estado !== "ok");
+  if (!malos.length) return null;
+  const peor = malos[0];
+  if (peor.estado === "falta") return peor.series.empuje ? peor.traccion : peor.empuje;
+  return peor.estado === "exceso" ? peor.traccion : peor.empuje;
+}
+
+/** Los grupos que pueden aportar series de un patrón. */
+const GRUPO_DE_PATRON = {
+  "empuje-horizontal": ["pecho"],
+  "empuje-vertical": ["hombro"],
+  "traccion-horizontal": ["espalda"],
+  "traccion-vertical": ["espalda"],
+  rodilla: ["cuadriceps"],
+  bisagra: ["isquios", "gluteo"]
+};
+
+/** Mete un ejercicio del patrón que falta, sin pasarse del rango del grupo. */
+function taparPatron(dias, patron, ctx) {
+  for (const grupo of GRUPO_DE_PATRON[patron] || []) {
+    const puesto = taparHueco(dias, grupo, { ...ctx, patron });
+    if (puesto) return `${nombreDePatron(patron)}: ${puesto}`;
+  }
+  return null;
+}
+
+const NOMBRE_PATRON = {
+  "empuje-horizontal": "Empuje horizontal",
+  "empuje-vertical": "Empuje vertical",
+  "traccion-horizontal": "Tracción horizontal",
+  "traccion-vertical": "Tracción vertical",
+  rodilla: "Rodilla",
+  bisagra: "Bisagra"
+};
+function nombreDePatron(p) {
+  return NOMBRE_PATRON[p] || p;
+}
+
+/**
+ * Mete un ejercicio DIRECTO de un grupo en el día donde menos estorbe.
+ *
+ * Elige el día que menos carga ese grupo y que tenga sitio y tiempo. Devuelve
+ * el nombre del ejercicio puesto, o null si no cabe en ningún lado: preferimos
+ * decir que falta volumen a inflar una sesión por encima del tiempo que Tadeo
+ * dijo que tenía.
+ */
+function taparHueco(dias, grupo, ctx) {
+  const { catalogo, equipo, objetivo, indice, exp, minutos, usosSemanales, patronesSemana, patron } = ctx;
+
+  const carga = (d) =>
+    (d.ejercicios || []).reduce(
+      (a, e) =>
+        a + (e.grupo === grupo ? e.series : 0) + ((e.secundarios || []).includes(grupo) ? e.series / 2 : 0),
+      0
+    );
+
+  const ordenados = [...dias]
+    .filter((d) => d.ejercicios.length < exp.maxEjercicios)
+    .sort((a, b) => carga(a) - carga(b) || a.ejercicios.length - b.ejercicios.length);
+
+  for (const dia of ordenados) {
+    const usados = new Set(dia.ejercicios.map((e) => e.catalogoId || e.id));
+    const patronesSesion = new Map();
+    dia.ejercicios.forEach((e) => {
+      if (e.patron) patronesSesion.set(e.patron, (patronesSesion.get(e.patron) || 0) + 1);
+    });
+
+    // Aquí sí se puede saltar el tope semanal de patrón. Ese tope existe para
+    // que no salgan cuatro peso muerto en la semana, no para dejar un grupo
+    // entero sin un solo ejercicio directo: en el catálogo el único glúteo
+    // directo es un empuje de cadera, que cuenta como bisagra y se quedaba
+    // fuera por culpa del peso muerto y el rumano.
+    const e = elegirEjercicio(
+      catalogo, grupo, usados, equipo, usosSemanales, patronesSemana, patronesSesion,
+      { ignorarTope: true, patron }
+    );
+    if (!e) continue;
+
+    const pres = prescribir(e, objetivo, indice);
+    const conEl = [...dia.ejercicios, pres];
+    if (minutosSesion(conEl) > minutos) continue;
+
+    // Los compuestos siguen abriendo la sesión: el músculo fresco va donde
+    // más rinde, y un empuje de cadera metido al final no es lo mismo.
+    conEl.sort((a, b) => (a.mecanica === b.mecanica ? 0 : a.mecanica === "compound" ? -1 : 1));
+    dia.ejercicios = conEl;
+    dia.minutosEstimados = minutosSesion(conEl);
+    usosSemanales.set(e.id, (usosSemanales.get(e.id) || 0) + 1);
+    if (e.patron) patronesSemana.set(e.patron, (patronesSemana.get(e.patron) || 0) + 1);
+    return `${pres.nombre} en ${dia.nombre}`;
+  }
+  return null;
 }
 
 /** Días de la semana sugeridos para cada número de sesiones. */

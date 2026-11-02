@@ -145,8 +145,8 @@ describe("la rutina real de Tadeo", () => {
       });
   });
 
-  it("el índice cubre los 28 ejercicios", () => {
-    expect(Object.keys(indiceGrupos(rutinaReal))).toHaveLength(28);
+  it("el índice cubre los 29 ejercicios", () => {
+    expect(Object.keys(indiceGrupos(rutinaReal))).toHaveLength(29);
   });
 
   it("completando el plan, ningún grupo queda en cero", () => {

@@ -1,8 +1,8 @@
 # fit_control
 
 Registro de entrenamiento del **Protocolo Recomposición 4D + 5 Cardio**: 4 días de
-fuerza (Torso A, Pierna A, Torso B, Pierna B) y 5 de cardio (3 de carrera en Zona 2,
-2 de HIIT de box). PWA sin dependencias de runtime, pensada para usarse con una mano,
+fuerza (Torso A, Pierna A, Torso B, Pierna B) y 5 de cardio (3 de carrera en Zona 2, 2 de
+HIIT de box). PWA sin dependencias de runtime, pensada para usarse con una mano,
 con el teléfono en silencio y sin señal dentro del gimnasio.
 
 ## Qué hace
@@ -18,6 +18,8 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Volumen semanal por grupo muscular contra su rango de referencia.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
+- Cardio intercambiable: días libres, nueve modalidades y cinco protocolos de HIIT.
+- Revisión de equilibrio: avisa del grupo corto, del sobrecargado y del que solo se entrena de rebote.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
@@ -30,7 +32,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 438 tests
+npm test           # 509 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -86,7 +88,7 @@ desplegar, así que un JSON roto nunca llega al teléfono.
 ```
 src/
   datos/rutina.json      la rutina completa (editable sin tocar código)
-  datos/catalogo.json    92 alternativas, generado con npm run catalogo
+  datos/catalogo.json    100 alternativas, generado con npm run catalogo
   datos/imagenes.json    qué fotos tiene cada ejercicio, generado con npm run imagenes
   logica/                funciones puras, 100% cubiertas por tests
     unidades.js          conversión kg ↔ lb
@@ -105,11 +107,13 @@ src/
     gasto.js             gasto real leído de sesiones y carreras
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
+    cardio.js            modalidades, protocolos de HIIT y días configurables
+    equilibrio.js        revisión de la rutina: directo vs rebote, dosis y patrones
     imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
-public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
+public/ejercicios/       199 fotos webp (3.2 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   438 tests
+tests/                   509 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -127,14 +131,13 @@ de silencio y Safari no soporta vibración. El flash a pantalla completa es el
 único canal que funciona siempre; la campana es el extra.
 
 **El split es Torso / Pierna ×2, no Push / Pull / Legs / Full Body.** Con cuatro
-sesiones de 60–70 min, los dos dan la misma frecuencia (2× por grupo), y con
+sesiones de 60–70 min los dos dan la misma frecuencia (2× por grupo), y con
 volumen y frecuencia igualados la diferencia entre splits es pequeña. Lo que
-decidió fue el reparto del tiempo: el día de Legs pedía 70 min y el Full Body se
-quedaba en 37. Repartido en torso/pierna son 58 / 44 / 55 / 62 min, y el gemelo
-—que se quedaba en 4 series— pasa a 8 con una segunda exposición sentado, que
-trabaja el sóleo. Todos los grupos quedan dentro de su rango. El costo: soltar
-un día para correr pesa más que antes (ver más abajo), y los días de pierna
-caen martes y sábado, uno de ellos con HIIT.
+decidió fue el reparto del tiempo: el día de Legs pedía 70 min y el Full Body
+se quedaba en 37. Repartido en torso/pierna son 58 / 49 / 55 / 62 min, con
+todos los grupos dentro de rango. El costo: soltar un día para correr pesa más
+que antes (ver más abajo), y los días de pierna caen martes y sábado, uno de
+ellos con HIIT.
 
 **Cada cambio de forma de los datos sube `ESQUEMA_ACTUAL` y agrega su migración**
 en `almacen.js`. Un respaldo viejo siempre se puede restaurar.
@@ -244,10 +247,10 @@ series perdidas sino por cuánto se hunde cada grupo bajo su mínimo. Perder 30
 series repartidas entre ocho grupos no es lo mismo que perder 15 todas de
 espalda.
 
-Para esta rutina sale Pierna A (−24 series, déficit 12.5) frente a Torso B
-(−34, déficit 13.5) o Pierna B (−27.5, déficit 17.5). Al soltarlo propone dónde
-recolocar lo que se pierde: 3 series de cuádriceps, 3 de glúteo, 2 de gemelo,
-2 de isquios y 3 de core en Pierna B.
+Para esta rutina sale Pierna B (−27.5 series, déficit 11.5) frente a Torso B
+(−34, déficit 13.5) o Torso A (−36.5, déficit 14.5). Al soltarlo propone dónde
+recolocar lo que se pierde: 6 series de isquios, 2 de cuádriceps, 3 de core y
+1 de glúteo y gemelo en Pierna A.
 
 Con el split anterior (Push/Pull/Legs/Full Body) había un día barato: el full
 body repartía poco trabajo entre muchos grupos. En torso/pierna cada día son la
@@ -315,7 +318,7 @@ fotos, no las del original—, y como el catálogo no trae técnica escrita, en 
 de prestarle las indicaciones del original (que son de otro movimiento) lo dice
 y deja mandar a las fotos, el tempo y el RIR.
 
-El catálogo son 92 ejercicios seleccionados y traducidos de
+El catálogo son 100 ejercicios seleccionados y traducidos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
 dominio público), generados con `npm run catalogo` y commiteados: la app no
 depende de la red en tiempo de ejecución.
@@ -330,7 +333,7 @@ vídeo. Se puede pausar, y si el teléfono pide menos animación
 Son las mismas fotos de
 [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (The Unlicense,
 dominio público), rebajadas a 520 px y WebP con `npm run imagenes`: 12 MB en
-origen quedan en 3 MB para los 92 ejercicios.
+origen quedan en 3.2 MB para los 100 ejercicios.
 
 **Las fotos no van en el precaché del service worker.** La app instalada pesa
 ~220 KB; sumarle 3 MB encarecería cada instalación y cada actualización por unas
@@ -339,6 +342,70 @@ ejercicio (`CacheFirst` sobre `/ejercicios/`) y de ahí en adelante están offli
 Conviene abrir la ficha de los ejercicios nuevos **antes** de bajar al sótano del
 gimnasio; si no hay red y no están guardadas, el modal lo dice en vez de dejar un
 hueco en blanco. Hay tests que vigilan que las fotos no se cuelen al precaché.
+
+## Equilibrio de la rutina
+
+El volumen por grupo responde "¿cuántas series recibe el pecho?". `equilibrio.js`
+responde lo que un entrenador pregunta después y una suma por grupo no enseña:
+
+- **¿Es trabajo directo o de rebote?** Diez series de glúteo que salen todas de
+  sentadillas y pesos muertos no son diez series de glúteo: nunca se le pidió al
+  glúteo que fuera el protagonista. Es exactamente lo que pasaba aquí.
+- **¿Cabe en una sesión?** Pasadas unas diez series del mismo músculo el mismo
+  día, las siguientes rinden cada vez menos. Veinte series de espalda repartidas
+  en dos días no son lo mismo que veinte el martes.
+- **¿Empuja tanto como tira?** Más banca que remo adelanta el hombro. El aviso
+  no es simétrico a propósito: tirar de más es sano, empujar de más no.
+- **¿La rodilla manda sobre la cadera?** En alguien que corre, un cuádriceps muy
+  por encima del isquio y el glúteo acaba en rodilla dolorida.
+
+Pasarse del rango no siempre significa lo mismo, y los avisos lo separan: si el
+exceso es **directo**, sobran series y se pueden quitar; si llega de rebote —el
+hombro recibe algo de cada press y de cada remo— el número avisa pero no hay
+nada que recortar sin rehacer la rutina. El 0.5 de las series secundarias es una
+aproximación, no una medida.
+
+La revisión sale en dos sitios: en Progreso, sobre la rutina en uso, y en la
+vista previa del generador, antes de aplicar nada.
+
+**El generador la aplica mientras arma**, no solo al terminar: reparte mirando
+la necesidad semanal de cada grupo en proporción a su mínimo, no la de la
+sesión; recorta series en vez de borrar ejercicios cuando un grupo llega a su
+techo; y al final tapa los huecos que la plantilla no cubre —un grupo corto, uno
+sin trabajo directo, un patrón que falta— con un ejercicio directo, si cabe en el
+tiempo. De 3 a 6 días no deja ningún grupo corto, ninguno sin trabajo propio y
+ningún desequilibrio grave de empuje contra tracción. Con 2 días no alcanza, y
+en vez de fingir lo dice.
+
+## Cardio intercambiable
+
+El objetivo del cardio aquí es salud cardiovascular, no un tiempo en una
+carrera. Eso cambia la pregunta: el corazón no sabe si estás corriendo o
+remando, solo sabe cuánto tiempo pasas en qué zona. Así que **los días y la
+modalidad se eligen desde la app**, en la propia pestaña de cardio, y no están
+escritos en `rutina.json`.
+
+Nueve modalidades para Zona 2 y HIIT (carrera, caminata en inclinación, bici,
+elíptica, remo, escaladora, natación, cuerda y box) y cinco protocolos de
+intervalos (4×4 noruego, 30-30, 10-20-30, cuerda + sombra y EMOM de box). El
+protocolo es independiente de la modalidad: un 4×4 es un 4×4 pedaleando,
+remando o corriendo, y la secuencia se reescribe con el verbo que toca
+("4 min FUERTE · pedalea fuerte").
+
+**Las zonas se recalculan al cambiar de modalidad.** La frecuencia máxima no es
+la misma en todas: en bici se alcanzan unas 5 pulsaciones menos que corriendo y
+nadando unas 12, porque hay menos masa muscular en juego y, en el agua, cuenta
+la posición horizontal. Usar la máxima de correr para nadar sube el techo de la
+Zona 2 unas 8 pulsaciones, y lo que parece rodaje suave ya es tempo. Cada
+modalidad trae su corrección y la vista dice de dónde sale.
+
+La app también avisa cuando la modalidad del día pisa el músculo que toca
+entrenar: remar antes de un día de torso deja la espalda cansada, y la bici
+hace lo propio con el cuádriceps antes de pierna. No lo prohíbe, lo dice.
+
+Los días de fuerza ya no llevan escrito "+ 30 min de carrera Zona 2": esa línea
+se calcula desde la configuración, así que sigue siendo verdad cuando el cardio
+se mueve de día.
 
 ## Respaldo
 

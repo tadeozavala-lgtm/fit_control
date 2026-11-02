@@ -1,6 +1,6 @@
 {
   "esquema": 1,
-  "generado": "2026-10-13",
+  "generado": "2026-11-02",
   "fuente": {
     "nombre": "free-exercise-db",
     "url": "https://github.com/yuhonas/free-exercise-db",
@@ -215,6 +215,20 @@
         "espalda"
       ],
       "equipo": "mancuerna",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
+    },
+    {
+      "id": "Bodyweight_Squat",
+      "nombre": "Sentadilla con peso corporal",
+      "nombreOrigen": "Bodyweight Squat",
+      "grupo": "cuadriceps",
+      "secundarios": [
+        "gluteo",
+        "isquios"
+      ],
+      "equipo": "peso corporal",
       "mecanica": "compound",
       "fuerza": "push",
       "patron": "rodilla"
@@ -581,6 +595,28 @@
       "patron": "traccion-horizontal"
     },
     {
+      "id": "Standing_Barbell_Calf_Raise",
+      "nombre": "Elevación de talones con barra",
+      "nombreOrigen": "Standing Barbell Calf Raise",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "barra",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Calf_Raise_On_A_Dumbbell",
+      "nombre": "Elevación de talones con mancuerna",
+      "nombreOrigen": "Calf Raise On A Dumbbell",
+      "grupo": "gemelo",
+      "secundarios": [],
+      "equipo": "mancuerna",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
       "id": "Standing_Calf_Raises",
       "nombre": "Elevación de talones de pie",
       "nombreOrigen": "Standing Calf Raises",
@@ -637,6 +673,74 @@
       "mecanica": "compound",
       "fuerza": "push",
       "patron": "bisagra"
+    },
+    {
+      "id": "One-Legged_Cable_Kickback",
+      "nombre": "Patada de glúteo en polea",
+      "nombreOrigen": "One-Legged Cable Kickback",
+      "grupo": "gluteo",
+      "secundarios": [
+        "isquios"
+      ],
+      "equipo": "polea",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Butt_Lift_Bridge",
+      "nombre": "Puente de glúteo",
+      "nombreOrigen": "Butt Lift (Bridge)",
+      "grupo": "gluteo",
+      "secundarios": [
+        "isquios"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "isolation",
+      "fuerza": "push",
+      "patron": null
+    },
+    {
+      "id": "Barbell_Glute_Bridge",
+      "nombre": "Puente de glúteo con barra",
+      "nombreOrigen": "Barbell Glute Bridge",
+      "grupo": "gluteo",
+      "secundarios": [
+        "gemelo",
+        "isquios"
+      ],
+      "equipo": "barra",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Pull_Through",
+      "nombre": "Pull through en polea",
+      "nombreOrigen": "Pull Through",
+      "grupo": "gluteo",
+      "secundarios": [
+        "isquios",
+        "espalda"
+      ],
+      "equipo": "polea",
+      "mecanica": "compound",
+      "fuerza": "pull",
+      "patron": "bisagra"
+    },
+    {
+      "id": "Step-up_with_Knee_Raise",
+      "nombre": "Subida al cajón con rodilla",
+      "nombreOrigen": "Step-up with Knee Raise",
+      "grupo": "gluteo",
+      "secundarios": [
+        "isquios",
+        "cuadriceps"
+      ],
+      "equipo": "peso corporal",
+      "mecanica": "compound",
+      "fuerza": "push",
+      "patron": "rodilla"
     },
     {
       "id": "Cable_Rear_Delt_Fly",
