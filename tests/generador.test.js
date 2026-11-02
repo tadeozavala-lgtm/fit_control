@@ -266,7 +266,12 @@ describe("generar la rutina", () => {
   it("no repite la bisagra más de lo que marca el tope", () => {
     const r = gen({ dias: 6, minutos: 60 });
     const bisagras = r.rutina.dias.flatMap((d) => d.ejercicios.filter((e) => e.patron === "bisagra"));
-    expect(bisagras.length).toBeLessThanOrEqual(TOPE_SEMANAL.bisagra);
+    // El tope lo aplican las pasadas normales. La de equilibrio puede añadir
+    // una bisagra más, y solo una, para que el glúteo tenga su primer
+    // ejercicio directo: sin eso llega a su rango entero de rebote.
+    const sinElParche = bisagras.filter((e) => e.grupo !== "gluteo");
+    expect(sinElParche.length).toBeLessThanOrEqual(TOPE_SEMANAL.bisagra);
+    expect(bisagras.length).toBeLessThanOrEqual(TOPE_SEMANAL.bisagra + 1);
   });
 
   it("la prescripción sale del objetivo elegido", () => {

@@ -19,6 +19,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 - Notas de sesión (sueño, energía, molestias) con alerta de fatiga acumulada.
 - Running: zonas de pulso propias, registro de rodajes y predicción de tiempos.
 - Cardio intercambiable: días libres, nueve modalidades y cinco protocolos de HIIT.
+- Revisión de equilibrio: avisa del grupo corto, del sobrecargado y del que solo se entrena de rebote.
 - Editor de prescripción desde el teléfono, como capa encima de la rutina.
 - Generador de planes de 5K, 10K y media maratón sobre tus días disponibles.
 - Nutrición: calorías y macros según lo que entrenaste, ajustados con tu peso real.
@@ -31,7 +32,7 @@ con el teléfono en silencio y sin señal dentro del gimnasio.
 ```bash
 npm install
 npm run dev        # servidor local
-npm test           # 478 tests
+npm test           # 507 tests
 npm run validar    # valida rutina.json
 npm run catalogo   # regenera el catálogo de sustituciones
 npm run imagenes   # rebaja las fotos de técnica a public/ejercicios
@@ -107,11 +108,12 @@ src/
     sustituciones.js     alternativas ordenadas por patrón y equipo
     avisos.js            flash, campana, voz
     cardio.js            modalidades, protocolos de HIIT y días configurables
+    equilibrio.js        revisión de la rutina: directo vs rebote, dosis y patrones
     imagenes.js          resuelve las fotos de técnica de cada ejercicio
   ui/                    render; nada de lógica de negocio aquí
 public/ejercicios/       183 fotos webp (3 MB), fuera del precaché
 scripts/validar-rutina.js
-tests/                   478 tests
+tests/                   507 tests
 ```
 
 ## Decisiones que vale la pena conocer
@@ -325,6 +327,40 @@ ejercicio (`CacheFirst` sobre `/ejercicios/`) y de ahí en adelante están offli
 Conviene abrir la ficha de los ejercicios nuevos **antes** de bajar al sótano del
 gimnasio; si no hay red y no están guardadas, el modal lo dice en vez de dejar un
 hueco en blanco. Hay tests que vigilan que las fotos no se cuelen al precaché.
+
+## Equilibrio de la rutina
+
+El volumen por grupo responde "¿cuántas series recibe el pecho?". `equilibrio.js`
+responde lo que un entrenador pregunta después y una suma por grupo no enseña:
+
+- **¿Es trabajo directo o de rebote?** Diez series de glúteo que salen todas de
+  sentadillas y pesos muertos no son diez series de glúteo: nunca se le pidió al
+  glúteo que fuera el protagonista. Es exactamente lo que pasaba aquí.
+- **¿Cabe en una sesión?** Pasadas unas diez series del mismo músculo el mismo
+  día, las siguientes rinden cada vez menos. Veinte series de espalda repartidas
+  en dos días no son lo mismo que veinte el martes.
+- **¿Empuja tanto como tira?** Más banca que remo adelanta el hombro. El aviso
+  no es simétrico a propósito: tirar de más es sano, empujar de más no.
+- **¿La rodilla manda sobre la cadera?** En alguien que corre, un cuádriceps muy
+  por encima del isquio y el glúteo acaba en rodilla dolorida.
+
+Pasarse del rango no siempre significa lo mismo, y los avisos lo separan: si el
+exceso es **directo**, sobran series y se pueden quitar; si llega de rebote —el
+hombro recibe algo de cada press y de cada remo— el número avisa pero no hay
+nada que recortar sin rehacer la rutina. El 0.5 de las series secundarias es una
+aproximación, no una medida.
+
+La revisión sale en dos sitios: en Progreso, sobre la rutina en uso, y en la
+vista previa del generador, antes de aplicar nada.
+
+**El generador la aplica mientras arma**, no solo al terminar: reparte mirando
+la necesidad semanal de cada grupo en proporción a su mínimo, no la de la
+sesión; recorta series en vez de borrar ejercicios cuando un grupo llega a su
+techo; y al final tapa los huecos que la plantilla no cubre —un grupo corto, uno
+sin trabajo directo, un patrón que falta— con un ejercicio directo, si cabe en el
+tiempo. De 3 a 6 días no deja ningún grupo corto, ninguno sin trabajo propio y
+ningún desequilibrio grave de empuje contra tracción. Con 2 días no alcanza, y
+en vez de fingir lo dice.
 
 ## Cardio intercambiable
 

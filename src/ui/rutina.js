@@ -15,6 +15,7 @@ import {
   MINUTOS_MINIMOS, generarRutina, volumenDeRutina, gruposCortos
 } from "../logica/generador.js";
 import { GRUPOS } from "../logica/volumen.js";
+import { veredicto } from "../logica/equilibrio.js";
 
 export function pintarRutina(app, contenedor) {
   const enUso = app.datos.rutinaGenerada;
@@ -230,6 +231,8 @@ function vistaPrevia(r) {
         .join("")}
     </div>
 
+    ${bloqueEquilibrio(r)}
+
     <h3 style="margin-top:22px">Volumen semanal que produce</h3>
     ${Object.entries(vol)
       .sort((a, b) => b[1] - a[1])
@@ -264,4 +267,28 @@ function idsConservados(app, nueva) {
   return nueva.dias
     .flatMap((d) => d.ejercicios)
     .filter((e) => previos.has(e.id)).length;
+}
+
+/**
+ * El veredicto del entrenador antes de aplicar la rutina.
+ *
+ * El volumen por grupo de abajo dice cuántas series recibe cada músculo. Esto
+ * dice lo que esa lista no enseña: si alguna llega a su rango solo de rebote,
+ * si una sesión concentra demasiado del mismo músculo y si empuja tanto como
+ * tira. El generador ya intenta arreglarlo solo; aquí sale lo que no pudo.
+ */
+function bloqueEquilibrio(r) {
+  const v = veredicto(r.rutina);
+  const lista = r.equilibrio || [];
+  if (!lista.length) {
+    return `<p class="equilibrio ok">${v.texto}</p>`;
+  }
+  return `
+    <h3 style="margin-top:22px">Equilibrio</h3>
+    <p class="equilibrio ${v.ok ? "ok" : "ojo"}">${v.texto}</p>
+    <ul class="equilibrio-lista">
+      ${lista
+        .map((a) => `<li class="n-${a.nivel}">${a.texto}</li>`)
+        .join("")}
+    </ul>`;
 }

@@ -80,6 +80,18 @@ Ese contexto manda sobre cualquier otra consideración.
     Y los minutos que un protocolo declara tienen que ser los que dura de
     verdad; hay un test que no deja que se separen.
 
+22. **Una rutina no se juzga solo por series por grupo.** `equilibrio.js` es la
+    revisión completa: directo contra rebote, dosis por sesión y parejas de
+    patrones. El generador la aplica MIENTRAS arma (necesidad semanal, recorte
+    de series al llegar al techo, parche de huecos al final) y devuelve en
+    `equilibrio` lo que no pudo cuadrar. Si tocas el generador, corre los tests
+    de `tests/equilibrio.test.js`: fijan que de 3 a 6 días no quede ningún
+    grupo corto, ninguno sin trabajo directo y ningún empuje/tracción grave.
+23. **Pasarse del rango por rebote no es lo mismo que pasarse por series
+    directas.** Lo directo se decide y se puede recortar; lo que cae de otros
+    ejercicios, no. Por eso solo lo directo es aviso de nivel alto, y el tope
+    por sesión que el generador respeta se mide en series directas.
+
 ## Al cambiar la rutina
 
 Los ajustes que Tadeo hace desde la app viven en `datos.ajustesRutina` como una
