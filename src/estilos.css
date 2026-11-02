@@ -795,3 +795,11 @@ input:checked + .marca-ok::after{border-color:#fff;opacity:1}
   margin:12px 0 0;padding:9px 0 9px 12px;border-left:2px solid var(--record);
   font-size:13px;color:#F3DCB0;line-height:1.5;
 }
+
+/* ---------- equilibrio de la rutina ---------- */
+.equilibrio{margin:10px 0 0;font-size:13.5px;line-height:1.5}
+.equilibrio.ok{color:#CFDDE4}
+.equilibrio.ojo{color:var(--record)}
+.equilibrio-lista{margin:8px 0 0;padding-left:16px}
+.equilibrio-lista li{margin-bottom:7px;font-size:13.5px;line-height:1.45;color:#CFDDE4}
+.equilibrio-lista li.n-alto{color:#F3DCB0}

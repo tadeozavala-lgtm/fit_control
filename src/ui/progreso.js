@@ -7,6 +7,7 @@ import { resumen, semanaISO, lunesDe, semanasConDatos } from "../logica/volumen.
 import {
   ESCALAS, CLAVES, MAYOR_ES_MEJOR, promedio, alerta, consejo, serie, sesionesConNotas
 } from "../logica/notas.js";
+import { avisos as avisosEquilibrio, veredicto } from "../logica/equilibrio.js";
 
 export function pintarProgreso(app, contenedor) {
   const u = app.unidad();
@@ -28,6 +29,7 @@ export function pintarProgreso(app, contenedor) {
   contenedor.appendChild(cartel);
 
   contenedor.appendChild(bloqueVolumen(app));
+  contenedor.appendChild(bloqueEquilibrio(app));
   const senales = bloqueSenales(app);
   if (senales) contenedor.appendChild(senales);
 
@@ -322,4 +324,33 @@ function chispa(serie, min, max) {
   return `<svg class="chispa" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
     <polyline points="${pts}" fill="none" stroke="#E5A83C" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
   </svg>`;
+}
+
+/**
+ * Revisión de la rutina que está en uso, no de lo que se entrenó.
+ *
+ * El bloque de arriba mide series hechas; este mira el plan: si algún grupo
+ * llega a su rango solo de rebote, si una sesión concentra más de lo que
+ * rinde, si empuja tanto como tira. Es lo que haría un entrenador mirando la
+ * hoja antes de que empiece la semana.
+ */
+function bloqueEquilibrio(app) {
+  const s = document.createElement("section");
+  s.className = "vol";
+  const soloFuerza = { dias: (app.rutina.dias || []).filter((d) => d.ejercicios) };
+  const lista = avisosEquilibrio(soloFuerza);
+  const v = veredicto(soloFuerza);
+
+  s.innerHTML = `
+    <div class="vol-tope"><h3>Equilibrio de tu rutina</h3></div>
+    <p class="equilibrio ${v.ok ? "ok" : "ojo"}">${v.texto}</p>
+    ${lista.length
+      ? `<ul class="equilibrio-lista">${lista
+          .map((a) => `<li class="n-${a.nivel}">${a.texto}</li>`)
+          .join("")}</ul>`
+      : ""}
+    <p class="vol-nota">Mira el plan, no lo que entrenaste: son las series que la
+      rutina prescribe cada semana, con lo que cada ejercicio deja de rebote en
+      los músculos que ayudan.</p>`;
+  return s;
 }
